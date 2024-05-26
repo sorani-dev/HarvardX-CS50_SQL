@@ -1,0 +1,1 @@
+[{"stmt":"SELECT count(english_title)\nFROM views\nWHERE artist = \"Hiroshige\"\nAND english_title LIKE \"%Edo%\";","header":["count(english_title)"],"rows":[["0"]]}]

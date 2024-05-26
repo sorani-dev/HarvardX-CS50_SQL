@@ -1,0 +1,321 @@
+SELECT sql FROM  (SELECT sql sql, type type, tbl_name tbl_name, name name, rowid x     FROM sqlite_schema UNION ALL   SELECT sql, type, tbl_name, name, rowid FROM sqlite_temp_schema) WHERE type!='meta' AND sql NOTNULL AND name NOT LIKE 'sqlite_%' ORDER BY x;
+SELECT rowid FROM sqlite_schema WHERE name GLOB 'sqlite_stat[134]';
+SELECT title
+FROM episodes
+WHERE season=1;
+SELECT title
+FROM episodes
+WHERE season=1;
+SELECT title
+FROM episodes
+WHERE season=1;
+SELECT title
+FROM episodes
+WHERE season=1;
+SELECT season,
+    title
+FROM episodes
+WHERE episode_in_season = 1;
+SELECT season,
+    title
+FROM episodes
+WHERE episode_in_season = 1;
+SELECT season,
+    title
+FROM episodes
+WHERE episode_in_season = 1;
+SELECT season,
+    title
+FROM episodes
+WHERE episode_in_season = 1;
+SELECT season,
+    title
+FROM episodes
+WHERE episode_in_season = 1;
+SELECT season,
+    title
+FROM episodes
+WHERE episode_in_season = 1;
+SELECT title
+FROM episodes
+WHERE season=1;
+SELECT production_code
+FROM episodes
+WHERE title="Hackerized!";
+SELECT production_code
+FROM episodes
+WHERE title="Hackerized!";
+SELECT production_code
+FROM episodes
+WHERE title="Hackerized!";
+SELECT production_code
+FROM episodes
+WHERE title="Hackerized!";
+SELECT title
+FROM episodes
+WHERE season=1;
+SELECT season,
+    title
+FROM episodes
+WHERE episode_in_season = 1;
+SELECT title
+FROM episodes
+WHERE topic IS NULL;
+SELECT title
+FROM episodes
+WHERE topic IS NULL;
+SELECT title
+FROM episodes
+WHERE topic IS NULL;
+SELECT title
+FROM episodes
+WHERE topic IS NULL;
+SELECT title
+FROM episodes
+WHERE topic IS NULL;
+SELECT title
+FROM episodes
+WHERE topic IS NULL;
+SELECT title
+FROM episodes
+WHERE topic IS NULL;
+SELECT title
+FROM episodes
+WHERE air_date = "2004-12-31";
+SELECT title
+FROM episodes
+WHERE air_date = "2004-12-31";
+SELECT title
+FROM episodes
+WHERE air_date = "2004-12-31";
+SELECT title
+FROM episodes
+WHERE air_date = "2004-12-31";
+SELECT title
+FROM episodes
+WHERE air_date = "2004-12-31";
+SELECT title
+FROM episodes
+WHERE air_date = "2004-12-31";
+SELECT title
+FROM episodes
+WHERE air_date = "2004-12-31";
+SELECT title
+FROM episodes
+WHERE air_date = "2004-12-31";
+SELECT title
+FROM episodes
+WHERE air_date = "2004-12-31";
+SELECT title
+FROM episodes
+WHERE season = 6
+    AND air_date >= "2007-01-01"
+    AND air_date <= "2007-12-31";
+SELECT title
+FROM episodes
+WHERE season = 6
+    AND air_date >= "2007-01-01"
+    AND air_date <= "2007-12-31";
+SELECT title
+FROM episodes
+WHERE season = 6
+    AND air_date >= "2007-01-01"
+    AND air_date <= "2007-12-31";
+SELECT title
+FROM episodes
+WHERE season = 6
+    AND air_date >= "2007-01-01"
+    AND air_date <= "2007-12-31";
+SELECT title
+FROM episodes
+WHERE air_date = "2004-12-31";
+SELECT title
+FROM episodes
+WHERE air_date = "2004-12-31";
+SELECT title
+FROM episodes
+WHERE season = 6
+    AND air_date >= "2007-01-01"
+    AND air_date <= "2007-12-31";
+SELECT title
+FROM episodes
+WHERE air_date = "2004-12-31";
+SELECT title
+FROM episodes
+WHERE season = 6
+    AND air_date >= "2007-01-01"
+    AND air_date <= "2007-12-31";
+SELECT title
+FROM episodes
+WHERE season=1;
+SELECT season,
+    title
+FROM episodes
+WHERE episode_in_season = 1;
+SELECT title
+FROM episodes
+WHERE topic IS NULL;
+SELECT production_code
+FROM episodes
+WHERE title="Hackerized!";
+SELECT production_code
+FROM episodes
+WHERE title="Hackerized!";
+SELECT title
+FROM episodes
+WHERE topic IS NULL;
+SELECT title, topic
+FROM episodes
+WHERE topic LIKE "%fractions%";
+SELECT title, topic
+FROM episodes
+WHERE topic LIKE "%fractions%";
+SELECT title, topic
+FROM episodes
+WHERE topic LIKE "%fractions%";
+SELECT title, topic
+FROM episodes
+WHERE topic LIKE "%fractions%";
+SELECT title, topic
+FROM episodes
+WHERE topic LIKE "%fractions%";
+SELECT title, topic
+FROM episodes
+WHERE topic LIKE "%fractions%";
+SELECT title, topic
+FROM episodes
+WHERE topic LIKE "%fractions%";
+SELECT COUNT(*)
+FROM episodes
+WHERE air_date BETWEEN "2018-01-01" AND "2023-12-31";
+SELECT COUNT(*)
+FROM episodes
+WHERE air_date BETWEEN "2018-01-01" AND "2023-12-31";
+SELECT COUNT(*)
+FROM episodes
+WHERE air_date BETWEEN "2018-01-01" AND "2023-12-31";
+SELECT COUNT(*)
+FROM episodes
+WHERE air_date BETWEEN "2018-01-01" AND "2023-12-31";
+SELECT COUNT(*)
+FROM episodes
+WHERE air_date BETWEEN "2018-01-01" AND "2023-12-31";
+SELECT COUNT(*) as number_of_episodes
+FROM episodes
+WHERE air_date BETWEEN "2018-01-01" AND "2023-12-31";
+SELECT COUNT(*) as number_of_episodes
+FROM episodes
+WHERE air_date BETWEEN "2018-01-01" AND "2023-12-31";
+SELECT COUNT(*) as number_of_episodes
+FROM episodes
+WHERE air_date BETWEEN "2018-01-01" AND "2023-12-31";
+SELECT COUNT(id)
+FROM episodes
+WHERE air_date BETWEEN "2002-01-01" AND "2007-12-31";
+SELECT COUNT(id)
+FROM episodes
+WHERE air_date BETWEEN "2002-01-01" AND "2007-12-31";
+SELECT COUNT(id)
+FROM episodes
+WHERE air_date BETWEEN "2002-01-01" AND "2007-12-31";
+SELECT COUNT(id)
+FROM episodes
+WHERE air_date BETWEEN "2002-01-01" AND "2007-12-31";
+SELECT COUNT(id)
+FROM episodes
+WHERE air_date BETWEEN "2002-01-01" AND "2007-12-31";
+SELECT COUNT(id)
+FROM episodes
+WHERE air_date BETWEEN "2002-01-01" AND "2007-12-31";
+SELECT COUNT(id)
+FROM episodes
+WHERE air_date BETWEEN "2002-01-01" AND "2007-12-31";
+SELECT COUNT(id)
+FROM episodes
+WHERE air_date BETWEEN "2002-01-01" AND "2007-12-31";
+SELECT id,
+    title,
+    production_code
+FROM episodes
+ORDER BY production_code ASC;
+SELECT id,
+    title,
+    production_code
+FROM episodes
+ORDER BY production_code ASC;
+SELECT id,
+    title,
+    production_code
+FROM episodes
+ORDER BY production_code ASC;
+SELECT id,
+    title,
+    production_code
+FROM episodes
+ORDER BY production_code ASC;
+SELECT id,
+    title,
+    production_code
+FROM episodes
+ORDER BY production_code ASC;
+SELECT title
+FROM episodes
+WHERE season=5
+ORDER BY title DESC;
+SELECT title
+FROM episodes
+WHERE season=5
+ORDER BY title DESC;
+SELECT title
+FROM episodes
+WHERE season=5
+ORDER BY title DESC;
+SELECT title
+FROM episodes
+WHERE season=5
+ORDER BY title DESC;
+SELECT title
+FROM episodes
+WHERE season=5
+ORDER BY title DESC;
+SELECT count(title)
+FROM (
+        SELECT DISTINCT title
+        FROM episodes
+    );
+SELECT count(title)
+FROM (
+        SELECT DISTINCT title
+        FROM episodes
+    );
+SELECT count(title)
+FROM (
+        SELECT DISTINCT title
+        FROM episodes
+    );
+SELECT count(title)
+FROM (
+        SELECT DISTINCT title
+        FROM episodes
+    );
+SELECT count(title)
+FROM (
+        SELECT DISTINCT title
+        FROM episodes
+    );
+SELECT title
+FROM episodes
+WHERE air_date LIKE '____-12-__';
+SELECT title
+FROM episodes
+WHERE air_date LIKE '____-12-__';
+SELECT title
+FROM episodes
+WHERE air_date LIKE '____-12-__';
+SELECT title,
+    air_date
+FROM episodes
+WHERE strftime("%m", air_date) = "12";
+SELECT title
+FROM episodes
+WHERE air_date LIKE '____-12-__';

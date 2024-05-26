@@ -1,0 +1,3 @@
+english_title                          artist 
+-------------------------------------  -------
+A View of Mount Fuji Across Lake Suwa  Hokusai

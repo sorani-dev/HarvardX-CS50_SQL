@@ -1,0 +1,3 @@
+Average Height  Average Weight
+--------------  --------------
+73.66           208.58        

@@ -1,0 +1,1 @@
+[{"stmt":"SELECT round(avg(entropy), 2) as \"Hiroshige Average Entropy\"\nFROM views\nWHERE artist = \"Hiroshige\";","header":["Hiroshige Average Entropy"],"rows":[["7.42"]]}]

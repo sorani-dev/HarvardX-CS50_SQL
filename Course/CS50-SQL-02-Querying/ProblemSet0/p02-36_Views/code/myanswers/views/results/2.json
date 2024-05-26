@@ -1,0 +1,1 @@
+[{"stmt":"SELECT average_color\nFROM views\nWHERE artist = \"Hokusai\"\nAND english_title LIKE \"%river%\";","header":["average_color"],"rows":[["#8ba1a5"],["#b3b399"],["#a6a799"]]}]

@@ -1,0 +1,1 @@
+[{"stmt":"SELECT english_title\nFROM views\nWHERE artist = \"Hokusai\"\nORDER BY contrast ASC\nLIMIT 5;","header":["english_title"],"rows":[["Mount Fuji reflects in Lake Kawaguchi, seen from the Misaka Pass in Kai Province"],["Kajikazawa in Kai Province"],["Shimomeguro"],["Bay of Noboto"],["Ushibori in Hitachi Province"]]}]
