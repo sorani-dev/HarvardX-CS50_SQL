@@ -1,0 +1,426 @@
+<!DOCTYPE html><html lang="en-us"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="An introduction to databases using a language called SQL.">
+
+        <meta property="og:image" content="https://prod-discovery.edx-cdn.org/media/course/image/3e45c431-10df-423e-9f03-fb98b713cd4a-5158ac9c653a.small.png"><meta property="og:title" content="Bed and Breakfast - CS50's Introduction to Databases with SQL">
+
+        <link href="../../../favicon.ico?1696810446" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min.js?1696810446"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min.js?1696810446"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min.css?1696810446" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min.js?1696810446"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js?1696810446"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link crossorigin="anonymous" href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min.js?1696810446"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/es5/tex-chtml.js?1696810446"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/intersection-observer/intersection-observer.js?1696810446"></script>
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min.js?1696810446"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../../assets/iframe-resizer/js/iframeResizer.min.js?1696810446"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min.js?1696810446"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid.min.js?1696810446"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/twemoji/dist/twemoji.min.js?1696810446"></script>
+
+        
+
+        <link href="../../../assets/page.css?1696810446" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50.js?1696810446"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Bed and Breakfast - CS50's Introduction to Databases with SQL</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../../#how-to-take-this-course">a verified certificate or transfer credit and accreditation</a>?</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-databases-with-sql"><a href="../../..">CS50’s Introduction to Databases with SQL</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="small"><a href="https://carterzenke.me">Carter Zenke</a><br>
+<a href="mailto:carter@cs50.harvard.edu">carter@cs50.harvard.edu</a>
+<br>
+<a class="mr-1" href="https://github.com/carterzenke"><i aria-hidden="true" class="fab fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/carterzenke/"><i aria-hidden="true" class="fab fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a></p>
+
+<p class="small"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/x/2023/ready/"><i class="fa-solid fa-duck me-2"></i>Ready Player 50</a></li>
+  <li data-marker="*"><a href="../../../zoom/"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+</ul>
+
+<hr>
+
+<ol start="0">
+  <li><a href="../../../weeks/0/">Querying</a></li>
+  <li><a href="../../../weeks/1/">Relating</a></li>
+  <li><a href="../../../weeks/2/">Designing</a></li>
+  <li><a href="../../../weeks/3/">Writing</a></li>
+  <li><a href="../../../weeks/4/">Viewing</a></li>
+  <li><a href="../../../weeks/5/">Optimizing</a></li>
+  <li><a href="../../../weeks/6/">Scaling</a></li>
+</ol>
+
+<ul>
+  <li data-marker="*"><a href="../../../project/">Final Project</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../honesty/">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../../certificate/">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../../faqs/">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50sql">Gradebook</a></li>
+  <li data-marker="*"><a href="../../">Problem Sets</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/sql">edX</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/151">Harvard Extension School</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/151">Harvard Summer School</a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382v1MBjNOhPu9SiJ1fsD4C0">YouTube</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../communities/"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.bsky.social">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/cs50">Twitter</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="https://cs50.harvard.edu/x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<hr>
+
+<p><a href="../../../license/" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="bed-and-breakfast">Bed and Breakfast</h1>
+
+<p class="w-50"><img src="bnb.png" alt="A bed and breakfast in Boston, the style of a realistic photograph">
+<em>“A bed and breakfast in Boston, the style of a realistic photograph”, generated by <a href="https://openai.com/dall-e-2">DALL·E 2</a></em></p>
+
+<h2 id="problem-to-solve">Problem to Solve</h2>
+
+<p>A Bed and Breakfast (“BnB” for short!) is a short-term place one might stay and pay the owner for the service, similar to a hotel. Over the past few years, <a href="https://www.airbnb.com/">AirBnB</a> has allowed most anyone to rent out their place, whether it’s a home, a cute cottage, or even a treehouse.</p>
+
+<p>You’re a data analyst for the City of Boston and you’re interested in discovering how the rise of AirBnB has changed the local tourist scene. You’ve even compiled a database, <code class="language-plaintext highlighter-rouge">bnb.db</code>, filled with data directly from AirBnB. In <code class="language-plaintext highlighter-rouge">bnb.db</code>, whip up a few views that will paint a clearer picture of AirBnB’s influence on the city of Boston.</p>
+
+<h2 id="demo">Demo</h2>
+
+<script async="" data-autoplay="1" data-cols="100" data-loop="1" data-rows="12" id="asciicast-rwRd0GVotLwVaO7V7GeH03HLw" src="https://asciinema.org/a/rwRd0GVotLwVaO7V7GeH03HLw.js"></script>
+
+<h2 id="distribution-code">Distribution Code</h2>
+
+<p>For this problem, you’ll need to download <code class="language-plaintext highlighter-rouge">bnb.db</code>, along with a few <code class="language-plaintext highlighter-rouge">.sql</code> files in which you’ll write your queries.</p>
+
+<details><summary>Download the distribution code</summary><p>Log into <a href="https://cs50.dev/">cs50.dev</a>, click on your terminal window, and execute <code class="language-plaintext highlighter-rouge">cd</code> by itself. You should find that your terminal window’s prompt resembles the below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$
+</code></pre></div></div>
+
+<p>Next execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://cdn.cs50.net/sql/2023/x/psets/4/bnb.zip
+</code></pre></div></div>
+
+<p>in order to download a ZIP called <code class="language-plaintext highlighter-rouge">bnb.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip bnb.zip
+</code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">bnb</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm bnb.zip
+</code></pre></div></div>
+
+<p>and respond with “y” followed by Enter at the prompt to remove the ZIP file you downloaded.</p>
+
+<p>Now type</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd bnb
+</code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., open) that directory. Your prompt should now resemble the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bnb/ $
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls
+</code></pre></div></div>
+
+<p>and see a database named <code class="language-plaintext highlighter-rouge">bnb.db</code> alongside several <code class="language-plaintext highlighter-rouge">.sql</code> files. If not, retrace your steps and see if you can determine where you went wrong!</p></details>
+
+<h2 id="schema">Schema</h2>
+
+<pre><code class="language-mermaid">erDiagram
+    "Listing" ||--o{ "Review" : receives
+    "Listing" ||--|{ "Availability" : has
+</code></pre>
+
+<p>Within <code class="language-plaintext highlighter-rouge">bnb.db</code>, you’ll find three tables that implement the relationships described in the ER diagram above. Click the drop-downs below to learn more about the schema of each table.</p>
+
+<details><summary><code>listings</code> table</summary><p>The <code class="language-plaintext highlighter-rouge">listings</code> table contains the following columns:</p>
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">id</code>, which is the ID of the listing.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">property_type</code>, which is the type of the listing (e.g., “Entire rental unit”, “Private room in rental unit”, etc.).</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">host_name</code>, which is the AirBnB username of the listing’s host.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">accommodates</code>, which is the listing’s maximum number of occupants.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">bedrooms</code>, which is the listing’s number of bedrooms.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">description</code>, which is the description of the listing on AirBnB.</li>
+</ul></details>
+
+<details><summary><code>reviews</code> table</summary><p>The <code class="language-plaintext highlighter-rouge">reviews</code> table contains the following columns:</p>
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">id</code>, which is the ID of the review.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">listing_id</code>, which is the ID of the listing which received the review.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">date</code>, which is the date the review was posted.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">reviewer_name</code>, which is the AirBnB username of the reviewer.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">comments</code>, which is the content of the review.</li>
+</ul></details>
+
+<details><summary><code>availabilities</code> table</summary><p>The <code class="language-plaintext highlighter-rouge">availabilities</code> table contains the following columns:</p>
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">id</code>, which is the id of the availability.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">listing_id</code>, which is the listing ID associated with the availability.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">date</code>, which is the date of the availability.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">available</code>, which is whether the date is still available to be booked (<code class="language-plaintext highlighter-rouge">TRUE</code> or <code class="language-plaintext highlighter-rouge">FALSE</code>).</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">price</code>, which is the price of staying on the given date.</li>
+</ul></details>
+
+<h2 id="specification">Specification</h2>
+
+<p>In each of the corresponding <code class="language-plaintext highlighter-rouge">.sql</code> files, write a SQL statement to create each of the following views of the data in <code class="language-plaintext highlighter-rouge">bnb.db</code>. Note that, while views can be created from other views, each of your views should stand alone (i.e., not rely on a prior view).</p>
+
+<h4 id="no-descriptions">No Descriptions</h4>
+
+<p>You might notice that when running</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="nv">"listings"</span> <span class="k">LIMIT</span> <span class="mi">5</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>the results look quite wonky! The <code class="language-plaintext highlighter-rouge">description</code> column contains descriptions with many line breaks, each of which are printed to your terminal.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">no_descriptions.sql</code>, write a SQL statement to create a view named <code class="language-plaintext highlighter-rouge">no_descriptions</code> that includes all of the columns in the <code class="language-plaintext highlighter-rouge">listings</code> table <em>except</em> for <code class="language-plaintext highlighter-rouge">description</code>.</p>
+
+<h4 id="one-bedrooms">One-Bedrooms</h4>
+
+<p>In <code class="language-plaintext highlighter-rouge">one_bedrooms.sql</code>, write a SQL statement to create a view named <code class="language-plaintext highlighter-rouge">one_bedrooms</code>. This view should contain all listings that have exactly one bedroom. Ensure the view contains the following columns:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">id</code>, which is the <code class="language-plaintext highlighter-rouge">id</code> of the listing from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">property_type</code>, from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">host_name</code>, from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">accommodates</code>, from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+</ul>
+
+<h4 id="available">Available</h4>
+
+<p>In <code class="language-plaintext highlighter-rouge">available.sql</code>, write a SQL statement to create a view named <code class="language-plaintext highlighter-rouge">available</code>. This view should contain all dates that are available at all listings. Ensure the view contains the following columns:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">id</code>, which is the <code class="language-plaintext highlighter-rouge">id</code> of the listing from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">property_type</code>, from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">host_name</code>, from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">date</code>, from the <code class="language-plaintext highlighter-rouge">availabilities</code> table, which is the date of the availability.</li>
+</ul>
+
+<h4 id="frequently-reviewed">Frequently Reviewed</h4>
+
+<p>In <code class="language-plaintext highlighter-rouge">frequently_reviewed.sql</code>, write a SQL statement to create a view named <code class="language-plaintext highlighter-rouge">frequently_reviewed</code>. This view should contain the 100 most frequently reviewed listings, sorted from most- to least-frequently reviewed. Ensure the view contains the following columns:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">id</code>, which is the <code class="language-plaintext highlighter-rouge">id</code> of the listing from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">property_type</code>, from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">host_name</code>, from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">reviews</code>, which is the number of reviews the listing has received.</li>
+</ul>
+
+<p>If any two listings have the same number of reviews, sort by <code class="language-plaintext highlighter-rouge">property_type</code> (in alphabetical order), followed by <code class="language-plaintext highlighter-rouge">host_name</code> (in alphabetical order).</p>
+
+<h4 id="june-vacancies">June Vacancies</h4>
+
+<p>In <code class="language-plaintext highlighter-rouge">june_vacancies.sql</code>, write a SQL statement to create a view named <code class="language-plaintext highlighter-rouge">june_vacancies</code>. This view should contain all listings and the number of days in June of 2023 that they remained vacant. Ensure the view contains the following columns:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">id</code>, which is the <code class="language-plaintext highlighter-rouge">id</code> of the listing from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">property_type</code>, from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">host_name</code>, from the <code class="language-plaintext highlighter-rouge">listings</code> table.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">days_vacant</code>, which is the number of days in June of 2023, that the given listing was marked as available.</li>
+</ul>
+
+<h2 id="usage">Usage</h2>
+
+<p>To test your views as you write them in your <code class="language-plaintext highlighter-rouge">.sql</code> files, you can run a query on the database by running</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.read FILENAME
+</code></pre></div></div>
+
+<p>where <code class="language-plaintext highlighter-rouge">FILENAME</code> is the name of the file containing your SQL query. For example,</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.read no_descriptions.sql
+</code></pre></div></div>
+
+<p>Keep in mind you can also use</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DROP</span> <span class="k">VIEW</span> <span class="n">name</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>where <code class="language-plaintext highlighter-rouge">name</code> is the name of your view, to remove a view before creating it anew.</p>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<p>While <code class="language-plaintext highlighter-rouge">check50</code> is available for this problem, you’re encouraged to also test your code on your own.</p>
+
+<h3 id="correctness">Correctness</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2023/sql/bnb
+</code></pre></div></div>
+
+<h2 id="how-to-submit">How to Submit</h2>
+
+<p>In your terminal, execute the below to submit your work.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2023/sql/bnb
+</code></pre></div></div>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>Data retrieved from <a href="http://insideairbnb.com/">insideairbnb.com</a>.</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../assets/page.js?1696810446"></script>
+
+    
+
+
+</body></html>

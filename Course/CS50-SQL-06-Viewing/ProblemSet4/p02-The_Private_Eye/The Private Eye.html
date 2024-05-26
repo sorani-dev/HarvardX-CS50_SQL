@@ -1,0 +1,469 @@
+<!DOCTYPE html><html lang="en-us"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="An introduction to databases using a language called SQL.">
+
+        <meta property="og:image" content="https://prod-discovery.edx-cdn.org/media/course/image/3e45c431-10df-423e-9f03-fb98b713cd4a-5158ac9c653a.small.png"><meta property="og:title" content="The Private Eye - CS50's Introduction to Databases with SQL">
+
+        <link href="../../../favicon.ico?1696748853" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min.js?1696748853"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min.js?1696748853"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min.css?1696748853" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min.js?1696748853"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js?1696748853"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link crossorigin="anonymous" href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min.js?1696748853"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/es5/tex-chtml.js?1696748853"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/intersection-observer/intersection-observer.js?1696748853"></script>
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min.js?1696748853"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../../assets/iframe-resizer/js/iframeResizer.min.js?1696748853"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min.js?1696748853"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid.min.js?1696748853"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/twemoji/dist/twemoji.min.js?1696748853"></script>
+
+        
+
+        <link href="../../../assets/page.css?1696748853" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50.js?1696748853"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>The Private Eye - CS50's Introduction to Databases with SQL</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../../#how-to-take-this-course">a verified certificate or transfer credit and accreditation</a>?</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-databases-with-sql"><a href="../../..">CS50’s Introduction to Databases with SQL</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="small"><a href="https://carterzenke.me">Carter Zenke</a><br>
+<a href="mailto:carter@cs50.harvard.edu">carter@cs50.harvard.edu</a>
+<br>
+<a class="mr-1" href="https://github.com/carterzenke"><i aria-hidden="true" class="fab fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/carterzenke/"><i aria-hidden="true" class="fab fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a></p>
+
+<p class="small"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/x/2023/ready/"><i class="fa-solid fa-duck me-2"></i>Ready Player 50</a></li>
+  <li data-marker="*"><a href="../../../zoom/"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+</ul>
+
+<hr>
+
+<ol start="0">
+  <li><a href="../../../weeks/0/">Querying</a></li>
+  <li><a href="../../../weeks/1/">Relating</a></li>
+  <li><a href="../../../weeks/2/">Designing</a></li>
+  <li><a href="../../../weeks/3/">Writing</a></li>
+  <li><a href="../../../weeks/4/">Viewing</a></li>
+  <li><a href="../../../weeks/5/">Optimizing</a></li>
+  <li><a href="../../../weeks/6/">Scaling</a></li>
+</ol>
+
+<ul>
+  <li data-marker="*"><a href="../../../project/">Final Project</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../honesty/">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../../certificate/">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../../faqs/">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50sql">Gradebook</a></li>
+  <li data-marker="*"><a href="../../">Problem Sets</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/sql">edX</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/151">Harvard Extension School</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/151">Harvard Summer School</a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382v1MBjNOhPu9SiJ1fsD4C0">YouTube</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../communities/"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.bsky.social">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/cs50">Twitter</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="https://cs50.harvard.edu/x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<hr>
+
+<p><a href="../../../license/" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="the-private-eye">The Private Eye</h1>
+
+<p class="w-50"><img src="library.png" alt="A detective's library in the style of an oil painting"><br>
+<em>“A detective’s library in the style of an oil painting,” generated by <a href="https://openai.com/dall-e-2">DALL·E 2</a></em></p>
+
+<h2 id="problem-to-solve">Problem to Solve</h2>
+
+<p>CS50’s duck debugger has disappeared once more and you desperately need a detective. You’ve heard stories of one who lives uptown, always secretive in their work, never seen but when they want to be. Unsurprisingly, they’ve proven to be quite elusive to you. But here you are, in their study, after picking up their address from a certain mail clerk.</p>
+
+<p>On their mahogany desk, fresh white paper glints. Inscribed is the following table:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>14</td>
+      <td>98</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>114</td>
+      <td>3</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>618</td>
+      <td>72</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>630</td>
+      <td>7</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>932</td>
+      <td>12</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>2230</td>
+      <td>50</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>2346</td>
+      <td>44</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>3041</td>
+      <td>14</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>And tucked underneath, a worn book, <a href="https://en.wikipedia.org/wiki/The_Adventures_of_Sherlock_Holmes"><em>The Adventures of Sherlock Holmes</em></a>.</p>
+
+<h2 id="distribution-code">Distribution Code</h2>
+
+<p>For this problem, you’ll need to download <code class="language-plaintext highlighter-rouge">private.db</code> and <code class="language-plaintext highlighter-rouge">private.sql</code>.</p>
+
+<details><summary>Download the distribution code</summary><p>Log into <a href="https://cs50.dev/">cs50.dev</a>, click on your terminal window, and execute <code class="language-plaintext highlighter-rouge">cd</code> by itself. You should find that your terminal window’s prompt resembles the below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$
+</code></pre></div></div>
+
+<p>Next execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://cdn.cs50.net/sql/2023/x/psets/4/private.zip
+</code></pre></div></div>
+
+<p>in order to download a ZIP called <code class="language-plaintext highlighter-rouge">private.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip private.zip
+</code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">private</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm private.zip
+</code></pre></div></div>
+
+<p>and respond with “y” followed by Enter at the prompt to remove the ZIP file you downloaded.</p>
+
+<p>Now type</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd private
+</code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., open) that directory. Your prompt should now resemble the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private/ $
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls
+</code></pre></div></div>
+
+<p>and see a database named <code class="language-plaintext highlighter-rouge">private.db</code> and a file named <code class="language-plaintext highlighter-rouge">private.sql</code>. Executing <code class="language-plaintext highlighter-rouge">sqlite3 private.db</code> should open the database with <code class="language-plaintext highlighter-rouge">sqlite3</code>. If not, retrace your steps and see if you can determine where you went wrong!</p></details>
+
+<h2 id="background">Background</h2>
+
+<p>Given the paper’s proximity to <em>The Adventures of Sherlock Holmes</em>, what’s written on it seems to be some variation of a <a href="https://en.wikipedia.org/wiki/Book_cipher">book cipher</a>. You know that in one version of a book cipher, the cipher’s creator gives you a list of “triplets” (i.e., a set of three numbers). Each triplet is structured as follows:</p>
+
+<ul>
+  <li data-marker="*">The first number in the triplet is the <em>sentence number</em> referenced by the encoder.</li>
+  <li data-marker="*">The second number in the triplet is the <em>character number</em>, within that sentence, at which the message begins.</li>
+  <li data-marker="*">The third number in the triplet is the <em>message length</em> in characters (i.e., how many characters to read from the first, including spaces and punctuation).</li>
+</ul>
+
+<p>For instance, consider the triplet <strong>2</strong>, <strong>1</strong>, <strong>8</strong> in light of the following sentences:</p>
+
+<blockquote>
+  <p>Quite so! You have not observed. And yet you have seen.</p>
+</blockquote>
+
+<p><strong>2</strong> refers to the 2nd sentence, “You have not observed.” <strong>1</strong> refers to the 1st character in that sentence, “Y.” And <strong>8</strong> refers to the length of the message from that first character. Starting from the 1st character of the 2nd sentence, reading 8 characters (including spaces!) gives you:</p>
+
+<blockquote>
+  <p>You have</p>
+</blockquote>
+
+<p>You can imagine, now, stringing together multiple tuples to encode a longer message. Perhaps that’s exactly what the detective has done!</p>
+
+<h2 id="schema">Schema</h2>
+
+<p>Within <code class="language-plaintext highlighter-rouge">private.db</code>, you’ll find a table, <code class="language-plaintext highlighter-rouge">sentences</code>. The <code class="language-plaintext highlighter-rouge">sentences</code> table contains all sentences in <em>The Adventures of Sherlock Holmes</em>. In particular, it contains the following columns:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">id</code>, which is the ID of the sentence</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">sentence</code>, which is the sentence itself</li>
+</ul>
+
+<h2 id="specification">Specification</h2>
+
+<p>Your task at hand is to decode the cipher left for you by the detective. How you do so is up to you, but you should ensure that—at the end of your process—you have a <strong>view</strong> structured as follows:</p>
+
+<ul>
+  <li data-marker="*">The view should be named <code class="language-plaintext highlighter-rouge">message</code></li>
+  <li data-marker="*">The view should have a single column, <code class="language-plaintext highlighter-rouge">phrase</code></li>
+  <li data-marker="*">When the following SQL query is executed on <code class="language-plaintext highlighter-rouge">private.db</code>, your view should return a single column in which each row is one phrase in the message.
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="nv">"phrase"</span> <span class="k">FROM</span> <span class="nv">"message"</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>In <code class="language-plaintext highlighter-rouge">private.sql</code>, you should write <em>all</em> SQL statements required to replicate your creation of the view. That is:</p>
+
+<ul>
+  <li data-marker="*">If creating the view requires creating a separate table and inserting data into it, you should ensure that <code class="language-plaintext highlighter-rouge">private.sql</code> contains the statements to create that table and insert that data. (Don’t be afraid to add tables and add data as you wish!)</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">private.sql</code>, when run a fresh instance of <code class="language-plaintext highlighter-rouge">private.db</code>, should be able to fully reconstruct your view.</li>
+</ul>
+
+<h2 id="advice">Advice</h2>
+
+<p>Turns out that SQLite handily comes with a function that implements the very functionality of the book cipher: <a href="https://www.sqlitetutorial.net/sqlite-functions/sqlite-substr/"><code class="language-plaintext highlighter-rouge">substr</code></a>. The function <code class="language-plaintext highlighter-rouge">substr</code> takes three inputs (“arguments”):</p>
+
+<ul>
+  <li data-marker="*">A string (i.e., text) from which to take a substring (i.e., a subset of the string’s characters)</li>
+  <li data-marker="*">The starting character of the substring, identified by its number (the first character is 1)</li>
+  <li data-marker="*">The length of the substring</li>
+</ul>
+
+<p>For instance, suppose you have a table called <code class="language-plaintext highlighter-rouge">sentences</code> which includes the following:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>sentence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Quite so!</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>You have not observed.</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>And yet you have seen.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Should you run the following SQL query…</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">substr</span><span class="p">(</span><span class="nv">"sentence"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">FROM</span> <span class="nv">"sentences"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>you would receive the following results:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>substr(“sentence”, 1, 2)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Qu</td>
+    </tr>
+    <tr>
+      <td>Yo</td>
+    </tr>
+    <tr>
+      <td>An</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Keep in mind that the other arguments to <code class="language-plaintext highlighter-rouge">substr</code> can be entire columns themselves, too!</p>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<h3 id="correctness">Correctness</h3>
+
+<p>Execute the below to evaluate the correctness of your findings using <code class="language-plaintext highlighter-rouge">check50</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2023/sql/private
+</code></pre></div></div>
+
+<h2 id="how-to-submit">How to Submit</h2>
+
+<p>In your terminal, execute the below to submit your work.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2023/sql/private
+</code></pre></div></div>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>Text retrieved <em>The Adventures of Sherlock Holmes</em>, part of the public domain.</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../assets/page.js?1696748853"></script>
+
+    
+
+
+</body></html>

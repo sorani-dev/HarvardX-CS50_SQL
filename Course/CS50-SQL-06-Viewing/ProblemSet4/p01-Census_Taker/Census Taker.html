@@ -1,0 +1,389 @@
+<!DOCTYPE html><html lang="en-us"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="An introduction to databases using a language called SQL.">
+
+        <meta property="og:image" content="https://prod-discovery.edx-cdn.org/media/course/image/3e45c431-10df-423e-9f03-fb98b713cd4a-5158ac9c653a.small.png"><meta property="og:title" content="Census Taker - CS50's Introduction to Databases with SQL">
+
+        <link href="../../../favicon.ico?1696748853" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min.js?1696748853"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min.js?1696748853"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min.css?1696748853" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min.js?1696748853"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js?1696748853"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link crossorigin="anonymous" href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min.js?1696748853"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/es5/tex-chtml.js?1696748853"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/intersection-observer/intersection-observer.js?1696748853"></script>
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min.js?1696748853"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../../assets/iframe-resizer/js/iframeResizer.min.js?1696748853"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min.js?1696748853"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid.min.js?1696748853"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/twemoji/dist/twemoji.min.js?1696748853"></script>
+
+        
+
+        <link href="../../../assets/page.css?1696748853" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50.js?1696748853"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Census Taker - CS50's Introduction to Databases with SQL</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../../#how-to-take-this-course">a verified certificate or transfer credit and accreditation</a>?</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-databases-with-sql"><a href="../../..">CS50’s Introduction to Databases with SQL</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="small"><a href="https://carterzenke.me">Carter Zenke</a><br>
+<a href="mailto:carter@cs50.harvard.edu">carter@cs50.harvard.edu</a>
+<br>
+<a class="mr-1" href="https://github.com/carterzenke"><i aria-hidden="true" class="fab fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/carterzenke/"><i aria-hidden="true" class="fab fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a></p>
+
+<p class="small"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/x/2023/ready/"><i class="fa-solid fa-duck me-2"></i>Ready Player 50</a></li>
+  <li data-marker="*"><a href="../../../zoom/"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+</ul>
+
+<hr>
+
+<ol start="0">
+  <li><a href="../../../weeks/0/">Querying</a></li>
+  <li><a href="../../../weeks/1/">Relating</a></li>
+  <li><a href="../../../weeks/2/">Designing</a></li>
+  <li><a href="../../../weeks/3/">Writing</a></li>
+  <li><a href="../../../weeks/4/">Viewing</a></li>
+  <li><a href="../../../weeks/5/">Optimizing</a></li>
+  <li><a href="../../../weeks/6/">Scaling</a></li>
+</ol>
+
+<ul>
+  <li data-marker="*"><a href="../../../project/">Final Project</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../honesty/">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../../certificate/">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../../faqs/">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50sql">Gradebook</a></li>
+  <li data-marker="*"><a href="../../">Problem Sets</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/sql">edX</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/151">Harvard Extension School</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/151">Harvard Summer School</a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382v1MBjNOhPu9SiJ1fsD4C0">YouTube</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../communities/"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.bsky.social">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/cs50">Twitter</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="https://cs50.harvard.edu/x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<hr>
+
+<p><a href="../../../license/" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="census-taker">Census Taker</h1>
+
+<p class="w-50"><img src="nepal.png" alt="The Himalayan mountain ranges in the style of a Nepali painting">
+<em>“The Himalayan mountain ranges in the style of a Nepali painting”, generated by <a href="https://openai.com/dall-e-2">DALL·E 2</a></em></p>
+
+<h2 id="problem-to-solve">Problem to Solve</h2>
+
+<p>You are a census taker working for the Nepali government. As you crest one final hill, your breath catches at the sight of a Himalayan sunrise, casting a glow on the village you’ve journeyed so far to reach. Your guide, a local, halts abruptly. Underneath the steady rustle of your census papers, you feel an itch of curiosity. After all, it’s not every day your job takes you to a village like this one.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">census.db</code>, process your data into views the Nepali government can use for record-keeping.</p>
+
+<h2 id="demo">Demo</h2>
+
+<script async="" data-autoplay="1" data-cols="100" data-loop="1" data-rows="12" id="asciicast-zf4e3iApWRyEA9d8FNNNS9rVy" src="https://asciinema.org/a/zf4e3iApWRyEA9d8FNNNS9rVy.js"></script>
+
+<h2 id="distribution-code">Distribution Code</h2>
+
+<p>For this problem, you’ll need to download <code class="language-plaintext highlighter-rouge">census.db</code>, along with a few <code class="language-plaintext highlighter-rouge">.sql</code> files in which you’ll write your queries.</p>
+
+<details><summary>Download the distribution code</summary><p>Log into <a href="https://cs50.dev/">cs50.dev</a>, click on your terminal window, and execute <code class="language-plaintext highlighter-rouge">cd</code> by itself. You should find that your terminal window’s prompt resembles the below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$
+</code></pre></div></div>
+
+<p>Next execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://cdn.cs50.net/sql/2023/x/psets/4/census.zip
+</code></pre></div></div>
+
+<p>in order to download a ZIP called <code class="language-plaintext highlighter-rouge">census.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip census.zip
+</code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">census</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm census.zip
+</code></pre></div></div>
+
+<p>and respond with “y” followed by Enter at the prompt to remove the ZIP file you downloaded.</p>
+
+<p>Now type</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd census
+</code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., open) that directory. Your prompt should now resemble the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>census/ $
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls
+</code></pre></div></div>
+
+<p>and see a database named <code class="language-plaintext highlighter-rouge">census.db</code> alongside several <code class="language-plaintext highlighter-rouge">.sql</code> files. If not, retrace your steps and see if you can determine where you went wrong!</p></details>
+
+<h2 id="schema">Schema</h2>
+
+<p>In <code class="language-plaintext highlighter-rouge">census.db</code> you’ll find a single table, <code class="language-plaintext highlighter-rouge">census</code>. In the <code class="language-plaintext highlighter-rouge">census</code> table, you’ll find the following columns:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">id</code>, which uniquely identifies each census record</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">district</code>, which is the name of the census record’s district</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">locality</code>, which is the name of the census record’s locality within the district</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">families</code>, which is the number of families associated with the census record</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">households</code>, which is the total number of households associated with the census record (multiple families may live in the same household)</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">population</code>, which is the population associated with the census record</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">male</code>, which is the number of people associated with the census record who have identified as male</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">female</code>, which is the number of people associated with the census record who have identified as female</li>
+</ul>
+
+<h2 id="specification">Specification</h2>
+
+<p>In each of the corresponding <code class="language-plaintext highlighter-rouge">.sql</code> files, write a SQL statement to create each of the following views of the data in <code class="language-plaintext highlighter-rouge">census.db</code>. Note that, while views can be created from other views, each of your views should stand alone (i.e., not rely on a prior view).</p>
+
+<h4 id="rural">Rural</h4>
+
+<p>In <code class="language-plaintext highlighter-rouge">rural.sql</code>, write a SQL statement to create a view named <code class="language-plaintext highlighter-rouge">rural</code>. This view should contain all census records relating to a rural municipality (identified by including “rural” in their name). Ensure the view contains all of the columns from the <code class="language-plaintext highlighter-rouge">census</code> table.</p>
+
+<h4 id="total">Total</h4>
+
+<p>In <code class="language-plaintext highlighter-rouge">total.sql</code>, write a SQL statement to create a view named <code class="language-plaintext highlighter-rouge">total</code>. This view should contain the sums for each numeric column in <code class="language-plaintext highlighter-rouge">census</code>, across all districts and localities. Ensure the view contains each of the following columns:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">families</code>, which is the sum of families from every locality in Nepal.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">households</code>, which is the sum of households from every locality in Nepal.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">population</code>, which is the sum of the population from every locality in Nepal.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">male</code>, which is the sum of people identifying as male from every locality in Nepal.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">female</code>, which is the sum of people identifying as female from every locality in Nepal.</li>
+</ul>
+
+<h4 id="by-district">By District</h4>
+
+<p>In <code class="language-plaintext highlighter-rouge">by_district.sql</code>, write a SQL statement to create a view named <code class="language-plaintext highlighter-rouge">by_district</code>. This view should contain the sums for each numeric column in <code class="language-plaintext highlighter-rouge">census</code>, grouped by <code class="language-plaintext highlighter-rouge">district</code>. Ensure the view contains each of the following columns:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">district</code>, which is the name of the district.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">families</code>, which is the total number of families in the district.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">households</code>, which is the total number of households in the district.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">population</code>, which is the total population of the district.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">male</code>, which is the total number of people identifying as male in the district.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">female</code>, which is the total number of people identifying as female in the district.</li>
+</ul>
+
+<h4 id="most-populated">Most Populated</h4>
+
+<p>In <code class="language-plaintext highlighter-rouge">most_populated.sql</code>, write a SQL statement to create a view named <code class="language-plaintext highlighter-rouge">most_populated</code>. This view should contain, in order from greatest to least, the most populated <em>districts</em> in Nepal. Ensure the view contains each of the following columns:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">district</code>, which is the name of the district.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">families</code>, which is the total number of families in the district.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">households</code>, which is the total number of households in the district.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">population</code>, which is the total population of the district.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">male</code>, which is the total number of people identifying as male in the district.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">female</code>, which is the total number of people identifying as female in the district.</li>
+</ul>
+
+<h2 id="usage">Usage</h2>
+
+<p>To test your views as you write them in your <code class="language-plaintext highlighter-rouge">.sql</code> files, you can run a query on the database by running</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.read FILENAME
+</code></pre></div></div>
+
+<p>where <code class="language-plaintext highlighter-rouge">FILENAME</code> is the name of the file containing your SQL query. For example,</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.read rural.sql
+</code></pre></div></div>
+
+<p>Keep in mind you can also use</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DROP</span> <span class="k">VIEW</span> <span class="n">name</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>where <code class="language-plaintext highlighter-rouge">name</code> is the name of your view, to remove a view before creating it anew.</p>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<p>While <code class="language-plaintext highlighter-rouge">check50</code> is available for this problem, you’re encouraged to also test your views on your own.</p>
+
+<h3 id="correctness">Correctness</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2023/sql/census
+</code></pre></div></div>
+
+<h2 id="how-to-submit">How to Submit</h2>
+
+<p>In your terminal, execute the below to submit your work.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2023/sql/census
+</code></pre></div></div>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>Data retrieved from Open Data Nepal, <a href="https://opendatanepal.com/">opendatanepal.com</a>.</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../assets/page.js?1696748853"></script>
+
+    
+
+
+</body></html>

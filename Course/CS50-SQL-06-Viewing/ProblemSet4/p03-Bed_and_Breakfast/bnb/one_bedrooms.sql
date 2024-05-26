@@ -1,0 +1,7 @@
+CREATE VIEW IF NOT EXISTS "one_bedrooms" AS
+SELECT "id",
+    "property_type",
+    "host_name",
+    "accommodates"
+FROM "listings"
+WHERE "bedrooms" = 1;
