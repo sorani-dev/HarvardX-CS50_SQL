@@ -1,0 +1,8485 @@
+1
+00:00:00,000 --> 00:00:02,994
+[MUSIC PLAYING]
+
+2
+00:00:02,994 --> 00:00:16,467
+
+
+3
+00:00:16,467 --> 00:00:20,550
+CARTER ZENKE: Well, hello, one
+and all and welcome back to CS50's
+
+4
+00:00:20,550 --> 00:00:23,040
+Introduction to Databases with SQL.
+
+5
+00:00:23,040 --> 00:00:24,630
+My name is Carter Zenke.
+
+6
+00:00:24,630 --> 00:00:28,320
+And last we left off, we
+learned all about querying--
+
+7
+00:00:28,320 --> 00:00:31,800
+how to ask questions of
+data in a single table.
+
+8
+00:00:31,800 --> 00:00:34,350
+Today, though, we'll
+take one step forward,
+
+9
+00:00:34,350 --> 00:00:38,170
+and we'll have databases that have
+not just one table inside of them
+
+10
+00:00:38,170 --> 00:00:41,490
+but, actually, multiple
+tables-- tables for authors,
+
+11
+00:00:41,490 --> 00:00:43,380
+tables for books, and
+for publishers, and so
+
+12
+00:00:43,380 --> 00:00:47,460
+on-- to represent all of these people
+who are part of the book industry.
+
+13
+00:00:47,460 --> 00:00:49,920
+And you, too, can apply these
+same skills for whatever
+
+14
+00:00:49,920 --> 00:00:52,240
+you want to represent as well.
+
+15
+00:00:52,240 --> 00:00:56,850
+So let's pick up where we left off,
+which was with this database of books.
+
+16
+00:00:56,850 --> 00:00:59,380
+And I'll come back to
+my computer over here.
+
+17
+00:00:59,380 --> 00:01:02,010
+And if you recall, we
+had this data set that
+
+18
+00:01:02,010 --> 00:01:06,360
+was the books that were longlisted
+for the International Booker Prize.
+
+19
+00:01:06,360 --> 00:01:10,450
+To be longlisted means to be nominated
+for some prize in a given year.
+
+20
+00:01:10,450 --> 00:01:14,580
+And the international Booker Prize
+is awarded every year to one book,
+
+21
+00:01:14,580 --> 00:01:17,160
+but 13 are nominated.
+
+22
+00:01:17,160 --> 00:01:21,720
+So in this data set, we have
+13 books the past five years
+
+23
+00:01:21,720 --> 00:01:24,690
+that were nominated for this prize.
+
+24
+00:01:24,690 --> 00:01:27,840
+Now, I'll go ahead and open
+up this database once more.
+
+25
+00:01:27,840 --> 00:01:31,410
+And if you remember, we used this
+command last time to open this data
+
+26
+00:01:31,410 --> 00:01:37,680
+set-- sqlite3 space the file name,
+where our file name was longlist.db.
+
+27
+00:01:37,680 --> 00:01:41,140
+And this is one example of our
+database management system--
+
+28
+00:01:41,140 --> 00:01:46,150
+this one called SQLite, and this one
+being the third version of SQLite.
+
+29
+00:01:46,150 --> 00:01:51,210
+So let's re-open this database and let
+me show you what we have now in store.
+
+30
+00:01:51,210 --> 00:01:54,600
+I'll type sqlite--
+whoops, I'll type sqlite--
+
+31
+00:01:54,600 --> 00:01:58,620
+sqlite3 and then longlist.db.
+
+32
+00:01:58,620 --> 00:02:00,270
+And I'll hit Enter.
+
+33
+00:02:00,270 --> 00:02:01,890
+Now, my prompt changes.
+
+34
+00:02:01,890 --> 00:02:03,780
+I no longer have this dollar sign.
+
+35
+00:02:03,780 --> 00:02:05,760
+I now have the SQLite prompt.
+
+36
+00:02:05,760 --> 00:02:07,410
+And here's what we saw last time--
+
+37
+00:02:07,410 --> 00:02:09,960
+I could write my SQL queries.
+
+38
+00:02:09,960 --> 00:02:14,800
+Well, before we start, let's see
+the changes to this database.
+
+39
+00:02:14,800 --> 00:02:18,330
+So if I want to get a feel
+for the tables that are inside
+
+40
+00:02:18,330 --> 00:02:21,360
+of this database, I can use a command--
+
+41
+00:02:21,360 --> 00:02:24,120
+this one called .tables.
+
+42
+00:02:24,120 --> 00:02:26,280
+Notice this is not a SQL keyword.
+
+43
+00:02:26,280 --> 00:02:29,370
+This is a command particular
+to SQLite to show me
+
+44
+00:02:29,370 --> 00:02:32,350
+what tables are inside this database.
+
+45
+00:02:32,350 --> 00:02:33,970
+So I'll type enter here.
+
+46
+00:02:33,970 --> 00:02:36,690
+And now I see I have
+more than one table.
+
+47
+00:02:36,690 --> 00:02:42,250
+I have a table for authors, a table for
+books, for publishers, and even more.
+
+48
+00:02:42,250 --> 00:02:47,040
+And now that we're working with
+not just one table but multiple,
+
+49
+00:02:47,040 --> 00:02:51,610
+we're actually moving into this
+idea of a relational database.
+
+50
+00:02:51,610 --> 00:02:55,590
+So no longer do we have a database
+with only one table inside of it.
+
+51
+00:02:55,590 --> 00:02:57,540
+We now have multiple.
+
+52
+00:02:57,540 --> 00:03:01,770
+And these tables, presumably, have
+some kind of relationship among them.
+
+53
+00:03:01,770 --> 00:03:05,400
+You could think, for instance,
+of an author writing a book,
+
+54
+00:03:05,400 --> 00:03:10,570
+or a publisher publishing a book, or
+even a translator translating a book.
+
+55
+00:03:10,570 --> 00:03:14,530
+So we'll have these tables and
+these relationships among them.
+
+56
+00:03:14,530 --> 00:03:18,720
+So let's look at one example of this
+kind of relationship among tables.
+
+57
+00:03:18,720 --> 00:03:22,320
+I could have a table
+of authors and a table
+
+58
+00:03:22,320 --> 00:03:26,790
+of books-- this simplified for
+now to one column in every table.
+
+59
+00:03:26,790 --> 00:03:28,920
+Well, with my authors
+table, I have names.
+
+60
+00:03:28,920 --> 00:03:31,230
+In my books table, I have titles.
+
+61
+00:03:31,230 --> 00:03:33,640
+And we seem to be moving
+in the right direction.
+
+62
+00:03:33,640 --> 00:03:36,570
+I could store more information
+about authors and books.
+
+63
+00:03:36,570 --> 00:03:39,270
+But I've also created some problem.
+
+64
+00:03:39,270 --> 00:03:43,950
+Like, how do I know, now,
+who wrote which book?
+
+65
+00:03:43,950 --> 00:03:48,150
+Like, earlier, we saw that, maybe,
+Eva is right next to Boulder
+
+66
+00:03:48,150 --> 00:03:50,340
+in a single table for authors and books.
+
+67
+00:03:50,340 --> 00:03:52,980
+And we know that Eva
+wrote Boulder that way.
+
+68
+00:03:52,980 --> 00:03:57,970
+But now, if I look at authors, I only
+see Eva and no information about books.
+
+69
+00:03:57,970 --> 00:04:00,640
+So we seem to have this problem here.
+
+70
+00:04:00,640 --> 00:04:05,040
+Well, one solution might be
+something like the honor system.
+
+71
+00:04:05,040 --> 00:04:05,823
+I'm honest.
+
+72
+00:04:05,823 --> 00:04:06,990
+And, presumably, so are you.
+
+73
+00:04:06,990 --> 00:04:10,110
+We could say that. well,
+maybe the first row in authors
+
+74
+00:04:10,110 --> 00:04:13,440
+will always correspond to
+the first row in books.
+
+75
+00:04:13,440 --> 00:04:17,550
+So we always know Eva wrote Boulder
+because Eva's first in the authors
+
+76
+00:04:17,550 --> 00:04:20,040
+table and Boulder is
+first in the books table.
+
+77
+00:04:20,040 --> 00:04:24,810
+Similarly, let's say Han wrote The White
+Book because Han is in the second row
+
+78
+00:04:24,810 --> 00:04:28,740
+and The White Book is in
+the second row in books.
+
+79
+00:04:28,740 --> 00:04:33,300
+But I have to imagine, as good as I
+am at being honest and transparent,
+
+80
+00:04:33,300 --> 00:04:34,660
+maybe I make a mistake.
+
+81
+00:04:34,660 --> 00:04:37,470
+Maybe I add a row to
+books but not to authors.
+
+82
+00:04:37,470 --> 00:04:39,660
+Or maybe I add a row to
+authors and not to books.
+
+83
+00:04:39,660 --> 00:04:44,590
+I could change data and not update
+it to adhere to that standard.
+
+84
+00:04:44,590 --> 00:04:49,410
+So let's actually take a step back and
+maybe think, well, is it better, then,
+
+85
+00:04:49,410 --> 00:04:52,050
+to have this kind of
+situation, where we did
+
+86
+00:04:52,050 --> 00:04:56,130
+have one table with authors and books?
+
+87
+00:04:56,130 --> 00:04:57,300
+It might be.
+
+88
+00:04:57,300 --> 00:04:59,100
+But let's think.
+
+89
+00:04:59,100 --> 00:05:00,300
+This could work for a while.
+
+90
+00:05:00,300 --> 00:05:03,150
+But let's say Olga is a prolific author.
+
+91
+00:05:03,150 --> 00:05:06,000
+They like to write not
+just one book but two.
+
+92
+00:05:06,000 --> 00:05:09,270
+They wrote not just Flights
+but also The Books of Jacob.
+
+93
+00:05:09,270 --> 00:05:14,250
+Well, let's say Olga writes
+another book or another one too.
+
+94
+00:05:14,250 --> 00:05:18,090
+What might be the problem
+with this arrangement now?
+
+95
+00:05:18,090 --> 00:05:20,610
+And feel free to raise your
+hand, too, with your ideas.
+
+96
+00:05:20,610 --> 00:05:23,490
+Well, I might run into
+some issues here if we only
+
+97
+00:05:23,490 --> 00:05:27,450
+have one table of authors and books.
+
+98
+00:05:27,450 --> 00:05:30,450
+SPEAKER: There is some
+redundancy, some repetition.
+
+99
+00:05:30,450 --> 00:05:31,920
+CARTER ZENKE: Yeah, good idea.
+
+100
+00:05:31,920 --> 00:05:34,650
+So you might notice there's
+some redundancy here.
+
+101
+00:05:34,650 --> 00:05:38,820
+Olga is in here twice, which is
+maybe OK if Olga wrote two books.
+
+102
+00:05:38,820 --> 00:05:42,180
+But, again, let's say Olga
+wrote three, or four, or five.
+
+103
+00:05:42,180 --> 00:05:44,700
+Olga will be in here that many times.
+
+104
+00:05:44,700 --> 00:05:48,240
+And so we could probably
+do a bit better than this.
+
+105
+00:05:48,240 --> 00:05:50,460
+And let's actually
+just say this is going
+
+106
+00:05:50,460 --> 00:05:52,320
+to be the most efficient idea for us.
+
+107
+00:05:52,320 --> 00:05:54,810
+Let's go back to these
+multiple tables here
+
+108
+00:05:54,810 --> 00:06:00,310
+and think about how we could relate
+these two tables, one to the other.
+
+109
+00:06:00,310 --> 00:06:04,200
+Now before we get into the details
+of how we might do this technically,
+
+110
+00:06:04,200 --> 00:06:06,060
+let's think about the
+kinds of relationships
+
+111
+00:06:06,060 --> 00:06:08,850
+we could have between authors and books.
+
+112
+00:06:08,850 --> 00:06:14,250
+Well, maybe, in our world, we have
+one author that writes one book.
+
+113
+00:06:14,250 --> 00:06:18,420
+And maybe we could say every
+author only writes one book.
+
+114
+00:06:18,420 --> 00:06:22,860
+And, similarly, one book is
+always written by one author.
+
+115
+00:06:22,860 --> 00:06:25,620
+This could be true for some
+books and some authors.
+
+116
+00:06:25,620 --> 00:06:28,770
+But, arguably, it's not
+the best assumption, right?
+
+117
+00:06:28,770 --> 00:06:32,460
+We probably have authors writing
+more than one book or books
+
+118
+00:06:32,460 --> 00:06:34,290
+being written by more than one author.
+
+119
+00:06:34,290 --> 00:06:38,550
+So as it stands now, we could
+call this kind of relationship
+
+120
+00:06:38,550 --> 00:06:40,650
+a one-to-one relationship.
+
+121
+00:06:40,650 --> 00:06:44,460
+If this is our idea of authors and
+books, one author writes one book,
+
+122
+00:06:44,460 --> 00:06:47,140
+and one book is written by one author.
+
+123
+00:06:47,140 --> 00:06:51,120
+This is a one-to-one relationship.
+
+124
+00:06:51,120 --> 00:06:55,320
+Well, as we know, authors
+can write more than one book.
+
+125
+00:06:55,320 --> 00:06:58,170
+Olga, for example, didn't
+write just Flights.
+
+126
+00:06:58,170 --> 00:06:59,850
+They also wrote another book.
+
+127
+00:06:59,850 --> 00:07:04,230
+And so we could say, well, Olga
+wrote not just this book up top.
+
+128
+00:07:04,230 --> 00:07:07,000
+They also wrote this book down below.
+
+129
+00:07:07,000 --> 00:07:11,370
+And now we're moving from a
+one-to-one relationship to what we'll
+
+130
+00:07:11,370 --> 00:07:14,440
+call a one-to-many relationship.
+
+131
+00:07:14,440 --> 00:07:19,190
+There are many books that
+one author could write.
+
+132
+00:07:19,190 --> 00:07:22,970
+But, of course, is this
+the full picture, too?
+
+133
+00:07:22,970 --> 00:07:26,270
+Some books are only
+written by one author.
+
+134
+00:07:26,270 --> 00:07:29,515
+But, presumably, some books are
+written by multiple authors.
+
+135
+00:07:29,515 --> 00:07:33,170
+So we need to enhance
+our picture even further.
+
+136
+00:07:33,170 --> 00:07:34,520
+Let's try that.
+
+137
+00:07:34,520 --> 00:07:37,100
+Let me add another
+author into the mix here.
+
+138
+00:07:37,100 --> 00:07:41,810
+This author wrote this book
+along with Olga, let's say.
+
+139
+00:07:41,810 --> 00:07:47,090
+So notice how here we have one
+author writing more than one book,
+
+140
+00:07:47,090 --> 00:07:51,950
+and we also have one book being
+written by more than one author.
+
+141
+00:07:51,950 --> 00:07:56,270
+Well, this is called a
+many-to-many relationship.
+
+142
+00:07:56,270 --> 00:07:59,660
+And it's called that because
+we have many books that
+
+143
+00:07:59,660 --> 00:08:02,090
+can be written by many authors.
+
+144
+00:08:02,090 --> 00:08:04,670
+So these, in general, are
+the kinds of relationships
+
+145
+00:08:04,670 --> 00:08:10,160
+we'll have amongst our tables in a
+relational database-- one-to-one,
+
+146
+00:08:10,160 --> 00:08:13,990
+one-to-many, and many-to-many.
+
+147
+00:08:13,990 --> 00:08:16,420
+Now, thankfully, there
+are some tools we can
+
+148
+00:08:16,420 --> 00:08:19,390
+use to visualize these
+kinds of relationships.
+
+149
+00:08:19,390 --> 00:08:23,020
+We have at our disposal something
+called an Entity Relationship
+
+150
+00:08:23,020 --> 00:08:25,790
+Diagram, something a bit like this.
+
+151
+00:08:25,790 --> 00:08:29,230
+It's also called an
+ER diagram for short.
+
+152
+00:08:29,230 --> 00:08:35,049
+And let me propose, just for now, that
+this is the diagram for our database.
+
+153
+00:08:35,049 --> 00:08:39,490
+We have authors, and publishers,
+and translators, books, and ratings.
+
+154
+00:08:39,490 --> 00:08:46,060
+These are our entities in our database,
+the things we're trying to represent.
+
+155
+00:08:46,060 --> 00:08:50,710
+Now, you'll notice, though, that there's
+something more than just these boxes
+
+156
+00:08:50,710 --> 00:08:54,100
+that have author, publisher,
+translator, and so on.
+
+157
+00:08:54,100 --> 00:08:55,870
+There are all these lines among them.
+
+158
+00:08:55,870 --> 00:08:59,830
+And they have verbs like wrote,
+and published, and translated.
+
+159
+00:08:59,830 --> 00:09:01,670
+And maybe that makes sense to you.
+
+160
+00:09:01,670 --> 00:09:04,120
+But at first glance,
+there's one line here
+
+161
+00:09:04,120 --> 00:09:07,540
+that has three lines coming off
+of it, one line going across.
+
+162
+00:09:07,540 --> 00:09:08,800
+This one has a circle on it.
+
+163
+00:09:08,800 --> 00:09:10,030
+What does all that mean?
+
+164
+00:09:10,030 --> 00:09:13,150
+This is kind of confusing
+at first glance.
+
+165
+00:09:13,150 --> 00:09:17,660
+Well, this actually has some order
+to it, some rules that we can use.
+
+166
+00:09:17,660 --> 00:09:20,300
+And let me show you
+what those rules are.
+
+167
+00:09:20,300 --> 00:09:24,580
+So here, we have what's
+called a crow's foot notation,
+
+168
+00:09:24,580 --> 00:09:28,360
+a way of trying to represent
+one-to-one, one-to-many,
+
+169
+00:09:28,360 --> 00:09:33,370
+or many-to-many relationships using
+just lines and, in some cases, circles.
+
+170
+00:09:33,370 --> 00:09:36,400
+So here, if you ever see this
+line with a circle on it,
+
+171
+00:09:36,400 --> 00:09:38,050
+you could think of zero.
+
+172
+00:09:38,050 --> 00:09:40,870
+This doesn't have to have
+anything related to it.
+
+173
+00:09:40,870 --> 00:09:45,400
+You could think of this one with
+a bar going perpendicular as one.
+
+174
+00:09:45,400 --> 00:09:48,730
+Something with this arrow has
+to have at least one thing that
+
+175
+00:09:48,730 --> 00:09:50,650
+relates to it in some other table.
+
+176
+00:09:50,650 --> 00:09:53,980
+And this one down below, the one
+that looks like a crow's foot-- well,
+
+177
+00:09:53,980 --> 00:09:57,010
+this one means that some
+entity has many that could
+
+178
+00:09:57,010 --> 00:10:00,290
+be related to it in some other table.
+
+179
+00:10:00,290 --> 00:10:03,520
+So let's try this with an example.
+
+180
+00:10:03,520 --> 00:10:07,000
+Here we have, again, our
+authors and our books.
+
+181
+00:10:07,000 --> 00:10:10,990
+And here we can say that
+an author wrote one book.
+
+182
+00:10:10,990 --> 00:10:13,390
+We read this left to right in this case.
+
+183
+00:10:13,390 --> 00:10:17,150
+One author can have one
+book associated with them.
+
+184
+00:10:17,150 --> 00:10:21,790
+We know it's one because we see
+this bar over our line here.
+
+185
+00:10:21,790 --> 00:10:25,000
+Now we know, too, that
+books, at least in our world,
+
+186
+00:10:25,000 --> 00:10:26,800
+could be written by one author.
+
+187
+00:10:26,800 --> 00:10:29,510
+They must be written
+by at least one author.
+
+188
+00:10:29,510 --> 00:10:30,670
+So let's try this.
+
+189
+00:10:30,670 --> 00:10:33,610
+I'll include that arrow
+on the other side too.
+
+190
+00:10:33,610 --> 00:10:35,560
+And I'll read this right to left.
+
+191
+00:10:35,560 --> 00:10:40,640
+A book has to have at least one author.
+
+192
+00:10:40,640 --> 00:10:44,420
+Now, I could add in more symbols too.
+
+193
+00:10:44,420 --> 00:10:47,150
+We know that books could
+have more than one author
+
+194
+00:10:47,150 --> 00:10:49,520
+and an author could
+write more than one book.
+
+195
+00:10:49,520 --> 00:10:52,760
+So let's try enhancing
+our diagram even further.
+
+196
+00:10:52,760 --> 00:10:57,440
+I could say-- adding in these crow's
+foot notation with the multiple lines
+
+197
+00:10:57,440 --> 00:10:59,420
+here, now I could read it like this--
+
+198
+00:10:59,420 --> 00:11:03,320
+an author, going from left to
+right, can write at least one book,
+
+199
+00:11:03,320 --> 00:11:05,630
+but they could write many books.
+
+200
+00:11:05,630 --> 00:11:08,210
+They could write one or many books.
+
+201
+00:11:08,210 --> 00:11:12,620
+And, similarly, a book could be
+written by at least one author
+
+202
+00:11:12,620 --> 00:11:16,500
+but, certainly, also multiple too.
+
+203
+00:11:16,500 --> 00:11:22,170
+So this is one example of an
+ER diagram for our database.
+
+204
+00:11:22,170 --> 00:11:25,660
+And, hopefully, now you can see a
+bit more of this making sense to you.
+
+205
+00:11:25,660 --> 00:11:28,455
+So we see that authors,
+here, could write many books.
+
+206
+00:11:28,455 --> 00:11:31,320
+A book could be written by many authors.
+
+207
+00:11:31,320 --> 00:11:34,140
+Books, actually, don't
+need to have a translator.
+
+208
+00:11:34,140 --> 00:11:38,130
+They could have zero to many
+translators for their book here.
+
+209
+00:11:38,130 --> 00:11:40,980
+But, in general, a
+translator should write--
+
+210
+00:11:40,980 --> 00:11:46,710
+or should translate at least one
+book or possibly many of them too.
+
+211
+00:11:46,710 --> 00:11:50,370
+So let me pause here and
+ask, what questions do you
+
+212
+00:11:50,370 --> 00:11:54,510
+have on these table
+relationships and these diagrams
+
+213
+00:11:54,510 --> 00:11:58,560
+that we call ER Entity
+Relationship Diagrams?
+
+214
+00:11:58,560 --> 00:12:02,310
+SPEAKER: Yeah, so, Carter, I want
+to ask that for any given database,
+
+215
+00:12:02,310 --> 00:12:06,713
+how can we predetermine whether how
+the relationship between the tables
+
+216
+00:12:06,713 --> 00:12:07,380
+are going to be?
+
+217
+00:12:07,380 --> 00:12:11,580
+Because here we know that the author
+has some relationship to the books.
+
+218
+00:12:11,580 --> 00:12:15,270
+But how can we determine
+whether those relationships
+
+219
+00:12:15,270 --> 00:12:17,728
+are existent in the first place?
+
+220
+00:12:17,728 --> 00:12:19,020
+CARTER ZENKE: A great question.
+
+221
+00:12:19,020 --> 00:12:21,930
+If we have some database, how
+do we know the relationships
+
+222
+00:12:21,930 --> 00:12:25,930
+among those entities or those
+things that are stored inside of it?
+
+223
+00:12:25,930 --> 00:12:28,020
+Well, part of this is really up to you.
+
+224
+00:12:28,020 --> 00:12:31,020
+When you're designing a database--
+as we'll see in a future week of this
+
+225
+00:12:31,020 --> 00:12:31,630
+course--
+
+226
+00:12:31,630 --> 00:12:32,790
+you have decisions to make.
+
+227
+00:12:32,790 --> 00:12:35,220
+Do you want an author to
+be able to write only one
+
+228
+00:12:35,220 --> 00:12:37,950
+book or multiple, for instance?
+
+229
+00:12:37,950 --> 00:12:43,150
+Often, when I design a database,
+I might write a diagram like this
+
+230
+00:12:43,150 --> 00:12:46,920
+so I could show this to somebody
+else who can know what tables I have
+
+231
+00:12:46,920 --> 00:12:49,390
+and how they are related to one another.
+
+232
+00:12:49,390 --> 00:12:51,580
+So if you're designing,
+you have the choice.
+
+233
+00:12:51,580 --> 00:12:53,663
+But if you're taking a
+database from someone else,
+
+234
+00:12:53,663 --> 00:12:56,250
+you could ask for a diagram
+like this that could show you
+
+235
+00:12:56,250 --> 00:12:59,830
+those relationships among those tables.
+
+236
+00:12:59,830 --> 00:13:01,660
+Let's see, what other
+questions do we have
+
+237
+00:13:01,660 --> 00:13:06,175
+too on these tables and
+their relationships?
+
+238
+00:13:06,175 --> 00:13:08,680
+SPEAKER: How do we
+determine that relationship?
+
+239
+00:13:08,680 --> 00:13:10,540
+I mean, we know that it exists.
+
+240
+00:13:10,540 --> 00:13:15,910
+But how we assign which author
+wrote which book or multiple books,
+
+241
+00:13:15,910 --> 00:13:19,268
+or which book were
+written by what authors?
+
+242
+00:13:19,268 --> 00:13:20,810
+CARTER ZENKE: Yeah, a great question.
+
+243
+00:13:20,810 --> 00:13:24,760
+So how do we try to assign, then,
+these relationships, perhaps,
+
+244
+00:13:24,760 --> 00:13:25,547
+in our database?
+
+245
+00:13:25,547 --> 00:13:27,880
+Look, we know that an author
+could write multiple books,
+
+246
+00:13:27,880 --> 00:13:31,277
+but how do we represent that
+in our table, let's say.
+
+247
+00:13:31,277 --> 00:13:34,610
+Well for this, let me just transition to
+the next part of what we'll talk about,
+
+248
+00:13:34,610 --> 00:13:37,330
+which is going to be this idea of a key.
+
+249
+00:13:37,330 --> 00:13:40,690
+So keys are this fundamental
+idea in databases
+
+250
+00:13:40,690 --> 00:13:43,910
+that can help us relate
+tables one to the other.
+
+251
+00:13:43,910 --> 00:13:48,260
+And for this, let's actually do a bit
+of an example, a bit of a roleplay here.
+
+252
+00:13:48,260 --> 00:13:51,220
+So I will be your librarian today.
+
+253
+00:13:51,220 --> 00:13:53,930
+And let's say that you're
+looking for a book.
+
+254
+00:13:53,930 --> 00:13:56,230
+This one is called The Birthday Party.
+
+255
+00:13:56,230 --> 00:13:58,640
+And I say, OK, I'll find you this book.
+
+256
+00:13:58,640 --> 00:14:02,800
+I'll go to my computer here, and I will
+try to find you The Birthday Party.
+
+257
+00:14:02,800 --> 00:14:05,180
+Here, though, I have two options.
+
+258
+00:14:05,180 --> 00:14:07,780
+I seem to have The Birthday
+Party by Wendy Dranfield,
+
+259
+00:14:07,780 --> 00:14:10,120
+and The Birthday Party
+by Laurent Mauvignier.
+
+260
+00:14:10,120 --> 00:14:13,360
+So let me ask you-- if we're
+on the phone, perhaps--
+
+261
+00:14:13,360 --> 00:14:17,614
+which one do you want?
+
+262
+00:14:17,614 --> 00:14:22,840
+I'm hearing , feel free to vote, which
+book should we search for-- the one
+
+263
+00:14:22,840 --> 00:14:24,790
+by Wendy or the one by Laurent?
+
+264
+00:14:24,790 --> 00:14:27,450
+
+
+265
+00:14:27,450 --> 00:14:30,840
+I'm hearing, maybe, going for Laurent.
+
+266
+00:14:30,840 --> 00:14:32,160
+So let's try Laurent over here.
+
+267
+00:14:32,160 --> 00:14:33,660
+We'll search for the one by Laurent.
+
+268
+00:14:33,660 --> 00:14:35,493
+So The Birthday Party
+by Laurent Mauvignier.
+
+269
+00:14:35,493 --> 00:14:37,410
+OK, OK, let me find you that book.
+
+270
+00:14:37,410 --> 00:14:41,110
+But-- well, now there's still
+two books I could choose from.
+
+271
+00:14:41,110 --> 00:14:43,710
+Do you want it in
+hardcover or paperback?
+
+272
+00:14:43,710 --> 00:14:46,800
+And so I could ask you, again,
+well, which one do you want?
+
+273
+00:14:46,800 --> 00:14:49,950
+Do you want it in
+hardcover or paperback?
+
+274
+00:14:49,950 --> 00:14:51,250
+And, again, feel free to vote--
+
+275
+00:14:51,250 --> 00:14:54,780
+which book do you want?
+
+276
+00:14:54,780 --> 00:15:01,380
+OK, I'm hearing-- we're going
+for, I think, closer to paperback.
+
+277
+00:15:01,380 --> 00:15:02,670
+Let's try that one.
+
+278
+00:15:02,670 --> 00:15:07,260
+So we'll search for The Birthday Party
+by Laurent Mauvignier in paperback.
+
+279
+00:15:07,260 --> 00:15:10,200
+And [SIGHS] there are still two of them.
+
+280
+00:15:10,200 --> 00:15:11,220
+Which one do you want?
+
+281
+00:15:11,220 --> 00:15:14,080
+We have first edition, and
+we have second edition.
+
+282
+00:15:14,080 --> 00:15:17,550
+So I would ask you, again,
+which book do you really want?
+
+283
+00:15:17,550 --> 00:15:21,720
+And you could keep voting here, but for
+the sake of just keeping this going,
+
+284
+00:15:21,720 --> 00:15:24,990
+let's pause here and think
+of a better way to do this.
+
+285
+00:15:24,990 --> 00:15:29,010
+My life, as a librarian,
+would be much easier
+
+286
+00:15:29,010 --> 00:15:32,010
+if you had given me a simple number.
+
+287
+00:15:32,010 --> 00:15:36,210
+This number is called an ISBN.
+
+288
+00:15:36,210 --> 00:15:43,470
+And it turns out that every book has
+a unique identifier called an ISBN.
+
+289
+00:15:43,470 --> 00:15:45,780
+Now, what is an ISBN really?
+
+290
+00:15:45,780 --> 00:15:49,770
+Well, if it's the case that
+every book has a unique ISBN,
+
+291
+00:15:49,770 --> 00:15:53,880
+and I can only find one
+book if I have an ISBN,
+
+292
+00:15:53,880 --> 00:15:57,960
+this is what we call in
+database terms a primary key--
+
+293
+00:15:57,960 --> 00:16:03,180
+something that is going to be
+unique for our book or for any item
+
+294
+00:16:03,180 --> 00:16:05,400
+that we have in our table.
+
+295
+00:16:05,400 --> 00:16:07,230
+Now, here's one example of an ISBN.
+
+296
+00:16:07,230 --> 00:16:10,680
+Notice how we have a 978-1-8042--
+
+297
+00:16:10,680 --> 00:16:12,030
+whatever it is.
+
+298
+00:16:12,030 --> 00:16:16,150
+We could use this to uniquely
+identify, at least, our books.
+
+299
+00:16:16,150 --> 00:16:19,380
+But we could extract this away and
+use this in more than one place--
+
+300
+00:16:19,380 --> 00:16:24,490
+not just for books but for publishers,
+for translators, for authors as well,
+
+301
+00:16:24,490 --> 00:16:28,660
+giving them each some id that
+uniquely identifies them.
+
+302
+00:16:28,660 --> 00:16:30,220
+So here's one example of our table.
+
+303
+00:16:30,220 --> 00:16:32,100
+Let's say that I have a table of books.
+
+304
+00:16:32,100 --> 00:16:34,890
+And I used to only have titles.
+
+305
+00:16:34,890 --> 00:16:37,320
+But now, I actually
+have more than a title.
+
+306
+00:16:37,320 --> 00:16:43,075
+I have an ISBN to uniquely
+identify each of these books.
+
+307
+00:16:43,075 --> 00:16:45,450
+And this is handy for me if
+I wanted to look up some book
+
+308
+00:16:45,450 --> 00:16:49,120
+and know exactly which
+one I was talking about.
+
+309
+00:16:49,120 --> 00:16:51,870
+Now these are all fine
+and good in tables.
+
+310
+00:16:51,870 --> 00:16:53,320
+They're very helpful.
+
+311
+00:16:53,320 --> 00:16:55,493
+But we could do a little more with them.
+
+312
+00:16:55,493 --> 00:16:57,660
+We could get to this question
+of, how do we actually
+
+313
+00:16:57,660 --> 00:16:59,580
+relate these tables together?
+
+314
+00:16:59,580 --> 00:17:02,460
+We could use these
+primary keys for that.
+
+315
+00:17:02,460 --> 00:17:05,640
+Now, a primary key becomes
+useful for that kind of work
+
+316
+00:17:05,640 --> 00:17:08,970
+when we treat it as a
+foreign key, let's call it.
+
+317
+00:17:08,970 --> 00:17:11,520
+Well, what is a foreign key?
+
+318
+00:17:11,520 --> 00:17:16,260
+Well, a foreign key is simply
+taking a primary key from one table
+
+319
+00:17:16,260 --> 00:17:20,319
+and including it in the
+column of some other table.
+
+320
+00:17:20,319 --> 00:17:25,109
+So here we have, in the ratings
+table, the ISBN column still.
+
+321
+00:17:25,109 --> 00:17:28,500
+This is the primary key
+for the books table.
+
+322
+00:17:28,500 --> 00:17:31,650
+But now notice how it's
+inside the ratings table.
+
+323
+00:17:31,650 --> 00:17:35,940
+This is now a foreign key because
+it is outside of this books table
+
+324
+00:17:35,940 --> 00:17:38,220
+and inside the ratings table.
+
+325
+00:17:38,220 --> 00:17:39,880
+And what could I do with this?
+
+326
+00:17:39,880 --> 00:17:45,230
+Well, I now see if I want to find
+all of the individual users ratings
+
+327
+00:17:45,230 --> 00:17:49,380
+for Boulder, I could look--
+what is the ISBN of Boulder
+
+328
+00:17:49,380 --> 00:17:55,870
+and, then which ratings correspond
+to that ISBN in some other table?
+
+329
+00:17:55,870 --> 00:17:57,900
+So this is an example of
+how we could represent
+
+330
+00:17:57,900 --> 00:18:00,600
+these one-to-many relationships.
+
+331
+00:18:00,600 --> 00:18:06,242
+I have, here, a table that has
+an ISBN, or a list of ISBNs,
+
+332
+00:18:06,242 --> 00:18:07,950
+and I have another
+table that can tell me
+
+333
+00:18:07,950 --> 00:18:13,710
+which ratings correspond to this ISBN,
+this primary key in this other table
+
+334
+00:18:13,710 --> 00:18:15,530
+here.
+
+335
+00:18:15,530 --> 00:18:18,340
+Well, that solves one picture here.
+
+336
+00:18:18,340 --> 00:18:21,040
+How I can represent these
+one-to-many relationships?
+
+337
+00:18:21,040 --> 00:18:25,640
+But we could also think about how we do
+the many-to-many relationships as well.
+
+338
+00:18:25,640 --> 00:18:27,640
+And for this, we'll
+need to think about how
+
+339
+00:18:27,640 --> 00:18:31,070
+we can improve our primary key here.
+
+340
+00:18:31,070 --> 00:18:33,730
+So let me ask.
+
+341
+00:18:33,730 --> 00:18:35,860
+This is an ISBN.
+
+342
+00:18:35,860 --> 00:18:39,010
+But if I want to put this
+inside of a computer, like,
+
+343
+00:18:39,010 --> 00:18:42,115
+over and over and over
+again as a primary key--
+
+344
+00:18:42,115 --> 00:18:44,200
+it's the unique identifier--
+
+345
+00:18:44,200 --> 00:18:48,430
+what problems do you think I
+might run into here, if any?
+
+346
+00:18:48,430 --> 00:18:52,840
+What problems would I get by
+using this ISBN as my primary key?
+
+347
+00:18:52,840 --> 00:18:54,940
+SPEAKER: You would,
+like, run out of memory.
+
+348
+00:18:54,940 --> 00:18:57,107
+CARTER ZENKE: Run out of
+memory-- it's a good guess.
+
+349
+00:18:57,107 --> 00:18:58,760
+If I had a lot of ISBNs--
+
+350
+00:18:58,760 --> 00:19:03,550
+so, let's say I had not just 78 books,
+but I had literally millions of books,
+
+351
+00:19:03,550 --> 00:19:05,650
+this is a lot of data to store.
+
+352
+00:19:05,650 --> 00:19:09,160
+If you treated each of these
+as an individual character,
+
+353
+00:19:09,160 --> 00:19:12,280
+that's about 1 byte,
+8 bits per character.
+
+354
+00:19:12,280 --> 00:19:15,160
+That's, let's say, 13 plus four dashes--
+
+355
+00:19:15,160 --> 00:19:20,210
+17 bytes per ISBN, which takes
+up a lot, a lot of space.
+
+356
+00:19:20,210 --> 00:19:24,370
+So what if I, instead, said, I'll
+remove the dashes like we did before.
+
+357
+00:19:24,370 --> 00:19:26,440
+And I'll treat it as a number.
+
+358
+00:19:26,440 --> 00:19:29,980
+Well, in that case, I
+might also have a problem.
+
+359
+00:19:29,980 --> 00:19:32,680
+Let's say an ISBN begins with 0.
+
+360
+00:19:32,680 --> 00:19:36,418
+And if I convert that to a
+number, I'll lose that beginning 0
+
+361
+00:19:36,418 --> 00:19:39,460
+because it doesn't really mean anything
+in the context of being a number.
+
+362
+00:19:39,460 --> 00:19:42,440
+And now I've lost my unique identifier.
+
+363
+00:19:42,440 --> 00:19:44,770
+So we could improve this even further.
+
+364
+00:19:44,770 --> 00:19:48,160
+And we can actually construct
+our very own primary key.
+
+365
+00:19:48,160 --> 00:19:52,360
+This one, let's just say, will
+be called 1 for this book.
+
+366
+00:19:52,360 --> 00:19:57,520
+And some other book, we could call
+it 2, some other book, maybe, 3.
+
+367
+00:19:57,520 --> 00:19:59,680
+And it doesn't quite
+matter what number we
+
+368
+00:19:59,680 --> 00:20:05,630
+choose so long as this number uniquely
+identifies the book that we choose
+
+369
+00:20:05,630 --> 00:20:09,530
+and we don't use that number
+for any other book as well.
+
+370
+00:20:09,530 --> 00:20:13,780
+So let's actually rethink this
+relationship of one-to-many here.
+
+371
+00:20:13,780 --> 00:20:15,220
+Let's not just use ISBN.
+
+372
+00:20:15,220 --> 00:20:18,590
+This is a lot of space to
+use, to someone point earlier.
+
+373
+00:20:18,590 --> 00:20:21,070
+Let's go ahead and use the id.
+
+374
+00:20:21,070 --> 00:20:24,100
+Let's make our own primary
+key in our books table
+
+375
+00:20:24,100 --> 00:20:27,040
+and use that as the
+foreign key in ratings.
+
+376
+00:20:27,040 --> 00:20:30,280
+So we freed up a good
+amount of space here.
+
+377
+00:20:30,280 --> 00:20:35,035
+And notice, too, that maybe Boulder
+has the primary key, the id of 1.
+
+378
+00:20:35,035 --> 00:20:37,960
+The White Book has the id of 74.
+
+379
+00:20:37,960 --> 00:20:41,200
+Well, does it matter
+if it's 1, 2, 3, or 4?
+
+380
+00:20:41,200 --> 00:20:47,290
+It doesn't as long as 74 uniquely
+identifies The White Book, we're OK.
+
+381
+00:20:47,290 --> 00:20:51,160
+So here we have an example
+of a one-to-many relationship
+
+382
+00:20:51,160 --> 00:20:54,170
+but now improved.
+
+383
+00:20:54,170 --> 00:21:00,140
+And with this improvement, we could then
+think about many-to-many relationships
+
+384
+00:21:00,140 --> 00:21:01,170
+as well.
+
+385
+00:21:01,170 --> 00:21:06,350
+I could take the same idea and use
+it to relate authors and books.
+
+386
+00:21:06,350 --> 00:21:09,890
+So let's think about this
+relationship now here too.
+
+387
+00:21:09,890 --> 00:21:14,300
+Let's say I have a table of
+authors and a table of books.
+
+388
+00:21:14,300 --> 00:21:17,610
+And, notably, each has a primary key.
+
+389
+00:21:17,610 --> 00:21:21,680
+So I could use that primary
+key for authors and for books,
+
+390
+00:21:21,680 --> 00:21:24,020
+and, perhaps, put it in some new table.
+
+391
+00:21:24,020 --> 00:21:26,960
+This one, let's say, is called authored.
+
+392
+00:21:26,960 --> 00:21:32,180
+And I'll have one column for
+author_id and one column for book_id.
+
+393
+00:21:32,180 --> 00:21:35,900
+And based on the
+context clues here, what
+
+394
+00:21:35,900 --> 00:21:38,450
+might it mean if I looked
+at the author table
+
+395
+00:21:38,450 --> 00:21:43,940
+and saw 23 next to 1, where
+23 is in the author_id column
+
+396
+00:21:43,940 --> 00:21:46,570
+and 1 is in the book_id column?
+
+397
+00:21:46,570 --> 00:21:47,840
+Feel free to raise your hand.
+
+398
+00:21:47,840 --> 00:21:52,340
+What would it mean for me to see
+those two numbers next to each other?
+
+399
+00:21:52,340 --> 00:21:55,840
+
+
+400
+00:21:55,840 --> 00:21:58,440
+SPEAKER: Yeah, it would
+mean that the author that
+
+401
+00:21:58,440 --> 00:22:02,770
+is read that has the id of
+23 has authored the book 1.
+
+402
+00:22:02,770 --> 00:22:04,520
+CARTER ZENKE: Yeah, a
+great instinct here.
+
+403
+00:22:04,520 --> 00:22:07,420
+So if I look at author_id, I see 23.
+
+404
+00:22:07,420 --> 00:22:11,080
+Well, I could consider that maybe
+the author with the id of 23
+
+405
+00:22:11,080 --> 00:22:14,110
+wrote the book with the id of 1.
+
+406
+00:22:14,110 --> 00:22:16,780
+And I'll concede there's
+some extra work here.
+
+407
+00:22:16,780 --> 00:22:20,290
+I have to figure out, now, who
+has this author idea of 23.
+
+408
+00:22:20,290 --> 00:22:23,890
+Well, it turns out if I look in
+the author's table, it's Eva.
+
+409
+00:22:23,890 --> 00:22:26,440
+Similarly, for the
+book_id, I now have to go
+
+410
+00:22:26,440 --> 00:22:30,310
+through the process of figuring
+out, OK, well the book_id is 1.
+
+411
+00:22:30,310 --> 00:22:32,770
+What, then, is the book title?
+
+412
+00:22:32,770 --> 00:22:36,285
+And I'll look for that in
+my books table over here.
+
+413
+00:22:36,285 --> 00:22:37,910
+So it brings in a bit more work for me.
+
+414
+00:22:37,910 --> 00:22:40,150
+But, ultimately, I think
+we've solved our problem
+
+415
+00:22:40,150 --> 00:22:43,720
+from the very beginning of lecture,
+trying to relate authors and books.
+
+416
+00:22:43,720 --> 00:22:48,710
+We can now do that using both
+primary keys and foreign keys.
+
+417
+00:22:48,710 --> 00:22:53,920
+So, let me ask, then, what
+questions do we have on these keys
+
+418
+00:22:53,920 --> 00:22:57,180
+and how to use them?
+
+419
+00:22:57,180 --> 00:22:58,490
+SPEAKER: So if the i--
+
+420
+00:22:58,490 --> 00:23:02,390
+can the id of the author
+and the book_id be the same?
+
+421
+00:23:02,390 --> 00:23:07,070
+For example, can there be an
+author_id of 1 and a book_id of 1,
+
+422
+00:23:07,070 --> 00:23:09,680
+or will they be mixed together?
+
+423
+00:23:09,680 --> 00:23:12,180
+CARTER ZENKE: A really good
+question and good thinking here.
+
+424
+00:23:12,180 --> 00:23:18,380
+So let's consider that, maybe,
+an author_id matches a book's id.
+
+425
+00:23:18,380 --> 00:23:23,100
+Both authors-- both the author
+and the book have this id of 1.
+
+426
+00:23:23,100 --> 00:23:28,760
+That's actually, I would say, OK in our
+case because we know that at least 1
+
+427
+00:23:28,760 --> 00:23:32,340
+refers to authors and 1 refers to books.
+
+428
+00:23:32,340 --> 00:23:36,980
+And as we'll see in future lectures,
+too, when I make this join table,
+
+429
+00:23:36,980 --> 00:23:40,970
+also called a joint table or a
+junction table, an associative entity,
+
+430
+00:23:40,970 --> 00:23:45,410
+I could claim that this column
+called author_id references
+
+431
+00:23:45,410 --> 00:23:50,210
+the primary key column in authors
+and that primary key only.
+
+432
+00:23:50,210 --> 00:23:52,100
+I could do the same
+thing for the book side.
+
+433
+00:23:52,100 --> 00:23:56,570
+I could say the numbers in here
+reference the primary keys in the books
+
+434
+00:23:56,570 --> 00:23:59,300
+table and those ids only.
+
+435
+00:23:59,300 --> 00:24:02,700
+So I could actually have authors
+and books with the same id
+
+436
+00:24:02,700 --> 00:24:06,530
+so long as my tables know
+that if I have this column,
+
+437
+00:24:06,530 --> 00:24:10,760
+I'm looking for author_ids; this
+column, I'm looking for book_ids.
+
+438
+00:24:10,760 --> 00:24:11,612
+Great question.
+
+439
+00:24:11,612 --> 00:24:12,695
+Let's go to one more here.
+
+440
+00:24:12,695 --> 00:24:15,420
+
+
+441
+00:24:15,420 --> 00:24:17,580
+SPEAKER: I was wondering--
+it feels like having
+
+442
+00:24:17,580 --> 00:24:21,015
+more and more tables because once you
+do this on a big scale, it adds up.
+
+443
+00:24:21,015 --> 00:24:23,520
+It would use up a lot of space as well.
+
+444
+00:24:23,520 --> 00:24:27,912
+How does it-- how do you deal with
+the tediousness of it adding up?
+
+445
+00:24:27,912 --> 00:24:29,620
+CARTER ZENKE: Yeah,
+a good question here.
+
+446
+00:24:29,620 --> 00:24:33,460
+So if we had a lot of these kinds of
+tables, wouldn't that take more space?
+
+447
+00:24:33,460 --> 00:24:34,510
+And I think your answer--
+
+448
+00:24:34,510 --> 00:24:38,040
+the answer to that question is it
+would, but we do gain some things
+
+449
+00:24:38,040 --> 00:24:39,910
+by being able to do it this way.
+
+450
+00:24:39,910 --> 00:24:43,650
+So, for example, let me go back
+to my authors and books table.
+
+451
+00:24:43,650 --> 00:24:47,910
+In our database, we'll see we have not
+just author names, but also the year
+
+452
+00:24:47,910 --> 00:24:49,920
+they were born, the
+city they were born in,
+
+453
+00:24:49,920 --> 00:24:52,880
+the place that they were living
+in certain periods of their life,
+
+454
+00:24:52,880 --> 00:24:53,380
+and so on.
+
+455
+00:24:53,380 --> 00:24:56,310
+So we could have much more
+information in these tables
+
+456
+00:24:56,310 --> 00:24:59,130
+that we couldn't store
+as one table earlier
+
+457
+00:24:59,130 --> 00:25:01,720
+because of all these redundancies
+we saw a little bit earlier.
+
+458
+00:25:01,720 --> 00:25:05,470
+So, I think, although this might
+take up a little more space,
+
+459
+00:25:05,470 --> 00:25:08,592
+use a little more
+tables, we can get around
+
+460
+00:25:08,592 --> 00:25:11,550
+that-- as we'll see later on-- with
+some creativeness with our queries,
+
+461
+00:25:11,550 --> 00:25:16,050
+too, to address that downside but a good
+question, a good thought for trade-offs
+
+462
+00:25:16,050 --> 00:25:17,437
+here.
+
+463
+00:25:17,437 --> 00:25:18,520
+Let's go to one more here.
+
+464
+00:25:18,520 --> 00:25:21,820
+
+
+465
+00:25:21,820 --> 00:25:25,050
+SPEAKER: So my question is
+that can the id be updated?
+
+466
+00:25:25,050 --> 00:25:28,020
+And if so, does it automatically
+get updated in the one
+
+467
+00:25:28,020 --> 00:25:30,843
+that has both the ids together?
+
+468
+00:25:30,843 --> 00:25:32,260
+CARTER ZENKE: Yeah, good question.
+
+469
+00:25:32,260 --> 00:25:35,970
+So maybe we want to change
+the id of some book or author.
+
+470
+00:25:35,970 --> 00:25:37,290
+Could we do that?
+
+471
+00:25:37,290 --> 00:25:40,950
+I would say you could, but
+it's kind of a dangerous game.
+
+472
+00:25:40,950 --> 00:25:46,650
+If I changed Eva from
+23, let's say, to--
+
+473
+00:25:46,650 --> 00:25:51,810
+so we change it to 27, well, I
+could get Eva confused with Gauz.
+
+474
+00:25:51,810 --> 00:25:57,210
+And I need to be doubly sure that when
+I'm changing these ids, I'm making sure
+
+475
+00:25:57,210 --> 00:26:01,320
+that I'm not making an id nonunique.
+
+476
+00:26:01,320 --> 00:26:04,120
+I'm not making it an id that
+somebody else already has.
+
+477
+00:26:04,120 --> 00:26:07,230
+And so for that reason,
+we very rarely change ids.
+
+478
+00:26:07,230 --> 00:26:09,810
+In fact, we tend to
+just abstract them away.
+
+479
+00:26:09,810 --> 00:26:12,635
+So we don't actually know the
+id of any particular author
+
+480
+00:26:12,635 --> 00:26:14,010
+or the id of any particular book.
+
+481
+00:26:14,010 --> 00:26:18,250
+We just use them in our queries,
+as we'll see in just a moment.
+
+482
+00:26:18,250 --> 00:26:19,920
+So wonderful questions here.
+
+483
+00:26:19,920 --> 00:26:22,620
+What we'll do is take a very
+short break and come back
+
+484
+00:26:22,620 --> 00:26:27,690
+to see how we can use these same tools
+of keys to not just relate tables,
+
+485
+00:26:27,690 --> 00:26:32,850
+but to query them, too, and find answers
+to our questions across these tables.
+
+486
+00:26:32,850 --> 00:26:34,650
+We'll be back in just a minute.
+
+487
+00:26:34,650 --> 00:26:36,150
+Well, we're back.
+
+488
+00:26:36,150 --> 00:26:40,530
+And what we saw before was how
+to relate our tables using keys.
+
+489
+00:26:40,530 --> 00:26:44,130
+We saw that we could have tables
+of authors, and translators,
+
+490
+00:26:44,130 --> 00:26:48,910
+and books related to each other
+using primary keys and foreign keys.
+
+491
+00:26:48,910 --> 00:26:51,120
+So what we'll do now
+is figure out how we
+
+492
+00:26:51,120 --> 00:26:55,800
+can query these tables using different
+techniques that, in this case,
+
+493
+00:26:55,800 --> 00:27:00,780
+might actually use primary keys and
+foreign keys within those same queries.
+
+494
+00:27:00,780 --> 00:27:04,680
+Now one technique we could use
+is this one called subqueries,
+
+495
+00:27:04,680 --> 00:27:07,560
+also called nested queries,
+too, that basically
+
+496
+00:27:07,560 --> 00:27:11,460
+put one SQL query inside of another.
+
+497
+00:27:11,460 --> 00:27:13,620
+And they're useful in
+a few different cases.
+
+498
+00:27:13,620 --> 00:27:17,490
+But let's say I have one case
+of a one-to-many relationship.
+
+499
+00:27:17,490 --> 00:27:21,840
+Maybe I have publishers that are
+publishing many books, for instance.
+
+500
+00:27:21,840 --> 00:27:24,660
+Well, I could use subqueries
+to help me answer questions
+
+501
+00:27:24,660 --> 00:27:27,930
+about these kinds of
+relationships in my table.
+
+502
+00:27:27,930 --> 00:27:32,550
+To make it more concrete, let's
+say I have a table of books,
+
+503
+00:27:32,550 --> 00:27:35,850
+and I want to figure
+out which of these books
+
+504
+00:27:35,850 --> 00:27:41,100
+were published by Fitzcarraldo Editions,
+my favorite publisher, let's say.
+
+505
+00:27:41,100 --> 00:27:43,600
+What's the problem here?
+
+506
+00:27:43,600 --> 00:27:47,750
+I want to find the books published
+by Fitzcarraldo Editions,
+
+507
+00:27:47,750 --> 00:27:49,180
+but what am I missing?
+
+508
+00:27:49,180 --> 00:27:52,825
+Feel free to raise your hand and answer.
+
+509
+00:27:52,825 --> 00:27:56,950
+SPEAKER: Well, we don't have the name
+of the publisher in the same table.
+
+510
+00:27:56,950 --> 00:28:00,010
+And we haven't made the
+relationship with the other table
+
+511
+00:28:00,010 --> 00:28:02,468
+to know the name of publisher.
+
+512
+00:28:02,468 --> 00:28:04,010
+CARTER ZENKE: Yeah, good observation.
+
+513
+00:28:04,010 --> 00:28:08,080
+So I want to find the books that are
+published by Fitzcarraldo Editions.
+
+514
+00:28:08,080 --> 00:28:11,230
+And, as you noted, well,
+there's no publisher name.
+
+515
+00:28:11,230 --> 00:28:12,310
+There's just the id.
+
+516
+00:28:12,310 --> 00:28:17,350
+So I need to have some way of
+knowing what these ids correspond to.
+
+517
+00:28:17,350 --> 00:28:19,720
+And thankfully, I do have
+a way of knowing that.
+
+518
+00:28:19,720 --> 00:28:22,100
+I have a table called publishers.
+
+519
+00:28:22,100 --> 00:28:26,080
+And this has a column called id
+and a column called publisher.
+
+520
+00:28:26,080 --> 00:28:27,130
+And what do I notice?
+
+521
+00:28:27,130 --> 00:28:32,170
+Well, I notice that Fitzcarraldo
+Editions has the id of 5.
+
+522
+00:28:32,170 --> 00:28:35,200
+So I could probably solve this problem.
+
+523
+00:28:35,200 --> 00:28:41,170
+But let me ask again, what queries
+might I need to answer this question?
+
+524
+00:28:41,170 --> 00:28:44,590
+There are two queries that I need
+to do to answer the question of,
+
+525
+00:28:44,590 --> 00:28:47,500
+which books were published
+by Fitzcarraldo Editions?
+
+526
+00:28:47,500 --> 00:28:51,370
+What two queries are they?
+
+527
+00:28:51,370 --> 00:28:54,280
+SPEAKER: I think it's SELECT and WHERE.
+
+528
+00:28:54,280 --> 00:28:56,822
+Did you mean keywords or queries?
+
+529
+00:28:56,822 --> 00:28:58,780
+CARTER ZENKE: Yeah, so
+keywords would be great.
+
+530
+00:28:58,780 --> 00:29:00,980
+So I need to have some
+kind of SELECT involved.
+
+531
+00:29:00,980 --> 00:29:05,740
+I need to probably select something from
+publishers and something from books.
+
+532
+00:29:05,740 --> 00:29:09,340
+So could I ask you, what would
+I select from publishers,
+
+533
+00:29:09,340 --> 00:29:13,560
+and what would I select from books then?
+
+534
+00:29:13,560 --> 00:29:17,040
+Let's take either another
+hand or following up here.
+
+535
+00:29:17,040 --> 00:29:19,440
+SPEAKER: OK, so we would
+take the publisher,
+
+536
+00:29:19,440 --> 00:29:23,640
+so select publisher_id from
+, WHERE publisher equals,
+
+537
+00:29:23,640 --> 00:29:25,900
+the publisher name we're looking for.
+
+538
+00:29:25,900 --> 00:29:30,660
+And then we would nest this
+query inside the other one
+
+539
+00:29:30,660 --> 00:29:35,490
+so we can find the name of the
+book published by this publisher,
+
+540
+00:29:35,490 --> 00:29:37,082
+since we found the id.
+
+541
+00:29:37,082 --> 00:29:38,790
+CARTER ZENKE: Yeah,
+some good ideas here.
+
+542
+00:29:38,790 --> 00:29:41,380
+And let me propose to do it
+a bit visually here first.
+
+543
+00:29:41,380 --> 00:29:46,890
+So I want to figure out, first, what
+is the id of Fitzcarraldo Editions?
+
+544
+00:29:46,890 --> 00:29:48,630
+Well, I could write
+a query to find that.
+
+545
+00:29:48,630 --> 00:29:52,380
+And I'll, say, get back 5
+for Fitzcarraldo Editions.
+
+546
+00:29:52,380 --> 00:29:54,060
+Well, that's one step.
+
+547
+00:29:54,060 --> 00:29:59,730
+But my next step is then to say,
+what books fit that publisher_id?
+
+548
+00:29:59,730 --> 00:30:02,970
+So I'll write another
+query, this one to determine
+
+549
+00:30:02,970 --> 00:30:05,970
+which titles have a publisher_id of 5.
+
+550
+00:30:05,970 --> 00:30:10,110
+And I'll get back, let's say,
+Minor Detail and Paradais.
+
+551
+00:30:10,110 --> 00:30:13,283
+So let's make this more concrete, as
+you were doing yourself, Jean Paul.
+
+552
+00:30:13,283 --> 00:30:14,700
+And let's write these queries out.
+
+553
+00:30:14,700 --> 00:30:17,700
+Let's say I have this
+first one to determine what
+
+554
+00:30:17,700 --> 00:30:20,970
+is the id of Fitzcarraldo Editions.
+
+555
+00:30:20,970 --> 00:30:24,300
+I could say SELECT "id"
+FROM "publishers" WHERE
+
+556
+00:30:24,300 --> 00:30:27,720
+the publisher is Fitzcarraldo Editions.
+
+557
+00:30:27,720 --> 00:30:32,250
+And I'll get back from
+this query the number 5.
+
+558
+00:30:32,250 --> 00:30:34,950
+Well, I could use that
+number in my next query.
+
+559
+00:30:34,950 --> 00:30:37,110
+If we saw visually
+here, I could then say,
+
+560
+00:30:37,110 --> 00:30:43,170
+SELECT "title" FROM "books"
+WHERE "publisher_id" = 5.
+
+561
+00:30:43,170 --> 00:30:46,260
+And I would get, then,
+back many titles here.
+
+562
+00:30:46,260 --> 00:30:48,970
+But here's another question.
+
+563
+00:30:48,970 --> 00:30:51,700
+Why is this not very well-designed?
+
+564
+00:30:51,700 --> 00:30:54,000
+At least, in the query I have here?
+
+565
+00:30:54,000 --> 00:30:56,250
+What could I improve about it?
+
+566
+00:30:56,250 --> 00:31:00,897
+Or what kind of smells
+wrong about it for you?
+
+567
+00:31:00,897 --> 00:31:02,230
+SPEAKER: They are not connected.
+
+568
+00:31:02,230 --> 00:31:05,355
+CARTER ZENKE: Yeah, so, Jean-Paul, as
+you said, too, they're not connected.
+
+569
+00:31:05,355 --> 00:31:07,900
+And here I have this id of 5.
+
+570
+00:31:07,900 --> 00:31:11,620
+But I don't want to
+remember this number.
+
+571
+00:31:11,620 --> 00:31:15,280
+I don't want to have to keep it in my
+mind and use it later on in my queries.
+
+572
+00:31:15,280 --> 00:31:19,600
+I, ideally, could use some other
+query to find this number for me
+
+573
+00:31:19,600 --> 00:31:21,250
+more dynamically.
+
+574
+00:31:21,250 --> 00:31:25,450
+And so SQL supports this
+idea of writing a subquery--
+
+575
+00:31:25,450 --> 00:31:28,210
+a query within a query.
+
+576
+00:31:28,210 --> 00:31:33,310
+For example, I'll take this, and I'll
+convert it to the query we had before.
+
+577
+00:31:33,310 --> 00:31:39,970
+I'll SELECT "title" FROM "books" WHERE
+"publisher_id" is equal to, well,
+
+578
+00:31:39,970 --> 00:31:42,170
+the result of this query here.
+
+579
+00:31:42,170 --> 00:31:44,530
+And notice how I have parentheses.
+
+580
+00:31:44,530 --> 00:31:49,370
+This means the query furthest inside
+the parentheses will be run first.
+
+581
+00:31:49,370 --> 00:31:51,370
+So first, this query is run.
+
+582
+00:31:51,370 --> 00:31:52,720
+I get back 5.
+
+583
+00:31:52,720 --> 00:31:56,860
+Then I could finish out my query
+and say, SELECT "title" FROM "books"
+
+584
+00:31:56,860 --> 00:32:00,870
+WHERE "publisher_id" is equal to 5.
+
+585
+00:32:00,870 --> 00:32:06,180
+So let me pause here before we do
+some practice in our SQLite terminal.
+
+586
+00:32:06,180 --> 00:32:12,840
+What questions do we have on
+these kinds of subqueries so far?
+
+587
+00:32:12,840 --> 00:32:16,140
+SPEAKER: I was wondering what would
+happen with those records that
+
+588
+00:32:16,140 --> 00:32:18,273
+don't match in the subquery?
+
+589
+00:32:18,273 --> 00:32:19,690
+CARTER ZENKE: Yeah, good question.
+
+590
+00:32:19,690 --> 00:32:22,325
+So if the id doesn't match--
+is that what you're asking?
+
+591
+00:32:22,325 --> 00:32:26,228
+
+
+592
+00:32:26,228 --> 00:32:27,270
+Yeah, I'm going to guess.
+
+593
+00:32:27,270 --> 00:32:28,962
+So if the id doesn't match--
+
+594
+00:32:28,962 --> 00:32:29,920
+that's a good question.
+
+595
+00:32:29,920 --> 00:32:33,360
+So we can treat it as we
+would a regular old SQL query
+
+596
+00:32:33,360 --> 00:32:35,430
+that we learned about in last week.
+
+597
+00:32:35,430 --> 00:32:40,900
+So we said SELECT "title" FROM "books"
+WHERE "publisher_id" is equal to,
+
+598
+00:32:40,900 --> 00:32:42,720
+let's say, some value.
+
+599
+00:32:42,720 --> 00:32:47,530
+And we'll then filter out all of those
+that don't have that particular value.
+
+600
+00:32:47,530 --> 00:32:50,370
+So if we have a
+publisher_id of 6 or of 3,
+
+601
+00:32:50,370 --> 00:32:53,250
+those won't be included
+anymore because we said
+
+602
+00:32:53,250 --> 00:32:56,400
+WHERE "publisher_id" is equal to 5.
+
+603
+00:32:56,400 --> 00:32:59,550
+And now looking at this
+query, too, well, let's say,
+
+604
+00:32:59,550 --> 00:33:03,000
+I might write SELECT "id" FROM
+"publishers" WHERE "publisher"
+
+605
+00:33:03,000 --> 00:33:06,180
+is or equal to 'Fitzcarraldo Editions'.
+
+606
+00:33:06,180 --> 00:33:09,160
+Maybe that publisher doesn't exist.
+
+607
+00:33:09,160 --> 00:33:10,770
+There's no publisher with that name.
+
+608
+00:33:10,770 --> 00:33:14,340
+Well, in that case, this
+query would return nothing.
+
+609
+00:33:14,340 --> 00:33:17,460
+And therefore, the next query
+would also return nothing.
+
+610
+00:33:17,460 --> 00:33:21,700
+So we have queries dependent on the
+results of the other queries here.
+
+611
+00:33:21,700 --> 00:33:24,480
+So let's actually try this
+using our SQLite terminal
+
+612
+00:33:24,480 --> 00:33:28,500
+to get a better feel for what we
+can do with this kind of structure
+
+613
+00:33:28,500 --> 00:33:29,490
+for our queries.
+
+614
+00:33:29,490 --> 00:33:31,890
+I'll go back to my computer.
+
+615
+00:33:31,890 --> 00:33:34,710
+And I'll hop into my SQLite environment.
+
+616
+00:33:34,710 --> 00:33:37,620
+Let's say here I want
+to do a similar query,
+
+617
+00:33:37,620 --> 00:33:41,550
+but I want to find those books
+that were published by MacLehose
+
+618
+00:33:41,550 --> 00:33:43,890
+Editions-- or MacLehose Press, rather.
+
+619
+00:33:43,890 --> 00:33:49,120
+So let me try to attempt this
+one-by-one going one step of the way,
+
+620
+00:33:49,120 --> 00:33:53,640
+and then finally combining my queries
+into one I could use more dynamically.
+
+621
+00:33:53,640 --> 00:33:59,790
+So to our point earlier, we have to
+first find the id of MacLehose Press.
+
+622
+00:33:59,790 --> 00:34:01,180
+Let me try to find that.
+
+623
+00:34:01,180 --> 00:34:09,750
+I'll say SELECT "id" FROM "publisher"
+where the publisher is equal to none
+
+624
+00:34:09,750 --> 00:34:15,929
+other than 'MacLehose Press,' like
+this, and my quotes semicolon hit Enter.
+
+625
+00:34:15,929 --> 00:34:17,639
+And hopefully-- oop--
+
+626
+00:34:17,639 --> 00:34:18,960
+I will see--
+
+627
+00:34:18,960 --> 00:34:20,429
+I'll see an error.
+
+628
+00:34:20,429 --> 00:34:22,960
+And based on this error--
+
+629
+00:34:22,960 --> 00:34:24,389
+let me ask our group here--
+
+630
+00:34:24,389 --> 00:34:26,519
+what did I do wrong?
+
+631
+00:34:26,519 --> 00:34:30,500
+
+
+632
+00:34:30,500 --> 00:34:35,613
+SPEAKER: Judging by the error, I think
+you just mistyped the table name.
+
+633
+00:34:35,613 --> 00:34:38,030
+CARTER ZENKE: Yeah, so I
+probably mistyped the table name.
+
+634
+00:34:38,030 --> 00:34:41,010
+And we could probably parse this
+if I look at the error itself.
+
+635
+00:34:41,010 --> 00:34:43,850
+So it says "Parse
+error-- no such table--
+
+636
+00:34:43,850 --> 00:34:44,750
+publisher."
+
+637
+00:34:44,750 --> 00:34:45,920
+And that's true.
+
+638
+00:34:45,920 --> 00:34:47,420
+There is no table called publisher.
+
+639
+00:34:47,420 --> 00:34:49,489
+So let me fix this and run it again.
+
+640
+00:34:49,489 --> 00:34:55,760
+I'll say SELECT "id" FROM
+the "publishers" table--
+
+641
+00:34:55,760 --> 00:35:01,820
+plural-- and we'll say
+WHERE the "publisher"
+
+642
+00:35:01,820 --> 00:35:06,260
+is equal to 'MacLehose
+Press,' like this.
+
+643
+00:35:06,260 --> 00:35:08,000
+And I'll hit a semicolon here.
+
+644
+00:35:08,000 --> 00:35:09,980
+And now fingers crossed,
+this should work.
+
+645
+00:35:09,980 --> 00:35:12,770
+I do see an id of 12.
+
+646
+00:35:12,770 --> 00:35:15,720
+OK, So MacLehose Press-- the id is 12.
+
+647
+00:35:15,720 --> 00:35:20,580
+Now I want to find the books
+that were published by this id.
+
+648
+00:35:20,580 --> 00:35:23,180
+So let me go to my book table.
+
+649
+00:35:23,180 --> 00:35:28,850
+I will say SELECT "title"
+FROM "books", in this case,
+
+650
+00:35:28,850 --> 00:35:36,110
+WHERE the publisher id is equal to
+12, as we saw before, semicolon.
+
+651
+00:35:36,110 --> 00:35:37,430
+Now I'll hit Enter.
+
+652
+00:35:37,430 --> 00:35:42,050
+And I'll see these are the books
+that MacLehose Press has published.
+
+653
+00:35:42,050 --> 00:35:45,330
+But, again, as we saw
+before, I could improve this.
+
+654
+00:35:45,330 --> 00:35:49,460
+I could make this better, more
+dynamic, by nesting my queries--
+
+655
+00:35:49,460 --> 00:35:53,580
+having a subquery, a
+query inside of a query.
+
+656
+00:35:53,580 --> 00:35:55,190
+So let's redo this.
+
+657
+00:35:55,190 --> 00:35:57,380
+I'll start at the end, essentially.
+
+658
+00:35:57,380 --> 00:36:03,290
+I'll say SELECT "title"
+from my book table
+
+659
+00:36:03,290 --> 00:36:09,968
+where the publisher id
+is or is equal to what?
+
+660
+00:36:09,968 --> 00:36:11,510
+Well, let's say I don't know it's 12.
+
+661
+00:36:11,510 --> 00:36:13,170
+I have to write another query here.
+
+662
+00:36:13,170 --> 00:36:15,920
+So to do that, I could
+open up some parentheses--
+
+663
+00:36:15,920 --> 00:36:18,660
+is equal to a parentheses.
+
+664
+00:36:18,660 --> 00:36:21,800
+And then I'll hit Enter
+to continue my query.
+
+665
+00:36:21,800 --> 00:36:24,530
+I'll indent four spaces--
+
+666
+00:36:24,530 --> 00:36:27,470
+space, space, space, space--
+just a style convention
+
+667
+00:36:27,470 --> 00:36:32,510
+to keep things clean for me to show this
+query is inside of this other query.
+
+668
+00:36:32,510 --> 00:36:37,130
+What I'll then do is
+finish out this query.
+
+669
+00:36:37,130 --> 00:36:43,850
+I want to SELECT the "id" FROM
+the publisher's table WHERE--
+
+670
+00:36:43,850 --> 00:36:45,410
+let me just indent again--
+
+671
+00:36:45,410 --> 00:36:50,630
+WHERE the "publisher" is equal to--
+
+672
+00:36:50,630 --> 00:36:56,180
+not Fitzcarraldo Editions-- is
+equal to MacLehose Press, end quote.
+
+673
+00:36:56,180 --> 00:36:58,640
+And now, let me close my parentheses.
+
+674
+00:36:58,640 --> 00:37:03,710
+I have an open one here that I should
+close to show this subquery is done.
+
+675
+00:37:03,710 --> 00:37:08,810
+I'll hit Enter, close my parentheses,
+and now my entire query is done.
+
+676
+00:37:08,810 --> 00:37:11,400
+I can hit semicolon, hit Enter again.
+
+677
+00:37:11,400 --> 00:37:14,990
+And now I'll see the very
+same results but more dynamic.
+
+678
+00:37:14,990 --> 00:37:17,540
+No longer do I have to hardcode the id.
+
+679
+00:37:17,540 --> 00:37:19,910
+I can make it more
+dynamic, and I can actually
+
+680
+00:37:19,910 --> 00:37:23,580
+find it using my very own query here.
+
+681
+00:37:23,580 --> 00:37:25,550
+Let's try a different context too.
+
+682
+00:37:25,550 --> 00:37:30,350
+Maybe I want to find all of the
+ratings for this book called
+
+683
+00:37:30,350 --> 00:37:32,450
+In Memory of Memory.
+
+684
+00:37:32,450 --> 00:37:35,330
+Well, maybe I'll try it step-by-step.
+
+685
+00:37:35,330 --> 00:37:40,280
+And what I'll first do is try to
+find the id for In Memory of Memory.
+
+686
+00:37:40,280 --> 00:37:43,790
+I'll say SELECT "id" FROM--
+
+687
+00:37:43,790 --> 00:37:45,680
+let's go from the books table--
+
+688
+00:37:45,680 --> 00:37:55,560
+and let's say WHERE the
+title is In Memory of Memory,
+
+689
+00:37:55,560 --> 00:37:58,980
+end quote, semicolon, hit Enter.
+
+690
+00:37:58,980 --> 00:38:00,520
+And we'll see 33.
+
+691
+00:38:00,520 --> 00:38:03,780
+So this book has the id 33.
+
+692
+00:38:03,780 --> 00:38:07,710
+OK, let's now look in our
+ratings table for this id.
+
+693
+00:38:07,710 --> 00:38:11,760
+I'll say SELECT-- let's
+go for SELECT "rating"
+
+694
+00:38:11,760 --> 00:38:18,330
+FROM my ratings table WHERE
+the "book_id" is equal to 33,
+
+695
+00:38:18,330 --> 00:38:19,380
+I believe it was.
+
+696
+00:38:19,380 --> 00:38:20,940
+So now I'll hit Enter.
+
+697
+00:38:20,940 --> 00:38:25,610
+And now I should see all of
+the ratings for this book.
+
+698
+00:38:25,610 --> 00:38:27,360
+And there are quite a
+few that people have
+
+699
+00:38:27,360 --> 00:38:30,690
+left on this book-- on
+the Goodreads website.
+
+700
+00:38:30,690 --> 00:38:34,410
+So let me again try to improve this
+and make it just a little bit better.
+
+701
+00:38:34,410 --> 00:38:37,440
+I'll be more dynamic about it
+and try to nest these queries.
+
+702
+00:38:37,440 --> 00:38:41,220
+I'll say SELECT "rating" FROM "ratings".
+
+703
+00:38:41,220 --> 00:38:42,630
+We'll start at the beginning.
+
+704
+00:38:42,630 --> 00:38:44,880
+We ultimately want ratings.
+
+705
+00:38:44,880 --> 00:38:50,730
+Well, I want those ratings WHERE the
+"book_id" is equal to some number,
+
+706
+00:38:50,730 --> 00:38:52,590
+but I don't know what number yet.
+
+707
+00:38:52,590 --> 00:38:56,460
+So I have to write my own nested query.
+
+708
+00:38:56,460 --> 00:38:59,190
+I'll create a parentheses
+like this, Enter.
+
+709
+00:38:59,190 --> 00:39:00,810
+I'll indent four spaces--
+
+710
+00:39:00,810 --> 00:39:02,860
+space, space, space, space.
+
+711
+00:39:02,860 --> 00:39:09,000
+And then I'll say I want to
+find the "id" FROM the "books"
+
+712
+00:39:09,000 --> 00:39:18,210
+table WHERE this "title" is
+equal to 'In Memory of Memory'.
+
+713
+00:39:18,210 --> 00:39:21,450
+And that is my subquery now.
+
+714
+00:39:21,450 --> 00:39:22,590
+So I'll close this out.
+
+715
+00:39:22,590 --> 00:39:24,485
+I'll hit Enter, close my parentheses.
+
+716
+00:39:24,485 --> 00:39:27,930
+Now I have a semicolon and hit Enter.
+
+717
+00:39:27,930 --> 00:39:31,320
+And I see those very same ratings.
+
+718
+00:39:31,320 --> 00:39:34,290
+Well, I could probably not get
+back the individual ratings.
+
+719
+00:39:34,290 --> 00:39:36,250
+I want to kind of
+average them over time.
+
+720
+00:39:36,250 --> 00:39:37,860
+So let's try that too.
+
+721
+00:39:37,860 --> 00:39:39,550
+I'll say the same thing.
+
+722
+00:39:39,550 --> 00:39:42,240
+SELECT "rating" FROM
+"ratings", but now, no longer
+
+723
+00:39:42,240 --> 00:39:43,740
+do I want to select all the ratings.
+
+724
+00:39:43,740 --> 00:39:45,100
+I want to average them.
+
+725
+00:39:45,100 --> 00:39:49,950
+So I'll say SELECT the average
+"rating" of this book FROM "ratings".
+
+726
+00:39:49,950 --> 00:39:52,860
+And now, let me go back
+over to my nested query.
+
+727
+00:39:52,860 --> 00:39:54,450
+And I will hit Enter again.
+
+728
+00:39:54,450 --> 00:39:58,170
+And I will hit the up arrow to get
+back access to my earlier parts
+
+729
+00:39:58,170 --> 00:40:00,570
+of my SQLite environment.
+
+730
+00:40:00,570 --> 00:40:03,730
+I'll hit Enter here,
+close it out, semicolon.
+
+731
+00:40:03,730 --> 00:40:08,970
+And now I should see the
+average rating for this book.
+
+732
+00:40:08,970 --> 00:40:12,115
+OK, so this is very handy for us.
+
+733
+00:40:12,115 --> 00:40:13,990
+We're able to kind of
+replicate those queries
+
+734
+00:40:13,990 --> 00:40:18,160
+we would have done with a single
+table but now using subqueries.
+
+735
+00:40:18,160 --> 00:40:23,560
+And so far, we've seen this working
+for a relationship that is one-to-many.
+
+736
+00:40:23,560 --> 00:40:27,220
+We could also use subqueries
+with many-to-many relationships,
+
+737
+00:40:27,220 --> 00:40:29,770
+these tables that have
+many items over here
+
+738
+00:40:29,770 --> 00:40:33,740
+and many items over there
+that relate in some way.
+
+739
+00:40:33,740 --> 00:40:37,240
+Let's try it, let's say,
+with authors and books.
+
+740
+00:40:37,240 --> 00:40:40,570
+And I want to figure out,
+let's say, which author
+
+741
+00:40:40,570 --> 00:40:44,800
+wrote Flights-- which
+author wrote Flights.
+
+742
+00:40:44,800 --> 00:40:49,930
+So let me ask, what should
+I figure out along the way
+
+743
+00:40:49,930 --> 00:40:52,120
+to get to the author who wrote Flights?
+
+744
+00:40:52,120 --> 00:40:57,320
+Could you walk me through what I
+might need to know for that query,
+
+745
+00:40:57,320 --> 00:41:01,900
+SPEAKER: You need to know id
+of author and of that book.
+
+746
+00:41:01,900 --> 00:41:10,140
+And based on that relation, you have
+to join all three tables together.
+
+747
+00:41:10,140 --> 00:41:12,360
+CARTER ZENKE: Yeah, I have to know ids.
+
+748
+00:41:12,360 --> 00:41:15,360
+And I have to kind of walk across
+the three tables, as you're saying.
+
+749
+00:41:15,360 --> 00:41:18,040
+So let's go back to our tables.
+
+750
+00:41:18,040 --> 00:41:20,940
+And I want to know, who wrote Flights?
+
+751
+00:41:20,940 --> 00:41:22,830
+Well, a good place to
+start, to your point,
+
+752
+00:41:22,830 --> 00:41:26,280
+is to say, let's start at
+Flights and find the id.
+
+753
+00:41:26,280 --> 00:41:30,540
+Well, the id of this seems to be 78.
+
+754
+00:41:30,540 --> 00:41:32,790
+Let me then look in our author table.
+
+755
+00:41:32,790 --> 00:41:37,110
+And let me try to find the author
+id that corresponds with 78.
+
+756
+00:41:37,110 --> 00:41:39,000
+Well, I find 78 here.
+
+757
+00:41:39,000 --> 00:41:40,050
+What's next to it?
+
+758
+00:41:40,050 --> 00:41:45,330
+Well, 58-- so the author
+id who wrote Flights is 58.
+
+759
+00:41:45,330 --> 00:41:46,680
+Well, who is 58?
+
+760
+00:41:46,680 --> 00:41:52,530
+I'll look in the author's table, and
+I'll see this is none other than Olga.
+
+761
+00:41:52,530 --> 00:41:56,070
+So let's walk through trying
+to make this query happen
+
+762
+00:41:56,070 --> 00:41:58,590
+but now using SQL keywords.
+
+763
+00:41:58,590 --> 00:42:02,610
+I'll start first with trying
+to find the id of Flight.
+
+764
+00:42:02,610 --> 00:42:05,220
+So I'll SELECT the "id"
+FROM the "books" table WHERE
+
+765
+00:42:05,220 --> 00:42:07,980
+the "title" is equal to 'Flights".
+
+766
+00:42:07,980 --> 00:42:08,940
+That's fair enough.
+
+767
+00:42:08,940 --> 00:42:12,060
+Now, I could nest this query--
+
+768
+00:42:12,060 --> 00:42:15,360
+put it inside another
+query to find the author
+
+769
+00:42:15,360 --> 00:42:18,030
+id of the person who wrote Flights.
+
+770
+00:42:18,030 --> 00:42:19,680
+I'll do it a bit like this.
+
+771
+00:42:19,680 --> 00:42:23,460
+I'll SELECT "author_id" FROM
+"authored" WHERE the "book_id"
+
+772
+00:42:23,460 --> 00:42:28,770
+is equal to my prior query, SELECT
+"id" FROM "flights" WHERE "title"
+
+773
+00:42:28,770 --> 00:42:32,640
+is equal to-- or From "books" WHERE
+"title" is equal to 'Flights'.
+
+774
+00:42:32,640 --> 00:42:34,830
+And now I could go one step further.
+
+775
+00:42:34,830 --> 00:42:38,940
+I could say I want to find the name
+of the person who has this author_id.
+
+776
+00:42:38,940 --> 00:42:40,360
+Let me nest again.
+
+777
+00:42:40,360 --> 00:42:41,820
+Let me put this query--
+
+778
+00:42:41,820 --> 00:42:46,230
+SELECT "name" FROM "authors" WHERE
+"id" = and put all the rest of it
+
+779
+00:42:46,230 --> 00:42:49,900
+inside of the nested query here.
+
+780
+00:42:49,900 --> 00:42:54,270
+So to be clear, I'll start from
+the middle, find the id of Flights.
+
+781
+00:42:54,270 --> 00:42:57,900
+Then, I'll find the
+author_id for that book_id.
+
+782
+00:42:57,900 --> 00:43:03,580
+And then I'll find the name of
+the author who wrote that book.
+
+783
+00:43:03,580 --> 00:43:06,400
+OK, so a good number of
+steps here, but let's
+
+784
+00:43:06,400 --> 00:43:09,250
+try it out ourselves
+in our SQLite terminal.
+
+785
+00:43:09,250 --> 00:43:11,230
+I'll come back to my computer.
+
+786
+00:43:11,230 --> 00:43:14,127
+And here, maybe I want to
+find all of those books--
+
+787
+00:43:14,127 --> 00:43:15,460
+or maybe not all of those books.
+
+788
+00:43:15,460 --> 00:43:18,278
+I want to find the author
+of a particular book you
+
+789
+00:43:18,278 --> 00:43:21,070
+might be familiar with called The
+Birthday Party from our librarian
+
+790
+00:43:21,070 --> 00:43:22,720
+conversation a little earlier.
+
+791
+00:43:22,720 --> 00:43:26,770
+Let me say, I want to first find
+the id of The Birthday Party.
+
+792
+00:43:26,770 --> 00:43:31,780
+I'll say SELECT "id" FROM
+"books" WHERE "title"
+
+793
+00:43:31,780 --> 00:43:38,560
+is equal to 'The Birthday Party'; Enter.
+
+794
+00:43:38,560 --> 00:43:42,760
+Now, the id is 8.
+
+795
+00:43:42,760 --> 00:43:44,260
+Let me keep that in mind.
+
+796
+00:43:44,260 --> 00:43:47,060
+And, actually, I don't
+quite need to know this.
+
+797
+00:43:47,060 --> 00:43:50,260
+Let me try to nest this
+query inside some other query
+
+798
+00:43:50,260 --> 00:43:54,640
+to keep going towards my goal of finding
+the author of The Birthday Party.
+
+799
+00:43:54,640 --> 00:43:58,660
+So the next thing to figure out, as we
+saw before, is finding the author_id.
+
+800
+00:43:58,660 --> 00:44:04,990
+I'll say SELECT, let's say, the
+"author_id" from the "authored" table--
+
+801
+00:44:04,990 --> 00:44:07,630
+that table of authors
+who have written books.
+
+802
+00:44:07,630 --> 00:44:14,890
+And I'll say WHERE the "book_id" is
+none other than the one I got back
+
+803
+00:44:14,890 --> 00:44:16,240
+from this prior query.
+
+804
+00:44:16,240 --> 00:44:20,950
+Let me indent and say SELECT
+"id" FROM "books" WHERE "title"
+
+805
+00:44:20,950 --> 00:44:25,870
+is equal to 'The Birthday Party'--
+
+806
+00:44:25,870 --> 00:44:27,220
+not a semicolon yet--
+
+807
+00:44:27,220 --> 00:44:30,820
+end my parentheses,
+semicolon, hit Enter.
+
+808
+00:44:30,820 --> 00:44:33,640
+And now I see 44.
+
+809
+00:44:33,640 --> 00:44:34,630
+So we're getting there.
+
+810
+00:44:34,630 --> 00:44:39,780
+But now I have to figure out who has
+the id of 44 in my author's table.
+
+811
+00:44:39,780 --> 00:44:41,500
+Well, let's keep going.
+
+812
+00:44:41,500 --> 00:44:43,570
+Let's clear our terminal
+using Control-L.
+
+813
+00:44:43,570 --> 00:44:47,838
+And I will then say SELECT the
+"name" from the "authors" table.
+
+814
+00:44:47,838 --> 00:44:49,630
+We're going to start
+at the begi-- or we're
+
+815
+00:44:49,630 --> 00:44:52,880
+going to-- yeah, start at the beginning,
+the place we want to actually get to.
+
+816
+00:44:52,880 --> 00:44:56,410
+Then I'll say WHERE
+the "id" of that author
+
+817
+00:44:56,410 --> 00:45:00,040
+is equal to the result of this query--
+
+818
+00:45:00,040 --> 00:45:04,340
+what is the author_id associated
+with the book I want to find.
+
+819
+00:45:04,340 --> 00:45:10,480
+So I'll SELECT "author_id"
+FROM "authored",
+
+820
+00:45:10,480 --> 00:45:16,720
+and I'll say WHERE the "book_id"
+is equal to another subquery.
+
+821
+00:45:16,720 --> 00:45:19,360
+Here I'll indent four
+times and four again.
+
+822
+00:45:19,360 --> 00:45:21,880
+Now I'm nesting twice, right?
+
+823
+00:45:21,880 --> 00:45:26,020
+So I'll then say SELECT
+"id" FROM "books",
+
+824
+00:45:26,020 --> 00:45:30,070
+and I'll hit Enter just to kind of
+keep me on some good style here.
+
+825
+00:45:30,070 --> 00:45:32,470
+I'll indent eight times total.
+
+826
+00:45:32,470 --> 00:45:36,260
+And then I'll say WHERE--
+
+827
+00:45:36,260 --> 00:45:38,650
+WHERE-- let me just make sure
+I'm doing the right thing--
+
+828
+00:45:38,650 --> 00:45:41,905
+WHERE the "title" is
+'The Birthday Party'.
+
+829
+00:45:41,905 --> 00:45:44,470
+
+
+830
+00:45:44,470 --> 00:45:45,160
+That was a lot.
+
+831
+00:45:45,160 --> 00:45:46,780
+Now we'll close out our queries.
+
+832
+00:45:46,780 --> 00:45:50,740
+I'll hit Enter, space, space, space
+again, semicolon-- or parentheses,
+
+833
+00:45:50,740 --> 00:45:55,000
+Enter again, parentheses, semicolon,
+and, hopefully, after all this typing,
+
+834
+00:45:55,000 --> 00:45:57,140
+we'll get back what we want.
+
+835
+00:45:57,140 --> 00:45:59,750
+We see our friend Laurent Mauvignier.
+
+836
+00:45:59,750 --> 00:46:03,250
+So this is an example of
+trying to find the author who
+
+837
+00:46:03,250 --> 00:46:06,520
+wrote a particular book, although
+it's a bit long-winded using
+
+838
+00:46:06,520 --> 00:46:08,500
+these kinds of subqueries.
+
+839
+00:46:08,500 --> 00:46:12,190
+So let me pose questions, then.
+
+840
+00:46:12,190 --> 00:46:16,870
+We've seen how to use these subqueries
+for one-to-many relationships
+
+841
+00:46:16,870 --> 00:46:18,670
+and, also, many-to-many.
+
+842
+00:46:18,670 --> 00:46:22,988
+What questions do you have
+about how to use these queries?
+
+843
+00:46:22,988 --> 00:46:25,530
+SPEAKER: I remember you talking
+about books of the same name,
+
+844
+00:46:25,530 --> 00:46:28,590
+and how they can have different
+versions, and et cetera.
+
+845
+00:46:28,590 --> 00:46:32,220
+How would you get the id
+for the different versions
+
+846
+00:46:32,220 --> 00:46:37,320
+if they are titled the
+same, as I'm guessing
+
+847
+00:46:37,320 --> 00:46:40,353
+you wouldn't set up a
+foreign key to a title
+
+848
+00:46:40,353 --> 00:46:41,770
+because they would be the primary.
+
+849
+00:46:41,770 --> 00:46:43,192
+Or is it done differently?
+
+850
+00:46:43,192 --> 00:46:44,650
+CARTER ZENKE: A good question here.
+
+851
+00:46:44,650 --> 00:46:48,960
+So you could imagine a database that
+has more than one edition of a book
+
+852
+00:46:48,960 --> 00:46:49,620
+inside of it.
+
+853
+00:46:49,620 --> 00:46:52,110
+Like maybe I have two editions
+of The Birthday Party,
+
+854
+00:46:52,110 --> 00:46:55,410
+or the hardcover and the paperback
+and all these other editions.
+
+855
+00:46:55,410 --> 00:46:59,910
+Well, in that case, what I
+might do is try to-- actually,
+
+856
+00:46:59,910 --> 00:47:01,320
+this is a good segue.
+
+857
+00:47:01,320 --> 00:47:04,500
+I might have multiple ids
+that I'm searching for.
+
+858
+00:47:04,500 --> 00:47:08,290
+Now let's say I don't care if it's
+the hardcover or paperback version.
+
+859
+00:47:08,290 --> 00:47:10,980
+Well, I could look for
+the id of 55 and 56
+
+860
+00:47:10,980 --> 00:47:13,840
+and try to find the
+author of both of those.
+
+861
+00:47:13,840 --> 00:47:15,450
+So let's, actually, keep going here.
+
+862
+00:47:15,450 --> 00:47:18,630
+Let me show you a new keyword to
+use for those kinds of questions
+
+863
+00:47:18,630 --> 00:47:20,100
+if you don't mind.
+
+864
+00:47:20,100 --> 00:47:22,530
+Let me come back to my computer.
+
+865
+00:47:22,530 --> 00:47:25,140
+And let's introduce
+this new keyword that
+
+866
+00:47:25,140 --> 00:47:28,800
+can help us find the author of
+not just one book but, perhaps,
+
+867
+00:47:28,800 --> 00:47:32,100
+multiple books, or different
+versions of the same book.
+
+868
+00:47:32,100 --> 00:47:33,240
+Let me introduce this one.
+
+869
+00:47:33,240 --> 00:47:35,250
+This one is called IN--
+
+870
+00:47:35,250 --> 00:47:41,580
+very simple, just I-N. And I can
+use IN to say, well, maybe some key
+
+871
+00:47:41,580 --> 00:47:46,620
+or some column is IN some set
+of values, not just equal to 1,
+
+872
+00:47:46,620 --> 00:47:48,850
+but IN some set of values.
+
+873
+00:47:48,850 --> 00:47:50,610
+So let's see an example here.
+
+874
+00:47:50,610 --> 00:47:54,660
+We're back at our authors,
+books, and authored tables.
+
+875
+00:47:54,660 --> 00:48:00,210
+And maybe I want to find the books
+written by these two authors, Gauz
+
+876
+00:48:00,210 --> 00:48:01,260
+and Olga.
+
+877
+00:48:01,260 --> 00:48:03,660
+Well, I could select their ids.
+
+878
+00:48:03,660 --> 00:48:07,140
+I could, say, get back 27 and 58.
+
+879
+00:48:07,140 --> 00:48:08,790
+Now I have two ids.
+
+880
+00:48:08,790 --> 00:48:10,680
+So I could look in author.
+
+881
+00:48:10,680 --> 00:48:14,850
+And I could say, give me
+back all of the book ids
+
+882
+00:48:14,850 --> 00:48:18,750
+that have an author_id of 27 and 58.
+
+883
+00:48:18,750 --> 00:48:19,770
+I'll look here.
+
+884
+00:48:19,770 --> 00:48:23,610
+And I'll get back both 4 and 78.
+
+885
+00:48:23,610 --> 00:48:27,090
+So notice how earlier
+I was asking, show me
+
+886
+00:48:27,090 --> 00:48:32,190
+the book ids where author_id
+is equal to some single value.
+
+887
+00:48:32,190 --> 00:48:36,820
+Here, I'm asking find me the
+book ids where book_id has--
+
+888
+00:48:36,820 --> 00:48:40,470
+or the author_id is in
+some set of values--
+
+889
+00:48:40,470 --> 00:48:42,150
+more than one now.
+
+890
+00:48:42,150 --> 00:48:45,060
+And, similarly, let me
+look at my books table.
+
+891
+00:48:45,060 --> 00:48:48,000
+Let me say, OK, I want to find
+the titles for these books.
+
+892
+00:48:48,000 --> 00:48:53,730
+Well, I'll find the titles that
+have book ids in this set of ids--
+
+893
+00:48:53,730 --> 00:48:55,920
+4 and 78.
+
+894
+00:48:55,920 --> 00:49:00,480
+So let's see this in
+action in our SQL terminal.
+
+895
+00:49:00,480 --> 00:49:02,250
+I'll come back over here.
+
+896
+00:49:02,250 --> 00:49:05,880
+And I'll write this query
+to find all of the books
+
+897
+00:49:05,880 --> 00:49:09,300
+by a particular author
+named Fernanda Melchor.
+
+898
+00:49:09,300 --> 00:49:10,830
+So I go back to my terminal.
+
+899
+00:49:10,830 --> 00:49:13,950
+And Fernanda is more prolific than most.
+
+900
+00:49:13,950 --> 00:49:15,990
+She's written, actually,
+two books that are
+
+901
+00:49:15,990 --> 00:49:18,450
+on the longlist for the Booker Prize.
+
+902
+00:49:18,450 --> 00:49:27,350
+So I'll say SELECT "id" FROM "authors"
+WHERE the "name" is equal to Fernanda--
+
+903
+00:49:27,350 --> 00:49:31,110
+'Fernanda Melchor', semicolon.
+
+904
+00:49:31,110 --> 00:49:33,300
+And this now is Fernanda's id--
+
+905
+00:49:33,300 --> 00:49:35,580
+24.
+
+906
+00:49:35,580 --> 00:49:39,160
+Let me find the ids of books
+that Fernanda has written.
+
+907
+00:49:39,160 --> 00:49:45,870
+I will now say SELECT "book_id"--
+
+908
+00:49:45,870 --> 00:49:46,500
+if I can type--
+
+909
+00:49:46,500 --> 00:49:49,470
+SELECT "book_id" FROM
+the "authored" table
+
+910
+00:49:49,470 --> 00:49:54,330
+WHERE the "author_id" is equal
+to the result of this query--
+
+911
+00:49:54,330 --> 00:49:56,340
+1, 2, 3, 4 spaces here.
+
+912
+00:49:56,340 --> 00:50:00,270
+And I'll say SELECT "id" FROM
+"authors" WHERE the "name"
+
+913
+00:50:00,270 --> 00:50:06,540
+is equal to 'Fernanda Melchor',
+parentheses, semicolon.
+
+914
+00:50:06,540 --> 00:50:08,040
+And I'll hit Enter.
+
+915
+00:50:08,040 --> 00:50:12,340
+And I'll get back not
+one book id, but two.
+
+916
+00:50:12,340 --> 00:50:14,970
+So if I want to find
+these titles, I should
+
+917
+00:50:14,970 --> 00:50:19,710
+say, find me the titles where
+the book_id is not equal to,
+
+918
+00:50:19,710 --> 00:50:22,740
+but is in this set of ids.
+
+919
+00:50:22,740 --> 00:50:23,940
+So let's try that.
+
+920
+00:50:23,940 --> 00:50:29,220
+Let me say SELECT "title"
+FROM "books" WHERE
+
+921
+00:50:29,220 --> 00:50:32,310
+the "id" is IN some set of values--
+
+922
+00:50:32,310 --> 00:50:35,110
+is IN those two ids we saw earlier.
+
+923
+00:50:35,110 --> 00:50:36,840
+So I'll say IN, Enter--
+
+924
+00:50:36,840 --> 00:50:38,760
+1, 2, 3, 4, spaces.
+
+925
+00:50:38,760 --> 00:50:45,260
+And then I'll say SELECT the
+"book_id" FROM "authored" WHERE--
+
+926
+00:50:45,260 --> 00:50:48,000
+let me actually space this again--
+
+927
+00:50:48,000 --> 00:50:53,640
+WHERE the "author_id" is equal
+to the result of this subquery.
+
+928
+00:50:53,640 --> 00:50:58,560
+We can use equals here because there's
+only one author_id we care about.
+
+929
+00:50:58,560 --> 00:50:59,400
+I'll hit Enter.
+
+930
+00:50:59,400 --> 00:51:01,440
+Then I'll do space,
+space, space, space--
+
+931
+00:51:01,440 --> 00:51:05,340
+four spaces for one indentation--
+and now four more spaces--
+
+932
+00:51:05,340 --> 00:51:09,840
+1, 2, 3, 4-- to indent again
+to my next nested query.
+
+933
+00:51:09,840 --> 00:51:17,670
+I'll then say SELECT the "id"
+FROM "authors" WHERE the "name"
+
+934
+00:51:17,670 --> 00:51:21,210
+is equal to 'Fernanda Melchor'.
+
+935
+00:51:21,210 --> 00:51:24,000
+And now let me close out my queries.
+
+936
+00:51:24,000 --> 00:51:26,740
+I'll hit Enter, space,
+space, space, again.
+
+937
+00:51:26,740 --> 00:51:31,032
+And now I'll use parentheses to
+close out my middle subquery.
+
+938
+00:51:31,032 --> 00:51:31,740
+I'll do the same.
+
+939
+00:51:31,740 --> 00:51:32,580
+I'll hit Enter.
+
+940
+00:51:32,580 --> 00:51:36,510
+And then I'll do another parentheses,
+and then semicolon here, hit Enter.
+
+941
+00:51:36,510 --> 00:51:40,980
+And now I should see,
+finally, Fernanda's two books.
+
+942
+00:51:40,980 --> 00:51:43,700
+
+
+943
+00:51:43,700 --> 00:51:48,090
+So this is one example of using IN.
+
+944
+00:51:48,090 --> 00:51:53,420
+What questions do you have
+on how to use this syntax?
+
+945
+00:51:53,420 --> 00:51:55,670
+SPEAKER: Actually, my
+question was not regarding IN,
+
+946
+00:51:55,670 --> 00:51:59,270
+but actually the indentation
+you use regarding the subqueries
+
+947
+00:51:59,270 --> 00:52:01,670
+because while you are
+using the subqueries,
+
+948
+00:52:01,670 --> 00:52:04,580
+you mentioned that you
+are giving four spaces.
+
+949
+00:52:04,580 --> 00:52:07,970
+Is there any necessity of using,
+like, such kind of indentation
+
+950
+00:52:07,970 --> 00:52:09,450
+while we are using subqueries?
+
+951
+00:52:09,450 --> 00:52:11,700
+CARTER ZENKE: Yeah, a great
+question about style here,
+
+952
+00:52:11,700 --> 00:52:15,330
+and let me try to pull up some slides
+that have an example of that style
+
+953
+00:52:15,330 --> 00:52:16,400
+so we can talk about it.
+
+954
+00:52:16,400 --> 00:52:20,630
+Let me try to find an
+example of our nested query.
+
+955
+00:52:20,630 --> 00:52:23,070
+I'll pull this one up.
+
+956
+00:52:23,070 --> 00:52:27,290
+And as you might remember,
+we had three queries here.
+
+957
+00:52:27,290 --> 00:52:32,120
+And I tried to keep track of them by
+indenting them more and more and more.
+
+958
+00:52:32,120 --> 00:52:33,780
+This isn't required.
+
+959
+00:52:33,780 --> 00:52:36,210
+You could-- I mean, don't do this.
+
+960
+00:52:36,210 --> 00:52:40,610
+But you could put it all on one line,
+which would just be crazy long to read.
+
+961
+00:52:40,610 --> 00:52:43,100
+What we do instead is
+we will often try to hit
+
+962
+00:52:43,100 --> 00:52:46,910
+Enter when it feels nice to have
+a break in the reading length.
+
+963
+00:52:46,910 --> 00:52:51,050
+And we'll then indent some
+spaces to show that this query is
+
+964
+00:52:51,050 --> 00:52:53,480
+a subquery of the prior one.
+
+965
+00:52:53,480 --> 00:52:56,960
+The exact amount to indent
+might vary, but the idea
+
+966
+00:52:56,960 --> 00:53:00,140
+of trying to break up your
+lines and trying to indent
+
+967
+00:53:00,140 --> 00:53:06,080
+is going to be a good one for your own
+sake and for those who read your code.
+
+968
+00:53:06,080 --> 00:53:08,510
+Let's take one more too.
+
+969
+00:53:08,510 --> 00:53:10,835
+SPEAKER: When do we
+need to use IN in WHERE
+
+970
+00:53:10,835 --> 00:53:13,250
+clause when we are doing subquerying?
+
+971
+00:53:13,250 --> 00:53:17,345
+I suppose that we can also use
+subquerying without IN as well.
+
+972
+00:53:17,345 --> 00:53:18,470
+CARTER ZENKE: You're right.
+
+973
+00:53:18,470 --> 00:53:21,200
+So we saw an example using equals.
+
+974
+00:53:21,200 --> 00:53:23,860
+And we all saw an example using IN.
+
+975
+00:53:23,860 --> 00:53:27,950
+In general-- if you want just
+a rule of thumb to follow--
+
+976
+00:53:27,950 --> 00:53:33,230
+if you're looking to see if some
+id is part of a list of ids,
+
+977
+00:53:33,230 --> 00:53:36,905
+or part of a set of ids that is
+more than one, you should use IN.
+
+978
+00:53:36,905 --> 00:53:41,660
+IN is good for checking if something
+is inside of more than one item,
+
+979
+00:53:41,660 --> 00:53:42,770
+let's say.
+
+980
+00:53:42,770 --> 00:53:46,700
+Equals, though, is good if
+you know you have only one id.
+
+981
+00:53:46,700 --> 00:53:51,440
+Let's say I have an id
+equal to 23 or equal to 25.
+
+982
+00:53:51,440 --> 00:53:53,480
+That's a good place for equals.
+
+983
+00:53:53,480 --> 00:53:57,530
+If, though, I had 23 or
+25, I might use IN to match
+
+984
+00:53:57,530 --> 00:54:00,350
+either/or of those in that set--
+
+985
+00:54:00,350 --> 00:54:02,020
+but good question.
+
+986
+00:54:02,020 --> 00:54:03,710
+And let's take one more here too.
+
+987
+00:54:03,710 --> 00:54:07,190
+SPEAKER: We have seen
+one-to-many relationships,
+
+988
+00:54:07,190 --> 00:54:10,020
+one-to-one relationships, and
+many-to-many relationships.
+
+989
+00:54:10,020 --> 00:54:12,560
+So how would many-to-one
+relationships be tackled?
+
+990
+00:54:12,560 --> 00:54:15,200
+Suppose one book has three authors.
+
+991
+00:54:15,200 --> 00:54:18,990
+Then how would that be
+represented in the tables?
+
+992
+00:54:18,990 --> 00:54:22,220
+CARTER ZENKE: Yeah, let's look
+at the example of one book having
+
+993
+00:54:22,220 --> 00:54:23,900
+three authors, for instance.
+
+994
+00:54:23,900 --> 00:54:25,512
+And let's look at our authored table.
+
+995
+00:54:25,512 --> 00:54:27,470
+So let me pull up that
+slide for you, and we'll
+
+996
+00:54:27,470 --> 00:54:29,280
+talk about it in just a minute.
+
+997
+00:54:29,280 --> 00:54:30,380
+I'll come back over here.
+
+998
+00:54:30,380 --> 00:54:36,800
+And I will pull up our example
+of having authors, and books,
+
+999
+00:54:36,800 --> 00:54:38,990
+and the authored table in the middle.
+
+1000
+00:54:38,990 --> 00:54:42,000
+And to your question of,
+how could I have, let's say,
+
+1001
+00:54:42,000 --> 00:54:44,240
+a book written by three authors?
+
+1002
+00:54:44,240 --> 00:54:46,910
+Well, we could imagine that this table--
+
+1003
+00:54:46,910 --> 00:54:49,590
+let's say, let's talk
+about Boulder for instance.
+
+1004
+00:54:49,590 --> 00:54:51,290
+So Boulder has the id of 1.
+
+1005
+00:54:51,290 --> 00:54:53,780
+Let's say three people wrote Boulder.
+
+1006
+00:54:53,780 --> 00:54:56,400
+Well, in this case,
+we could adjust this.
+
+1007
+00:54:56,400 --> 00:54:57,860
+I could say this is no longer 74.
+
+1008
+00:54:57,860 --> 00:54:58,730
+This is 1.
+
+1009
+00:54:58,730 --> 00:55:01,700
+And same thing here--
+this is not 4; this is 1.
+
+1010
+00:55:01,700 --> 00:55:04,940
+We have the book id 1
+in here more than once.
+
+1011
+00:55:04,940 --> 00:55:07,620
+It's in here 1, 2, 3 times.
+
+1012
+00:55:07,620 --> 00:55:12,050
+But what we're saying each time is
+that, well, 23 was an author of 1.
+
+1013
+00:55:12,050 --> 00:55:16,790
+But 31 was an author of
+1 as well, and so was 27.
+
+1014
+00:55:16,790 --> 00:55:21,770
+So I would not be afraid
+to have multiple instances
+
+1015
+00:55:21,770 --> 00:55:24,800
+of your foreign key
+inside of this table.
+
+1016
+00:55:24,800 --> 00:55:29,300
+What I wouldn't do is have it more
+than once in your primary key here.
+
+1017
+00:55:29,300 --> 00:55:32,480
+Here it actually has some
+information-- who authored which book.
+
+1018
+00:55:32,480 --> 00:55:35,540
+Here it is strictly a
+unique id that should
+
+1019
+00:55:35,540 --> 00:55:38,120
+be only a one-to-one relationship.
+
+1020
+00:55:38,120 --> 00:55:42,760
+Every key has to be unique
+for the items in that table.
+
+1021
+00:55:42,760 --> 00:55:46,090
+Good questions.
+
+1022
+00:55:46,090 --> 00:55:47,800
+So we've seen subqueries.
+
+1023
+00:55:47,800 --> 00:55:51,130
+But there is one more
+technique we could use
+
+1024
+00:55:51,130 --> 00:55:54,100
+to solve some of these problems
+of querying across tables.
+
+1025
+00:55:54,100 --> 00:55:56,740
+And this one is going
+to be called a JOIN.
+
+1026
+00:55:56,740 --> 00:55:59,080
+So let's dive into JOINs.
+
+1027
+00:55:59,080 --> 00:56:03,700
+And the whole idea behind
+JOIN is trying to take a table
+
+1028
+00:56:03,700 --> 00:56:06,490
+and combine it with some other table.
+
+1029
+00:56:06,490 --> 00:56:08,665
+And, actually, for this, we have some--
+
+1030
+00:56:08,665 --> 00:56:11,290
+I don't know-- maybe some
+guests for our class.
+
+1031
+00:56:11,290 --> 00:56:13,300
+We have these very cute sea lions.
+
+1032
+00:56:13,300 --> 00:56:17,570
+And we'll use a database of sea lions
+to understand how JOINs actually work.
+
+1033
+00:56:17,570 --> 00:56:20,710
+So if you're not familiar,
+sea lions are sometimes
+
+1034
+00:56:20,710 --> 00:56:22,420
+native to the coast of California.
+
+1035
+00:56:22,420 --> 00:56:23,740
+And they like to travel.
+
+1036
+00:56:23,740 --> 00:56:25,480
+They like to travel really far.
+
+1037
+00:56:25,480 --> 00:56:27,790
+They go from the southern
+part of California
+
+1038
+00:56:27,790 --> 00:56:30,100
+all the way up to Washington State.
+
+1039
+00:56:30,100 --> 00:56:35,050
+This is many, many miles of traveling
+for these adorable sea lions.
+
+1040
+00:56:35,050 --> 00:56:40,460
+So there are data sets that involve
+sea lions and their migration patterns.
+
+1041
+00:56:40,460 --> 00:56:42,580
+Here's one for example.
+
+1042
+00:56:42,580 --> 00:56:45,520
+Here we have a table of sea lions.
+
+1043
+00:56:45,520 --> 00:56:48,520
+And here we have a table
+of their migrations.
+
+1044
+00:56:48,520 --> 00:56:51,970
+A distance column tells us
+how far they went in miles,
+
+1045
+00:56:51,970 --> 00:56:56,620
+and a days column tells us how long
+it took them to travel, of course,
+
+1046
+00:56:56,620 --> 00:56:58,180
+in days.
+
+1047
+00:56:58,180 --> 00:57:01,000
+Well, here, if we were
+researchers, maybe
+
+1048
+00:57:01,000 --> 00:57:03,580
+we're keeping track of
+some number of sea lions.
+
+1049
+00:57:03,580 --> 00:57:07,480
+We're keeping track of Ayah, and Spot,
+and Tiger, Mabel, Rick, and Jolee.
+
+1050
+00:57:07,480 --> 00:57:10,870
+But we have data on many
+sea lions, perhaps some we
+
+1051
+00:57:10,870 --> 00:57:12,520
+aren't even tracking anymore.
+
+1052
+00:57:12,520 --> 00:57:14,980
+This would be our migrations table.
+
+1053
+00:57:14,980 --> 00:57:17,870
+Now it could come to pass that
+I want to figure out, well,
+
+1054
+00:57:17,870 --> 00:57:20,140
+how far did Spot travel?
+
+1055
+00:57:20,140 --> 00:57:22,420
+And how far did Tiger travel?
+
+1056
+00:57:22,420 --> 00:57:25,540
+And what I could do is I could
+use nested queries for this.
+
+1057
+00:57:25,540 --> 00:57:29,710
+But perhaps, better yet, I
+could try to join these tables
+
+1058
+00:57:29,710 --> 00:57:32,840
+to see the data all in one table.
+
+1059
+00:57:32,840 --> 00:57:40,090
+Now to do that, how can I try to take
+a row from this side and kind of attach
+
+1060
+00:57:40,090 --> 00:57:43,450
+it to or extend the row here?
+
+1061
+00:57:43,450 --> 00:57:50,786
+What idea could I use to put the
+right rows together in this case?
+
+1062
+00:57:50,786 --> 00:57:53,773
+SPEAKER: Could you use
+the primary key, the id,
+
+1063
+00:57:53,773 --> 00:57:56,690
+to kind of join them together using
+the prime key and the foreign key?
+
+1064
+00:57:56,690 --> 00:57:58,310
+CARTER ZENKE: Yeah, a good idea.
+
+1065
+00:57:58,310 --> 00:58:03,410
+So you might notice that we actually
+have two columns here, both called
+
+1066
+00:58:03,410 --> 00:58:05,430
+id, which is handy for us.
+
+1067
+00:58:05,430 --> 00:58:10,610
+And notice how we have them kind of sort
+of matching, and matching in the sense
+
+1068
+00:58:10,610 --> 00:58:15,050
+that some of these ids are
+actually inside of this column too.
+
+1069
+00:58:15,050 --> 00:58:19,700
+So we could use the primary key
+in literally both tables here,
+
+1070
+00:58:19,700 --> 00:58:23,900
+and try to match it together to
+figure out how these rows could
+
+1071
+00:58:23,900 --> 00:58:26,450
+be extended to add more columns.
+
+1072
+00:58:26,450 --> 00:58:30,350
+We could join these tables together
+to make this table, ultimately,
+
+1073
+00:58:30,350 --> 00:58:35,700
+showing us where Ayah has traveled and
+how long it took them to get there.
+
+1074
+00:58:35,700 --> 00:58:40,850
+So the keyword for doing these kinds
+of manipulations with data in SQL
+
+1075
+00:58:40,850 --> 00:58:42,740
+is called JOIN--
+
+1076
+00:58:42,740 --> 00:58:43,880
+kind of straightforward.
+
+1077
+00:58:43,880 --> 00:58:48,360
+But let's take a peek at what JOIN
+can do for us inside of this database.
+
+1078
+00:58:48,360 --> 00:58:50,120
+So I'll go to my computer here.
+
+1079
+00:58:50,120 --> 00:58:55,140
+And I'll pull up this database of sea
+lions that I prepared for us today.
+
+1080
+00:58:55,140 --> 00:58:57,110
+I will clear up my terminal.
+
+1081
+00:58:57,110 --> 00:59:01,790
+I'll type Control-L. And I'll
+get out of my longlist database.
+
+1082
+00:59:01,790 --> 00:59:05,180
+To do that, I can type dot
+quit, a SQLite command,
+
+1083
+00:59:05,180 --> 00:59:06,920
+to leave this environment.
+
+1084
+00:59:06,920 --> 00:59:07,970
+I'll hit Enter.
+
+1085
+00:59:07,970 --> 00:59:15,470
+And then what I can do is I can
+type sqlite3 space sea_lions.db.
+
+1086
+00:59:15,470 --> 00:59:19,070
+That is just the name of this database.
+
+1087
+00:59:19,070 --> 00:59:20,330
+I'll hit Enter.
+
+1088
+00:59:20,330 --> 00:59:22,800
+Now, let's make sure
+I'm in the right place.
+
+1089
+00:59:22,800 --> 00:59:28,040
+I could type dot tables to see what
+tables are inside of this environment--
+
+1090
+00:59:28,040 --> 00:59:29,690
+.tables, Enter.
+
+1091
+00:59:29,690 --> 00:59:31,070
+I see both tables--
+
+1092
+00:59:31,070 --> 00:59:35,220
+migrations and sea lions--
+which is promising for me here.
+
+1093
+00:59:35,220 --> 00:59:38,510
+So we could see what data
+is inside of these tables.
+
+1094
+00:59:38,510 --> 00:59:45,760
+I could say SELECT * FROM
+"sea_lions"; hit Enter.
+
+1095
+00:59:45,760 --> 00:59:50,740
+Now I see all of these adorable sea
+lions inside of this lovely table.
+
+1096
+00:59:50,740 --> 00:59:52,540
+What if I wanted to find migration?
+
+1097
+00:59:52,540 --> 00:59:54,010
+So I could do that too.
+
+1098
+00:59:54,010 --> 00:59:59,410
+I could say SELECT *
+FROM "migrations"; Enter.
+
+1099
+00:59:59,410 --> 01:00:02,290
+Now I see my data on migrations.
+
+1100
+01:00:02,290 --> 01:00:06,580
+And notice how, again, some sea
+lions are in the sea lions table.
+
+1101
+01:00:06,580 --> 01:00:08,830
+And we have some ids
+in our migrations table
+
+1102
+01:00:08,830 --> 01:00:11,300
+that actually aren't
+in our sea lions table.
+
+1103
+01:00:11,300 --> 01:00:13,823
+So we're keeping track of
+only a subset of sea lions.
+
+1104
+01:00:13,823 --> 01:00:16,990
+And this data might have some sea lions
+we kept track of in the past, so not
+
+1105
+01:00:16,990 --> 01:00:20,050
+all of them as well.
+
+1106
+01:00:20,050 --> 01:00:25,330
+So let's try joining these tables to
+determine where have our sea lions been
+
+1107
+01:00:25,330 --> 01:00:27,070
+in our sea lions table.
+
+1108
+01:00:27,070 --> 01:00:32,500
+I'll say SELECT * FROM "sea_lions".
+
+1109
+01:00:32,500 --> 01:00:35,470
+But now I don't want
+to end this query here.
+
+1110
+01:00:35,470 --> 01:00:41,000
+I want to expand this table with the
+data inside of the migrations table.
+
+1111
+01:00:41,000 --> 01:00:42,520
+So what could I do?
+
+1112
+01:00:42,520 --> 01:00:47,290
+I'll hit Enter, just as a style
+thing here, to now consider
+
+1113
+01:00:47,290 --> 01:00:49,450
+how can we make a query a bit longer?
+
+1114
+01:00:49,450 --> 01:00:53,990
+I'll want to JOIN the migrations
+table to the sea lions table.
+
+1115
+01:00:53,990 --> 01:00:55,840
+And to do that, I can type JOIN.
+
+1116
+01:00:55,840 --> 01:00:58,510
+I'll say JOIN, then space.
+
+1117
+01:00:58,510 --> 01:01:01,240
+And I want to say the
+table I want to JOIN.
+
+1118
+01:01:01,240 --> 01:01:04,210
+In this case, the table
+is called migrations.
+
+1119
+01:01:04,210 --> 01:01:09,490
+I'll say "migrations", and I
+have to tell it one more thing.
+
+1120
+01:01:09,490 --> 01:01:12,380
+I have to tell it what
+we saw visually earlier,
+
+1121
+01:01:12,380 --> 01:01:18,370
+which is that the id column in sea lions
+matches the id column in migrations.
+
+1122
+01:01:18,370 --> 01:01:23,500
+I have to tell SQL which two columns
+to try to JOIN these tables by.
+
+1123
+01:01:23,500 --> 01:01:24,460
+So let me do that.
+
+1124
+01:01:24,460 --> 01:01:27,340
+I'll say JOIN "migrations" ON--
+
+1125
+01:01:27,340 --> 01:01:28,750
+which is a SQL keyword--
+
+1126
+01:01:28,750 --> 01:01:31,270
+what two columns should correspond?
+
+1127
+01:01:31,270 --> 01:01:34,780
+I'll now say "migrations" dot "id"--
+
+1128
+01:01:34,780 --> 01:01:38,950
+this means the id column
+inside of migrations table--
+
+1129
+01:01:38,950 --> 01:01:42,790
+is equal to, or is
+going to be joined with,
+
+1130
+01:01:42,790 --> 01:01:48,610
+this "sea_lions" table and
+the "id" column within that.
+
+1131
+01:01:48,610 --> 01:01:52,120
+Again, these two columns should
+have some matching values
+
+1132
+01:01:52,120 --> 01:01:57,050
+that we could use to make these
+rows longer with more columns.
+
+1133
+01:01:57,050 --> 01:01:58,480
+Let me then hit semicolon here.
+
+1134
+01:01:58,480 --> 01:02:03,460
+And, hopefully, we'll see
+all of our data now combined.
+
+1135
+01:02:03,460 --> 01:02:06,760
+I can tell you how far Tiger
+went, and how many days
+
+1136
+01:02:06,760 --> 01:02:12,010
+it took them to do it because I've
+joined these two tables together.
+
+1137
+01:02:12,010 --> 01:02:16,050
+So in doing this kind of
+JOIN, just a regular old JOIN,
+
+1138
+01:02:16,050 --> 01:02:19,950
+what we're really doing is
+part of this family of JOINs.
+
+1139
+01:02:19,950 --> 01:02:22,260
+They're called an INNER JOIN.
+
+1140
+01:02:22,260 --> 01:02:26,340
+You may have seen this idea of
+an INNER JOIN or an OUTER JOIN.
+
+1141
+01:02:26,340 --> 01:02:31,560
+The usual JOIN, at least in SQLite,
+is going to be an INNER JOIN.
+
+1142
+01:02:31,560 --> 01:02:34,410
+And what do we mean by INNER JOIN?
+
+1143
+01:02:34,410 --> 01:02:37,080
+Well let's visualize it
+a little more slowly here
+
+1144
+01:02:37,080 --> 01:02:41,370
+and see the process of which we
+might use to understand this JOIN.
+
+1145
+01:02:41,370 --> 01:02:45,300
+I'll have, again, my two
+tables but now simplified.
+
+1146
+01:02:45,300 --> 01:02:49,620
+I have name and id, and
+just distance and id.
+
+1147
+01:02:49,620 --> 01:02:53,400
+And to JOIN these, I could literally
+kind of nudge them together
+
+1148
+01:02:53,400 --> 01:02:57,090
+and draw a line down the
+middle, a bit like this.
+
+1149
+01:02:57,090 --> 01:02:59,280
+But what do you notice?
+
+1150
+01:02:59,280 --> 01:03:01,830
+This one seems to match this id.
+
+1151
+01:03:01,830 --> 01:03:04,470
+And this id seems to match this id.
+
+1152
+01:03:04,470 --> 01:03:06,960
+But these two-- well, they don't match.
+
+1153
+01:03:06,960 --> 01:03:10,980
+I mean poor Jolee down here-- we
+don't know how far Jolee went.
+
+1154
+01:03:10,980 --> 01:03:15,720
+And if we don't know this data--
+if these ids don't match--
+
+1155
+01:03:15,720 --> 01:03:19,650
+is if we can not find a match
+for this id or for this id,
+
+1156
+01:03:19,650 --> 01:03:22,200
+well, let's sadly just
+get rid of the row.
+
+1157
+01:03:22,200 --> 01:03:24,550
+It's not part of our
+joined table anymore.
+
+1158
+01:03:24,550 --> 01:03:26,220
+It's gone from our memory.
+
+1159
+01:03:26,220 --> 01:03:28,530
+We now have only these tables--
+
+1160
+01:03:28,530 --> 01:03:31,830
+or these rows that we could
+actually JOIN together
+
+1161
+01:03:31,830 --> 01:03:35,780
+with the row and the other table here.
+
+1162
+01:03:35,780 --> 01:03:40,030
+So, this is our example,
+then, of an INNER JOIN.
+
+1163
+01:03:40,030 --> 01:03:45,920
+Let me ask, what questions do
+you have on these JOINs so far?
+
+1164
+01:03:45,920 --> 01:03:49,610
+SPEAKER: So the confusion for me right
+now is, where were the ids generated?
+
+1165
+01:03:49,610 --> 01:03:53,390
+Was it on the sea lions table
+or on the migrations table?
+
+1166
+01:03:53,390 --> 01:03:56,370
+And what kind of problem can that
+pose, like, maybe, in the real world?
+
+1167
+01:03:56,370 --> 01:03:59,240
+So that's the question I have,
+maybe not directly to JOINs itself.
+
+1168
+01:03:59,240 --> 01:04:01,823
+CARTER ZENKE: No, that's a great
+question and good to clarify.
+
+1169
+01:04:01,823 --> 01:04:05,060
+So we have sea lions with some id.
+
+1170
+01:04:05,060 --> 01:04:09,230
+And we see here that one id is 10484.
+
+1171
+01:04:09,230 --> 01:04:11,270
+Another id is 11728.
+
+1172
+01:04:11,270 --> 01:04:14,780
+And to your good question-- which
+is, how do we get these ids--
+
+1173
+01:04:14,780 --> 01:04:17,930
+well, these actually came to
+us from researchers, perhaps,
+
+1174
+01:04:17,930 --> 01:04:19,550
+who are researching sea lions.
+
+1175
+01:04:19,550 --> 01:04:21,842
+And if you're not familiar,
+let me go back to our slide
+
+1176
+01:04:21,842 --> 01:04:23,840
+with sea lion migrations on it.
+
+1177
+01:04:23,840 --> 01:04:28,190
+Researchers might often want to keep
+track of where sea lions have been.
+
+1178
+01:04:28,190 --> 01:04:32,480
+And to do so, they will
+noninvasively apply some tag
+
+1179
+01:04:32,480 --> 01:04:35,270
+to this animal that has
+some unique id on it.
+
+1180
+01:04:35,270 --> 01:04:39,530
+And they'll track where that tag goes
+to understand where this particular sea
+
+1181
+01:04:39,530 --> 01:04:40,730
+lion went.
+
+1182
+01:04:40,730 --> 01:04:44,120
+So they will make up their
+very own primary keys,
+
+1183
+01:04:44,120 --> 01:04:48,320
+their very own unique ids,
+to identify these sea lions.
+
+1184
+01:04:48,320 --> 01:04:51,650
+We can then use those
+same ids in our table
+
+1185
+01:04:51,650 --> 01:04:54,770
+to understand where these
+sea lions are going.
+
+1186
+01:04:54,770 --> 01:04:58,550
+And just to be clear, too, let
+me find our full data set here.
+
+1187
+01:04:58,550 --> 01:05:02,390
+Here, we have those sea lions
+that we're now interested in,
+
+1188
+01:05:02,390 --> 01:05:03,980
+those we're now tracking.
+
+1189
+01:05:03,980 --> 01:05:09,290
+But you could imagine that we also have
+some sea lions that we no longer track,
+
+1190
+01:05:09,290 --> 01:05:11,035
+and maybe they've gone on.
+
+1191
+01:05:11,035 --> 01:05:12,410
+They're doing something else now.
+
+1192
+01:05:12,410 --> 01:05:14,160
+They're not part of our data set.
+
+1193
+01:05:14,160 --> 01:05:18,420
+So that's why we might see some
+over here but not over here.
+
+1194
+01:05:18,420 --> 01:05:22,020
+I hope that answers your question
+about the sources of this data.
+
+1195
+01:05:22,020 --> 01:05:24,710
+So let's take one more.
+
+1196
+01:05:24,710 --> 01:05:28,100
+SPEAKER: When we join together
+the two migration [INAUDIBLE]
+
+1197
+01:05:28,100 --> 01:05:30,560
+the id definitely is repeating.
+
+1198
+01:05:30,560 --> 01:05:35,660
+So I just want this and travel distance.
+
+1199
+01:05:35,660 --> 01:05:37,970
+I don't want to repeat the table of id.
+
+1200
+01:05:37,970 --> 01:05:39,145
+Is that possible?
+
+1201
+01:05:39,145 --> 01:05:42,020
+CARTER ZENKE: Yeah, and I think--
+if I'm understanding correctly-- we
+
+1202
+01:05:42,020 --> 01:05:45,560
+want to try to not
+just JOIN these tables,
+
+1203
+01:05:45,560 --> 01:05:48,440
+but maybe remove the
+duplicate id in them.
+
+1204
+01:05:48,440 --> 01:05:53,600
+Like, if I showed you this JOINs table
+right here, id appears in here twice.
+
+1205
+01:05:53,600 --> 01:05:55,350
+There is a way to do this.
+
+1206
+01:05:55,350 --> 01:05:58,430
+And we'll see it towards the
+end of our exploration of JOINs.
+
+1207
+01:05:58,430 --> 01:06:01,830
+We'll come back to
+that in just a minute.
+
+1208
+01:06:01,830 --> 01:06:06,410
+So we've seen INNER JOIN so far--
+this way of combining tables and only
+
+1209
+01:06:06,410 --> 01:06:09,530
+keeping the data that
+actually matches between them.
+
+1210
+01:06:09,530 --> 01:06:12,830
+But let's try a new way of joining.
+
+1211
+01:06:12,830 --> 01:06:15,680
+This one that might not be so strict.
+
+1212
+01:06:15,680 --> 01:06:17,600
+We have a few options here.
+
+1213
+01:06:17,600 --> 01:06:24,800
+We have what we're going to call a LEFT
+JOIN, a RIGHT JOIN, and a FULL JOIN.
+
+1214
+01:06:24,800 --> 01:06:29,540
+And you could imagine, based on the
+names here, what each one might do.
+
+1215
+01:06:29,540 --> 01:06:30,920
+You could think of our tables--
+
+1216
+01:06:30,920 --> 01:06:35,360
+one being on the left, one being on
+the right, and trying to JOIN them,
+
+1217
+01:06:35,360 --> 01:06:39,410
+prioritizing either the left
+table or the right table
+
+1218
+01:06:39,410 --> 01:06:42,590
+or maybe even both per a FULL JOIN.
+
+1219
+01:06:42,590 --> 01:06:45,530
+So let's get a feel for
+what kinds of tables
+
+1220
+01:06:45,530 --> 01:06:47,900
+we get back from these
+different commands.
+
+1221
+01:06:47,900 --> 01:06:51,080
+And we'll talk about-- we'll visualize
+how is this actually happening
+
+1222
+01:06:51,080 --> 01:06:53,060
+underneath the hood.
+
+1223
+01:06:53,060 --> 01:06:54,660
+Let's go back to our computer here.
+
+1224
+01:06:54,660 --> 01:06:59,960
+And let's try to do a LEFT
+JOIN using our two data sets.
+
+1225
+01:06:59,960 --> 01:07:05,890
+Now a LEFT JOIN will prioritize, so to
+speak, the data on my "left table"--
+
+1226
+01:07:05,890 --> 01:07:07,640
+"left" being quote,
+unquote, because there
+
+1227
+01:07:07,640 --> 01:07:09,410
+is no left or right in a database.
+
+1228
+01:07:09,410 --> 01:07:13,860
+But left here means the first
+table that I start with.
+
+1229
+01:07:13,860 --> 01:07:14,840
+So let's try this.
+
+1230
+01:07:14,840 --> 01:07:19,520
+I'll say SELECT *--
+
+1231
+01:07:19,520 --> 01:07:22,370
+and let me just make sure I'm
+typing the right things here.
+
+1232
+01:07:22,370 --> 01:07:28,340
+Let me try SELECT * FROM
+the "sea_lions" table.
+
+1233
+01:07:28,340 --> 01:07:31,310
+And now, I don't want to
+just do a regular old JOIN.
+
+1234
+01:07:31,310 --> 01:07:33,950
+I want to do a LEFT JOIN.
+
+1235
+01:07:33,950 --> 01:07:38,840
+I want to, no matter what, always
+have the data on my left table,
+
+1236
+01:07:38,840 --> 01:07:41,180
+this sea lions table here--
+
+1237
+01:07:41,180 --> 01:07:42,320
+LEFT JOIN.
+
+1238
+01:07:42,320 --> 01:07:44,600
+And I'll JOIN "migrations".
+
+1239
+01:07:44,600 --> 01:07:46,470
+I have to say the same thing.
+
+1240
+01:07:46,470 --> 01:07:51,260
+Which column in "migrations" corresponds
+to which column in "sea_lions"?
+
+1241
+01:07:51,260 --> 01:07:57,980
+I'll say LEFT JOIN "migrations" ON
+"migrations" dot "id" = "sea_lions"
+
+1242
+01:07:57,980 --> 01:08:00,960
+dot "id" as well.
+
+1243
+01:08:00,960 --> 01:08:03,120
+Now, I think that's just
+about it for my JOIN.
+
+1244
+01:08:03,120 --> 01:08:05,360
+So I'll say semicolon, Enter.
+
+1245
+01:08:05,360 --> 01:08:07,400
+And notice the difference here.
+
+1246
+01:08:07,400 --> 01:08:10,440
+Let me walk to this board so
+we can see it in it's entirety.
+
+1247
+01:08:10,440 --> 01:08:15,410
+I have all of my sea
+lions now in this table.
+
+1248
+01:08:15,410 --> 01:08:18,170
+Where we left off Jolee
+earlier, we've now
+
+1249
+01:08:18,170 --> 01:08:24,080
+kept Jolee in, even though Jolee doesn't
+have a distance or a number of days.
+
+1250
+01:08:24,080 --> 01:08:26,569
+We actually haven't tracked
+that data yet for Jolee,
+
+1251
+01:08:26,569 --> 01:08:30,359
+but we still see them in this table.
+
+1252
+01:08:30,359 --> 01:08:34,399
+Let's now try a RIGHT JOIN to
+see the difference between this
+
+1253
+01:08:34,399 --> 01:08:36,109
+and the RIGHT JOIN.
+
+1254
+01:08:36,109 --> 01:08:37,560
+I'll come back over here.
+
+1255
+01:08:37,560 --> 01:08:41,120
+And let's try prioritizing
+our rightmost table.
+
+1256
+01:08:41,120 --> 01:08:43,550
+This one, perhaps, being
+the migrations table.
+
+1257
+01:08:43,550 --> 01:08:48,370
+So I'll say SELECT * FROM "sea_lions".
+
+1258
+01:08:48,370 --> 01:08:51,399
+This will, again, be our left,
+quote, unquote, table, just
+
+1259
+01:08:51,399 --> 01:08:52,870
+because it comes first.
+
+1260
+01:08:52,870 --> 01:08:55,227
+Now I'll say JOIN--
+
+1261
+01:08:55,227 --> 01:08:55,810
+not just JOIN.
+
+1262
+01:08:55,810 --> 01:09:00,520
+I'll say RIGHT JOIN
+"migrations" ON, again,
+
+1263
+01:09:00,520 --> 01:09:09,700
+"migrations" dot "id" =
+"sea_lions" dot "id"; now let's
+
+1264
+01:09:09,700 --> 01:09:11,609
+see the difference here.
+
+1265
+01:09:11,609 --> 01:09:13,200
+Well, what have we done?
+
+1266
+01:09:13,200 --> 01:09:16,130
+We've actually left off
+a few sea lions now.
+
+1267
+01:09:16,130 --> 01:09:20,569
+We only have those whose
+ids were in the right table.
+
+1268
+01:09:20,569 --> 01:09:24,029
+Again, the right table being
+that second one we used.
+
+1269
+01:09:24,029 --> 01:09:27,890
+And even if we don't have any
+names for these sea lions,
+
+1270
+01:09:27,890 --> 01:09:30,510
+we'll still include
+them in our data set.
+
+1271
+01:09:30,510 --> 01:09:34,040
+We can see, though, that this data
+is missing and that, as we'll see,
+
+1272
+01:09:34,040 --> 01:09:37,069
+it has some special value called null.
+
+1273
+01:09:37,069 --> 01:09:40,520
+So we have a LEFT JOIN and a RIGHT JOIN.
+
+1274
+01:09:40,520 --> 01:09:44,899
+A FULL JOIN, though, allows us to
+see the entirety of both tables
+
+1275
+01:09:44,899 --> 01:09:46,819
+and which values are missing.
+
+1276
+01:09:46,819 --> 01:09:48,500
+Let's try that now.
+
+1277
+01:09:48,500 --> 01:09:49,640
+I'll come back over here.
+
+1278
+01:09:49,640 --> 01:09:51,439
+And I'll do a FULL JOIN.
+
+1279
+01:09:51,439 --> 01:10:03,190
+I'll say SELECT * FROM "sea_lions" FULL
+JOIN "migrations" ON "migrations"--
+
+1280
+01:10:03,190 --> 01:10:11,940
+oh, "migrations" dot "id" is equal
+to "sea_lions" dot "id"; Enter.
+
+1281
+01:10:11,940 --> 01:10:13,320
+And now what do we see?
+
+1282
+01:10:13,320 --> 01:10:16,680
+Well, we see both tables
+in their entirety.
+
+1283
+01:10:16,680 --> 01:10:20,640
+We have Jolee here still,
+even though Jolee doesn't
+
+1284
+01:10:20,640 --> 01:10:22,870
+have a distance or some number of days.
+
+1285
+01:10:22,870 --> 01:10:26,400
+We also have our sea lions--
+our mystery sea lions down
+
+1286
+01:10:26,400 --> 01:10:31,170
+below-- who don't have any name but are
+still included in our migration table
+
+1287
+01:10:31,170 --> 01:10:32,130
+too.
+
+1288
+01:10:32,130 --> 01:10:36,270
+So LEFT JOIN, FULL JOIN, and RIGHT JOIN.
+
+1289
+01:10:36,270 --> 01:10:38,460
+So let's, then, visualize
+this to understand
+
+1290
+01:10:38,460 --> 01:10:40,200
+what's happening along the way.
+
+1291
+01:10:40,200 --> 01:10:42,170
+I'll go back to some slides here.
+
+1292
+01:10:42,170 --> 01:10:46,600
+And let's look first at
+these LEFT JOINS as well.
+
+1293
+01:10:46,600 --> 01:10:48,330
+So, really, all of these--
+
+1294
+01:10:48,330 --> 01:10:50,590
+LEFT JOIN, RIGHT JOIN, and FULL JOIN--
+
+1295
+01:10:50,590 --> 01:10:54,360
+these are all part of this
+family called an OUTER JOIN.
+
+1296
+01:10:54,360 --> 01:10:59,995
+An OUTER JOIN lets you keep some
+data even if the JOIN is not
+
+1297
+01:10:59,995 --> 01:11:03,120
+going to quite work out for you as much
+as you would want it to in an INNER
+
+1298
+01:11:03,120 --> 01:11:03,620
+JOIN.
+
+1299
+01:11:03,620 --> 01:11:07,950
+By that, I mean you might have some
+null or empty values in this JOIN
+
+1300
+01:11:07,950 --> 01:11:09,340
+after you run it.
+
+1301
+01:11:09,340 --> 01:11:10,800
+So let's visualize it.
+
+1302
+01:11:10,800 --> 01:11:13,050
+Here I have a LEFT OUTER JOIN.
+
+1303
+01:11:13,050 --> 01:11:18,120
+And I want to combine this left
+table with this right table.
+
+1304
+01:11:18,120 --> 01:11:19,650
+I'll do a LEFT OUTER JOIN.
+
+1305
+01:11:19,650 --> 01:11:20,790
+I'll put them together.
+
+1306
+01:11:20,790 --> 01:11:24,540
+And notice how these two don't match.
+
+1307
+01:11:24,540 --> 01:11:28,380
+Well, because they don't match,
+I'll fill in these values
+
+1308
+01:11:28,380 --> 01:11:31,500
+with the value that
+signifies empty or null.
+
+1309
+01:11:31,500 --> 01:11:33,150
+In this case, it is, literally, null.
+
+1310
+01:11:33,150 --> 01:11:35,080
+There's nothing here.
+
+1311
+01:11:35,080 --> 01:11:39,150
+So because I did a LEFT JOIN,
+what I should do is prioritize
+
+1312
+01:11:39,150 --> 01:11:41,100
+this left table as data.
+
+1313
+01:11:41,100 --> 01:11:46,080
+Even if this doesn't have any match
+here, I'll still keep this row.
+
+1314
+01:11:46,080 --> 01:11:51,210
+But notice down below that this
+id has no match in the left table.
+
+1315
+01:11:51,210 --> 01:11:52,390
+I'll omit that.
+
+1316
+01:11:52,390 --> 01:11:54,910
+And in the end, I'll
+delete this bottom row.
+
+1317
+01:11:54,910 --> 01:12:00,840
+I'll be left with Jolee, who might or
+may not have data in the right table.
+
+1318
+01:12:00,840 --> 01:12:02,310
+Let's try the RIGHT JOIN--
+
+1319
+01:12:02,310 --> 01:12:03,570
+RIGHT OUTER JOIN.
+
+1320
+01:12:03,570 --> 01:12:05,880
+I'll do the same thing-- combine them.
+
+1321
+01:12:05,880 --> 01:12:08,760
+And they'll do the same
+exact kind of orientation.
+
+1322
+01:12:08,760 --> 01:12:13,500
+I have some null values here that
+I don't quite know how to match up.
+
+1323
+01:12:13,500 --> 01:12:15,540
+What I can do instead
+is say, well, I want
+
+1324
+01:12:15,540 --> 01:12:18,390
+to prioritize the data
+on this right-most table.
+
+1325
+01:12:18,390 --> 01:12:21,900
+Even though this id has no
+match, I want to keep it
+
+1326
+01:12:21,900 --> 01:12:24,200
+because it's inside this right table.
+
+1327
+01:12:24,200 --> 01:12:27,675
+OK, let me delete this row because
+it has no match in my right table.
+
+1328
+01:12:27,675 --> 01:12:34,170
+And I'll be back to this type of JOIN,
+keeping every id in the right table.
+
+1329
+01:12:34,170 --> 01:12:36,150
+A FULL JOIN, a bit more simple--
+
+1330
+01:12:36,150 --> 01:12:40,050
+I'll take this same data, JOIN
+it together, and I'll simply say,
+
+1331
+01:12:40,050 --> 01:12:43,500
+I don't care if there
+are no values involved.
+
+1332
+01:12:43,500 --> 01:12:45,015
+I'll leave them be.
+
+1333
+01:12:45,015 --> 01:12:47,630
+
+
+1334
+01:12:47,630 --> 01:12:49,760
+So this is a lot of visualizing.
+
+1335
+01:12:49,760 --> 01:12:55,610
+Let me ask, what questions
+do we have on these JOINs?
+
+1336
+01:12:55,610 --> 01:12:58,850
+SPEAKER: Could I see how it
+would work with multiple tables?
+
+1337
+01:12:58,850 --> 01:13:02,345
+Is there, you know, if I have three
+tables, which one is the left one?
+
+1338
+01:13:02,345 --> 01:13:03,470
+Which one is the right one?
+
+1339
+01:13:03,470 --> 01:13:04,760
+And what's the third one?
+
+1340
+01:13:04,760 --> 01:13:06,480
+CARTER ZENKE: Yeah, good question.
+
+1341
+01:13:06,480 --> 01:13:08,510
+So we've seen two tables so far.
+
+1342
+01:13:08,510 --> 01:13:10,660
+And this was deliberate
+kind of pedagogically
+
+1343
+01:13:10,660 --> 01:13:13,760
+because it would be a lot to
+see three JOINs all at once.
+
+1344
+01:13:13,760 --> 01:13:16,460
+If you're thinking about
+joining three tables, though,
+
+1345
+01:13:16,460 --> 01:13:20,570
+and you're asking which one is your left
+table, which one is your right table--
+
+1346
+01:13:20,570 --> 01:13:23,270
+always it will be that the
+table that comes first--
+
+1347
+01:13:23,270 --> 01:13:27,380
+before your JOIN command, your
+keyword, will be the left table.
+
+1348
+01:13:27,380 --> 01:13:31,130
+And the table that's involved in your
+JOIN keyword, like JOIN "migrations",
+
+1349
+01:13:31,130 --> 01:13:33,840
+let's say, that will
+be your right table.
+
+1350
+01:13:33,840 --> 01:13:37,833
+And so you can imagine three
+tables where for the first two,
+
+1351
+01:13:37,833 --> 01:13:40,250
+the first one's on the left;
+the first one's on the right.
+
+1352
+01:13:40,250 --> 01:13:42,350
+For the next two, though,
+the middle one's on the left
+
+1353
+01:13:42,350 --> 01:13:44,950
+and the next one is on the right,
+if that helps you visualize
+
+1354
+01:13:44,950 --> 01:13:47,450
+without having much on the board here.
+
+1355
+01:13:47,450 --> 01:13:48,800
+Good question.
+
+1356
+01:13:48,800 --> 01:13:50,980
+Let's take one more.
+
+1357
+01:13:50,980 --> 01:13:54,020
+SPEAKER: When we perform the JOIN
+function, do we get under the hood?
+
+1358
+01:13:54,020 --> 01:13:56,150
+Do we have, like, a
+separate table that's
+
+1359
+01:13:56,150 --> 01:13:58,640
+created which we can reference
+later down in the code?
+
+1360
+01:13:58,640 --> 01:14:02,543
+Or do we need to write that
+entire JOIN command again?
+
+1361
+01:14:02,543 --> 01:14:03,960
+CARTER ZENKE: Yeah, good question.
+
+1362
+01:14:03,960 --> 01:14:06,740
+And so I believe you're asking,
+do we get back a separate table
+
+1363
+01:14:06,740 --> 01:14:08,360
+that we could use?
+
+1364
+01:14:08,360 --> 01:14:10,493
+For this I might want
+to doublecheck myself.
+
+1365
+01:14:10,493 --> 01:14:12,910
+But just to kind of show you
+what we've been doing so far,
+
+1366
+01:14:12,910 --> 01:14:16,580
+I'll go back to my SQLite terminal here.
+
+1367
+01:14:16,580 --> 01:14:23,480
+And I will ask, SELECT
+* FROM "sea_lions",
+
+1368
+01:14:23,480 --> 01:14:29,360
+and let's do a FULL JOIN with
+"migrations" on "migrations"
+
+1369
+01:14:29,360 --> 01:14:34,250
+dot "id" is equal to
+"sea_lions" dot "id".
+
+1370
+01:14:34,250 --> 01:14:38,600
+And I think what you're asking is, do we
+get back a separate kind of table here?
+
+1371
+01:14:38,600 --> 01:14:42,360
+We could consider it as
+a kind of separate table.
+
+1372
+01:14:42,360 --> 01:14:45,260
+If I hit Enter here,
+this is kind of something
+
+1373
+01:14:45,260 --> 01:14:49,340
+we're going to call a temporary table,
+which you could also call a result set.
+
+1374
+01:14:49,340 --> 01:14:53,390
+We can use this table for
+the duration of our query.
+
+1375
+01:14:53,390 --> 01:14:56,060
+What we haven't done,
+though, is made this table
+
+1376
+01:14:56,060 --> 01:14:58,850
+accessible in our database itself.
+
+1377
+01:14:58,850 --> 01:15:02,730
+This is only there for the
+duration of this query.
+
+1378
+01:15:02,730 --> 01:15:06,020
+So, hopefully, that helps answer
+it with a bit of fact-checking
+
+1379
+01:15:06,020 --> 01:15:09,070
+if you need to as well.
+
+1380
+01:15:09,070 --> 01:15:13,780
+OK, let's show one final type of JOIN
+here, this one called a NATURAL JOIN.
+
+1381
+01:15:13,780 --> 01:15:19,180
+A NATURAL JOIN kind of allows me to
+omit the part of my previous JOINs
+
+1382
+01:15:19,180 --> 01:15:23,740
+where I was saying "migrations"
+dot "id" = "sea_lions" dot "id".
+
+1383
+01:15:23,740 --> 01:15:27,760
+NATURAL JOIN says, both these
+columns are called "id".
+
+1384
+01:15:27,760 --> 01:15:31,700
+I could just assume that I want
+you to JOIN by these two columns.
+
+1385
+01:15:31,700 --> 01:15:35,260
+So let's try a NATURAL JOIN
+and see what we get back.
+
+1386
+01:15:35,260 --> 01:15:36,680
+I'll come back over here.
+
+1387
+01:15:36,680 --> 01:15:41,080
+And we'll try a NATURAL JOIN
+with our sea lions table
+
+1388
+01:15:41,080 --> 01:15:43,480
+and our migrations table.
+
+1389
+01:15:43,480 --> 01:15:47,590
+I'll say SELECT * FROM "sea_lions".
+
+1390
+01:15:47,590 --> 01:15:52,120
+Then I'll NATURAL JOIN
+"migrations" here.
+
+1391
+01:15:52,120 --> 01:15:58,030
+And I no longer need to say "migrations"
+dot "id" = "sea_lions" dot "id".
+
+1392
+01:15:58,030 --> 01:16:01,630
+I can just hit semicolon,
+and now I can hit Enter.
+
+1393
+01:16:01,630 --> 01:16:06,310
+So we'll see that the JOIN
+worked just as we wanted it to.
+
+1394
+01:16:06,310 --> 01:16:09,370
+And we didn't even have to specify
+which id column corresponded
+
+1395
+01:16:09,370 --> 01:16:15,470
+to which other id column because these
+were named the same column name id.
+
+1396
+01:16:15,470 --> 01:16:18,970
+Notice, too, we don't get
+a duplicate id column.
+
+1397
+01:16:18,970 --> 01:16:23,540
+In some prior JOINs, we had an id
+column here and an id column here.
+
+1398
+01:16:23,540 --> 01:16:27,280
+Now, we've just combined
+them into one single column,
+
+1399
+01:16:27,280 --> 01:16:32,300
+or we've only kept one
+column among this JOIN here.
+
+1400
+01:16:32,300 --> 01:16:35,350
+So many kinds of JOINs to use.
+
+1401
+01:16:35,350 --> 01:16:37,810
+Many ways to query our tables.
+
+1402
+01:16:37,810 --> 01:16:41,380
+What we've seen so far is
+how to organize our data,
+
+1403
+01:16:41,380 --> 01:16:43,900
+build connections
+between them, and now how
+
+1404
+01:16:43,900 --> 01:16:47,830
+to query this data using
+both subqueries and JOINS.
+
+1405
+01:16:47,830 --> 01:16:49,660
+We'll take a quick
+break here and come back
+
+1406
+01:16:49,660 --> 01:16:54,670
+to see how we can use sets and groups
+to, again, kind of refine our queries
+
+1407
+01:16:54,670 --> 01:16:57,640
+and ask more interesting questions too.
+
+1408
+01:16:57,640 --> 01:16:59,510
+Well, we're back.
+
+1409
+01:16:59,510 --> 01:17:03,170
+And now we're going to focus
+on this idea of sets in SQL.
+
+1410
+01:17:03,170 --> 01:17:07,340
+So when you run a query,
+you get back some results.
+
+1411
+01:17:07,340 --> 01:17:11,620
+And those results are often called
+a result set, some set of values
+
+1412
+01:17:11,620 --> 01:17:13,850
+that you've gotten back from your table.
+
+1413
+01:17:13,850 --> 01:17:16,850
+So let's take a look at
+what sets are and how
+
+1414
+01:17:16,850 --> 01:17:20,260
+we could use them to refine our
+queries and to find relationships
+
+1415
+01:17:20,260 --> 01:17:24,500
+among different groups of
+people, places, or even things.
+
+1416
+01:17:24,500 --> 01:17:26,880
+So let me ask a question of you.
+
+1417
+01:17:26,880 --> 01:17:30,850
+Maybe in this world, we have authors
+and we have translators, at least
+
+1418
+01:17:30,850 --> 01:17:32,800
+in the publishing industry, right?
+
+1419
+01:17:32,800 --> 01:17:36,580
+If you're in this set,
+you are an author.
+
+1420
+01:17:36,580 --> 01:17:40,640
+If you are in this set,
+then you are a translator.
+
+1421
+01:17:40,640 --> 01:17:46,480
+But what would it be, then,
+if you were in this set?
+
+1422
+01:17:46,480 --> 01:17:50,700
+What does this set mean?
+
+1423
+01:17:50,700 --> 01:17:53,330
+SPEAKER: It means that
+you are both the author
+
+1424
+01:17:53,330 --> 01:17:54,895
+and the other one-- the translator.
+
+1425
+01:17:54,895 --> 01:17:56,270
+CARTER ZENKE: Yeah, you're right.
+
+1426
+01:17:56,270 --> 01:17:59,900
+So this means you are both
+an author and a translator.
+
+1427
+01:17:59,900 --> 01:18:03,620
+You're in the middle of these
+two overlapping circles.
+
+1428
+01:18:03,620 --> 01:18:07,310
+In SQL, we could represent
+this kind of relationship
+
+1429
+01:18:07,310 --> 01:18:11,090
+using our INTERSECT operator,
+which we'll see in just a moment.
+
+1430
+01:18:11,090 --> 01:18:13,730
+We'll take authors,
+perhaps, and INTERSECT them
+
+1431
+01:18:13,730 --> 01:18:16,160
+with those who are our
+translators and find those
+
+1432
+01:18:16,160 --> 01:18:19,460
+who are both authors and translators.
+
+1433
+01:18:19,460 --> 01:18:20,780
+Let's do another one then.
+
+1434
+01:18:20,780 --> 01:18:23,510
+Let's think of this set.
+
+1435
+01:18:23,510 --> 01:18:24,860
+Who are you?
+
+1436
+01:18:24,860 --> 01:18:29,330
+Or at least, what does this
+set represent as a whole?
+
+1437
+01:18:29,330 --> 01:18:32,060
+SPEAKER: It means that you're
+either an author or a translator.
+
+1438
+01:18:32,060 --> 01:18:33,060
+CARTER ZENKE: Nice.
+
+1439
+01:18:33,060 --> 01:18:35,720
+You're either an author or a translator.
+
+1440
+01:18:35,720 --> 01:18:38,660
+You could be both, too,
+but you're in either camp.
+
+1441
+01:18:38,660 --> 01:18:41,480
+You're either an author or a translator.
+
+1442
+01:18:41,480 --> 01:18:45,080
+And for this, we could use
+a SQL keyword called UNION.
+
+1443
+01:18:45,080 --> 01:18:49,790
+I'll take my set of authors and
+combine them with my set of translators
+
+1444
+01:18:49,790 --> 01:18:54,990
+and get back, in this case,
+the entirety of these two sets.
+
+1445
+01:18:54,990 --> 01:18:56,390
+Let's look at this one too.
+
+1446
+01:18:56,390 --> 01:19:00,695
+If you are in this set,
+who is included there?
+
+1447
+01:19:00,695 --> 01:19:04,155
+
+
+1448
+01:19:04,155 --> 01:19:05,780
+SPEAKER: Only authors will be included.
+
+1449
+01:19:05,780 --> 01:19:09,988
+Authors which are also translators
+are not being included here.
+
+1450
+01:19:09,988 --> 01:19:11,030
+CARTER ZENKE: Yeah, good.
+
+1451
+01:19:11,030 --> 01:19:13,980
+So here, only authors are included.
+
+1452
+01:19:13,980 --> 01:19:17,400
+We see that those who are also
+translators aren't included.
+
+1453
+01:19:17,400 --> 01:19:23,180
+In fact, if you are an author and only
+an author, then you are in this set.
+
+1454
+01:19:23,180 --> 01:19:28,100
+And to get this kind of result, we
+would use our SQL keyword called EXCEPT.
+
+1455
+01:19:28,100 --> 01:19:32,180
+I'll take my set of authors
+but subtract, or remove,
+
+1456
+01:19:32,180 --> 01:19:35,270
+or EXCEPT my set of translators.
+
+1457
+01:19:35,270 --> 01:19:38,750
+Similarly, I could say,
+take my set of translators
+
+1458
+01:19:38,750 --> 01:19:42,350
+and EXCEPT the set of authors--
+subtract them, remove them.
+
+1459
+01:19:42,350 --> 01:19:46,250
+And I could do that with
+translators EXCEPT authors.
+
+1460
+01:19:46,250 --> 01:19:49,530
+We'll see these keywords
+in just a moment.
+
+1461
+01:19:49,530 --> 01:19:55,940
+Now, I'll have one final question here,
+which is, how could you represent this?
+
+1462
+01:19:55,940 --> 01:20:01,070
+One, I mean, who are you if you
+are in either this set or this set?
+
+1463
+01:20:01,070 --> 01:20:03,920
+And how would you get that kind of set?
+
+1464
+01:20:03,920 --> 01:20:06,110
+I actually saved that one
+for you to do as homework,
+
+1465
+01:20:06,110 --> 01:20:09,770
+if I may, before we move on to
+seeing these in our actual terminal
+
+1466
+01:20:09,770 --> 01:20:10,530
+environment.
+
+1467
+01:20:10,530 --> 01:20:12,950
+So let's take this idea
+of sets and apply it
+
+1468
+01:20:12,950 --> 01:20:17,090
+to authors and translators,
+this time in our database.
+
+1469
+01:20:17,090 --> 01:20:20,330
+I'll come back over to
+our SQLite terminal.
+
+1470
+01:20:20,330 --> 01:20:24,380
+And let me now leave our
+database of sea lions, sadly.
+
+1471
+01:20:24,380 --> 01:20:28,460
+I'll type dot quit and go back
+to my regular old terminal.
+
+1472
+01:20:28,460 --> 01:20:33,200
+Now, I want to open back up
+our longlist.db database--
+
+1473
+01:20:33,200 --> 01:20:35,540
+longlist.db, hit Enter.
+
+1474
+01:20:35,540 --> 01:20:39,440
+And now I'm back in the place
+where I have authors, and books,
+
+1475
+01:20:39,440 --> 01:20:42,740
+and publishers inside of this database.
+
+1476
+01:20:42,740 --> 01:20:44,810
+I'll type Control-L
+to clear my terminal.
+
+1477
+01:20:44,810 --> 01:20:51,530
+And let's first try to find all of those
+who are either translators or authors.
+
+1478
+01:20:51,530 --> 01:20:52,880
+Well, what can I do?
+
+1479
+01:20:52,880 --> 01:20:54,060
+I could try this.
+
+1480
+01:20:54,060 --> 01:20:55,594
+Let me try SELECT--
+
+1481
+01:20:55,594 --> 01:21:00,620
+SELECT "name" FROM "translators",
+like this, from my translators table--
+
+1482
+01:21:00,620 --> 01:21:02,450
+semicolon, Enter.
+
+1483
+01:21:02,450 --> 01:21:05,360
+These are all of my translators.
+
+1484
+01:21:05,360 --> 01:21:07,820
+Now, I want to find authors.
+
+1485
+01:21:07,820 --> 01:21:15,680
+I could then say SELECT "name"
+FROM "authors"; hit Enter.
+
+1486
+01:21:15,680 --> 01:21:18,410
+Now I have all of my authors.
+
+1487
+01:21:18,410 --> 01:21:22,010
+If I wanted, though, to
+combine these results,
+
+1488
+01:21:22,010 --> 01:21:26,090
+these results sets, I
+could do so using UNION.
+
+1489
+01:21:26,090 --> 01:21:27,230
+So let's try it.
+
+1490
+01:21:27,230 --> 01:21:33,680
+I'll say SELECT "name"
+FROM "translators"
+
+1491
+01:21:33,680 --> 01:21:35,930
+and not finish my query yet.
+
+1492
+01:21:35,930 --> 01:21:38,240
+I'll hit Enter, just for style's sake.
+
+1493
+01:21:38,240 --> 01:21:40,220
+And I'll say UNION--
+
+1494
+01:21:40,220 --> 01:21:45,290
+UNION with some other result I'll
+get back from some separate query.
+
+1495
+01:21:45,290 --> 01:21:46,220
+I'll hit Enter.
+
+1496
+01:21:46,220 --> 01:21:49,670
+Now I'll say SELECT "name" FROM--
+
+1497
+01:21:49,670 --> 01:21:55,430
+let's go for "authors" now, end
+quote, semicolon, hit Enter.
+
+1498
+01:21:55,430 --> 01:21:59,570
+And now I'll see both
+authors and translators.
+
+1499
+01:21:59,570 --> 01:22:04,580
+And we should see here that
+every author and every translator
+
+1500
+01:22:04,580 --> 01:22:06,680
+is in here only once.
+
+1501
+01:22:06,680 --> 01:22:10,880
+We can assume that we have unique names
+for these authors and translators.
+
+1502
+01:22:10,880 --> 01:22:14,840
+And I could scroll through and
+figure out who is either an author
+
+1503
+01:22:14,840 --> 01:22:18,650
+or a translator-- actually
+see them both in the same set.
+
+1504
+01:22:18,650 --> 01:22:22,490
+If I wanted, I could distinguish
+between "authors" and "translators"
+
+1505
+01:22:22,490 --> 01:22:24,950
+by adjusting my query just a little bit.
+
+1506
+01:22:24,950 --> 01:22:27,080
+I could say SELECT--
+
+1507
+01:22:27,080 --> 01:22:34,370
+let's go for SELECT 'author',
+the string, AS "profession"
+
+1508
+01:22:34,370 --> 01:22:40,100
+and also select "name" FROM
+the author's table, semicolon.
+
+1509
+01:22:40,100 --> 01:22:42,890
+This would give me back not
+just one column of names,
+
+1510
+01:22:42,890 --> 01:22:46,730
+but also another column
+called profession
+
+1511
+01:22:46,730 --> 01:22:50,240
+that has just author inside
+of it I'll hit Enter.
+
+1512
+01:22:50,240 --> 01:22:52,830
+And I'll see I, indeed,
+have this column--
+
+1513
+01:22:52,830 --> 01:22:54,900
+if I scroll all the way
+up-- called profession.
+
+1514
+01:22:54,900 --> 01:22:58,850
+And I have the value being author.
+
+1515
+01:22:58,850 --> 01:23:00,200
+Let's combine these.
+
+1516
+01:23:00,200 --> 01:23:03,140
+Let's UNION this set with
+the set of translators
+
+1517
+01:23:03,140 --> 01:23:05,300
+and give them their profession too.
+
+1518
+01:23:05,300 --> 01:23:10,520
+I'll say SELECT
+"authors" AS "profession"
+
+1519
+01:23:10,520 --> 01:23:15,800
+and then, also, "name"
+FROM the authors table.
+
+1520
+01:23:15,800 --> 01:23:17,210
+And now I'll hit Enter.
+
+1521
+01:23:17,210 --> 01:23:21,650
+And I'll say UNION that set
+with the set of translators.
+
+1522
+01:23:21,650 --> 01:23:27,950
+I'll say SELECT 'translator', the
+string, AS the column "profession".
+
+1523
+01:23:27,950 --> 01:23:31,880
+Then I'll say "name"
+FROM the "translators"--
+
+1524
+01:23:31,880 --> 01:23:36,770
+"name" FROM the "translators" table,
+quote, unquote, semicolon, hit Enter.
+
+1525
+01:23:36,770 --> 01:23:41,450
+And now I could actually see who is
+a translator and who is an author.
+
+1526
+01:23:41,450 --> 01:23:43,430
+If I scroll through here,
+I'll see translators.
+
+1527
+01:23:43,430 --> 01:23:45,860
+And now, I'll also see authors.
+
+1528
+01:23:45,860 --> 01:23:52,050
+So I've combined these two sets
+into one that works for me here.
+
+1529
+01:23:52,050 --> 01:23:54,740
+So this is how to UNION,
+or combine, our sets.
+
+1530
+01:23:54,740 --> 01:24:00,230
+But what if we wanted to find only
+those who are authors and translators,
+
+1531
+01:24:00,230 --> 01:24:02,300
+kind of a unique niche group of folks.
+
+1532
+01:24:02,300 --> 01:24:04,680
+But who is part of this set?
+
+1533
+01:24:04,680 --> 01:24:06,420
+Well, let's try to find out.
+
+1534
+01:24:06,420 --> 01:24:12,370
+I could SELECT "names" FROM the
+"authors" table, as I did before.
+
+1535
+01:24:12,370 --> 01:24:17,070
+Now, instead of UNION, let me
+INTERSECT these names with those
+
+1536
+01:24:17,070 --> 01:24:19,440
+that will be in the translators column.
+
+1537
+01:24:19,440 --> 01:24:27,300
+I'll say INTERSECT and SELECT
+"name" FROM "translators".
+
+1538
+01:24:27,300 --> 01:24:30,690
+And now I'll hit semicolon, Enter.
+
+1539
+01:24:30,690 --> 01:24:31,545
+And I'll see one.
+
+1540
+01:24:31,545 --> 01:24:35,790
+His name is Ngugi, who is both
+an author and a translator.
+
+1541
+01:24:35,790 --> 01:24:38,130
+They translated their
+own book into English
+
+1542
+01:24:38,130 --> 01:24:42,000
+for the International Booker Prize.
+
+1543
+01:24:42,000 --> 01:24:46,890
+So let's try now to find those
+who aren't just translators
+
+1544
+01:24:46,890 --> 01:24:50,520
+and authors, but only those
+who are, perhaps, translators,
+
+1545
+01:24:50,520 --> 01:24:53,970
+or only those who are authors.
+
+1546
+01:24:53,970 --> 01:24:54,720
+So let's try this.
+
+1547
+01:24:54,720 --> 01:24:59,760
+I'll say SELECT "name"
+FROM "authors", hit Enter.
+
+1548
+01:24:59,760 --> 01:25:03,810
+And now I want to EXCLUDE
+those who are also translators.
+
+1549
+01:25:03,810 --> 01:25:10,080
+I'll say EXCEPT, in
+this case, SELECT "name"
+
+1550
+01:25:10,080 --> 01:25:13,000
+FROM "translators", hit semicolon.
+
+1551
+01:25:13,000 --> 01:25:16,950
+And now I should see-- if I
+pay close enough attention--
+
+1552
+01:25:16,950 --> 01:25:19,350
+that Ngugi is not in this list.
+
+1553
+01:25:19,350 --> 01:25:23,910
+They are an author, and they
+were in the author set of names.
+
+1554
+01:25:23,910 --> 01:25:30,520
+But because they're also a translator,
+they're not inside this set of list.
+
+1555
+01:25:30,520 --> 01:25:32,560
+So this is finding--
+good for finding who
+
+1556
+01:25:32,560 --> 01:25:36,190
+is in one list, who is in some other
+list, and who is in-between them.
+
+1557
+01:25:36,190 --> 01:25:40,240
+But it's also nice for trying to find
+books people have collaborated on,
+
+1558
+01:25:40,240 --> 01:25:41,230
+let's say.
+
+1559
+01:25:41,230 --> 01:25:45,370
+Maybe I want to find the books that
+both Sophie Hughes and Margaret
+
+1560
+01:25:45,370 --> 01:25:48,800
+Costa have written together, jointly.
+
+1561
+01:25:48,800 --> 01:25:53,290
+So I could try to find, first, the
+books that Sophie Hughes has translated.
+
+1562
+01:25:53,290 --> 01:26:00,460
+Let's say SELECT "book_id"
+FROM the "translated" table--
+
+1563
+01:26:00,460 --> 01:26:05,050
+this table that has translated-- which
+has translators and books inside of it.
+
+1564
+01:26:05,050 --> 01:26:11,560
+And then I'll say WHERE
+the "translator_id" is
+
+1565
+01:26:11,560 --> 01:26:14,650
+equal to this subquery.
+
+1566
+01:26:14,650 --> 01:26:18,160
+I'll find Sophie Hughes's
+id as a translator.
+
+1567
+01:26:18,160 --> 01:26:26,200
+I'll say SELECT "id" FROM
+"translators" WHERE the "name"
+
+1568
+01:26:26,200 --> 01:26:30,820
+is 'Sophie Hughes', semicolon to end.
+
+1569
+01:26:30,820 --> 01:26:34,870
+And these are the book ids that
+Sophie Hughes has translated
+
+1570
+01:26:34,870 --> 01:26:37,480
+because Sophie Hughes is a translator.
+
+1571
+01:26:37,480 --> 01:26:40,690
+Well, let's see, maybe
+they have translated
+
+1572
+01:26:40,690 --> 01:26:43,130
+some books with Margaret Costa as well.
+
+1573
+01:26:43,130 --> 01:26:44,350
+I could try to find out.
+
+1574
+01:26:44,350 --> 01:26:48,920
+I'll say SELECT "book_id"--
+
+1575
+01:26:48,920 --> 01:26:51,320
+we'll try to find Sophie's books again.
+
+1576
+01:26:51,320 --> 01:26:57,770
+I'll say SELECT "book_id"
+FROM "translated"
+
+1577
+01:26:57,770 --> 01:27:03,080
+WHERE the "translator_id"
+is equal to, again,
+
+1578
+01:27:03,080 --> 01:27:05,660
+Sophie Hughes's "translator_id"--
+
+1579
+01:27:05,660 --> 01:27:13,790
+SELECT "id" FROM "translators" WHERE
+the "name" is 'Sophie Hughes' like this.
+
+1580
+01:27:13,790 --> 01:27:17,420
+Now, I'll close out
+this part of my query.
+
+1581
+01:27:17,420 --> 01:27:21,110
+But I want to find the
+intersection-- the set of book ids
+
+1582
+01:27:21,110 --> 01:27:23,990
+that are the same between
+Sophie Hughes's translated works
+
+1583
+01:27:23,990 --> 01:27:26,690
+and Margaret Costa's
+translated works too.
+
+1584
+01:27:26,690 --> 01:27:27,800
+So I'll continue.
+
+1585
+01:27:27,800 --> 01:27:34,610
+I'll say INTERSECT this result with
+some other query I'll write now.
+
+1586
+01:27:34,610 --> 01:27:38,240
+Let me SELECT the "book_id"
+FROM the "translated"
+
+1587
+01:27:38,240 --> 01:27:47,000
+table WHERE the "translator_id" is
+equal to a different kind of query.
+
+1588
+01:27:47,000 --> 01:27:50,510
+This one will get back
+the id for Margaret Costa.
+
+1589
+01:27:50,510 --> 01:27:56,660
+I'll say SELECT "id" from "translators"
+WHERE the "name" is equal to--
+
+1590
+01:27:56,660 --> 01:28:02,060
+and I believe in this particular case,
+they go by 'Margaret Jull Costa', like
+
+1591
+01:28:02,060 --> 01:28:03,200
+this.
+
+1592
+01:28:03,200 --> 01:28:06,470
+Now I'll hit Enter,
+close out this subquery,
+
+1593
+01:28:06,470 --> 01:28:08,510
+and finally, I can hit semicolon.
+
+1594
+01:28:08,510 --> 01:28:11,090
+This is the end of my query--
+
+1595
+01:28:11,090 --> 01:28:12,170
+semicolon here.
+
+1596
+01:28:12,170 --> 01:28:16,220
+And now I'll see the book_id
+they have collaborated on.
+
+1597
+01:28:16,220 --> 01:28:21,800
+You could imagine going beyond this to
+find the title of this book_id using
+
+1598
+01:28:21,800 --> 01:28:23,630
+another nested query.
+
+1599
+01:28:23,630 --> 01:28:26,120
+But I won't spend time on
+that, at least for now,
+
+1600
+01:28:26,120 --> 01:28:29,360
+because I'd have to write all
+this text back out for you.
+
+1601
+01:28:29,360 --> 01:28:31,930
+So we've seen UNION. .
+
+1602
+01:28:31,930 --> 01:28:33,190
+We've seen EXCEPT.
+
+1603
+01:28:33,190 --> 01:28:35,140
+We've seen INTERSECT.
+
+1604
+01:28:35,140 --> 01:28:39,340
+What questions do you have on
+these sets and how they work?
+
+1605
+01:28:39,340 --> 01:28:40,792
+SPEAKER: You've got three JOINs.
+
+1606
+01:28:40,792 --> 01:28:42,750
+I just wondered if there
+was a default that you
+
+1607
+01:28:42,750 --> 01:28:46,470
+chose if you didn't know what the
+situation was, like, which one to use?
+
+1608
+01:28:46,470 --> 01:28:50,280
+CARTER ZENKE: Yeah, so we
+saw different kinds of JOINs.
+
+1609
+01:28:50,280 --> 01:28:53,040
+We saw LEFT JOIN, RIGHT JOIN, FULL JOIN.
+
+1610
+01:28:53,040 --> 01:28:56,470
+And the default, as we saw a
+little before, is just the simple.
+
+1611
+01:28:56,470 --> 01:28:59,670
+JOIN and that JOIN is an
+example of an INNER JOIN.
+
+1612
+01:28:59,670 --> 01:29:03,750
+It'll only take those rows
+where the ids actually match up.
+
+1613
+01:29:03,750 --> 01:29:07,080
+You could get more specific and have
+a LEFT or a RIGHT JOIN or a FULL JOIN.
+
+1614
+01:29:07,080 --> 01:29:09,660
+But we'll leave that for
+you to try out on your own
+
+1615
+01:29:09,660 --> 01:29:12,900
+and see the results of, as we did
+before too, but great question.
+
+1616
+01:29:12,900 --> 01:29:16,350
+SPEAKER: You mentioned that
+the ids from both tables
+
+1617
+01:29:16,350 --> 01:29:19,950
+were used to match the two
+tables and we didn't have
+
+1618
+01:29:19,950 --> 01:29:24,540
+to whatever duplicate column from id.
+
+1619
+01:29:24,540 --> 01:29:28,513
+So I was wondering, in a situation
+whereby the primary key, actually,
+
+1620
+01:29:28,513 --> 01:29:31,680
+like, for instance, let's say you're
+trying to JOIN [? return ?] that table,
+
+1621
+01:29:31,680 --> 01:29:34,170
+[? where ?] [? your ?] [INAUDIBLE]
+is [INAUDIBLE] like a foreign key,
+
+1622
+01:29:34,170 --> 01:29:35,587
+how would you go about doing that?
+
+1623
+01:29:35,587 --> 01:29:38,100
+Because it seems we
+didn't specify the ids
+
+1624
+01:29:38,100 --> 01:29:40,800
+where we wanted to make the
+JOINs on with the NATURAL JOIN.
+
+1625
+01:29:40,800 --> 01:29:43,365
+So I just needed some
+clarification on that front.
+
+1626
+01:29:43,365 --> 01:29:46,240
+CARTER ZENKE: Yeah, and let me make
+sure I'm understanding correctly.
+
+1627
+01:29:46,240 --> 01:29:48,032
+So I think you're trying
+to think about how
+
+1628
+01:29:48,032 --> 01:29:51,330
+you would JOIN a table that
+has a different kind of column
+
+1629
+01:29:51,330 --> 01:29:52,605
+name from the other one.
+
+1630
+01:29:52,605 --> 01:29:54,480
+And for that, you could
+use the equals there.
+
+1631
+01:29:54,480 --> 01:29:56,070
+And you could say--
+
+1632
+01:29:56,070 --> 01:30:00,030
+we said "migrations" dot
+"id" = "sea_lions" dot "id".
+
+1633
+01:30:00,030 --> 01:30:05,100
+But let's say the sea lions id was
+actually called sea lion underscore id,
+
+1634
+01:30:05,100 --> 01:30:06,510
+like the full thing spelled out--
+
+1635
+01:30:06,510 --> 01:30:10,680
+I could say JOIN
+"migrations" ON "migrations"
+
+1636
+01:30:10,680 --> 01:30:15,450
+dot "id" equals "sea_lions"
+dot "sealions_id" to spell out
+
+1637
+01:30:15,450 --> 01:30:17,430
+the column name for SQL.
+
+1638
+01:30:17,430 --> 01:30:18,730
+Good question, too.
+
+1639
+01:30:18,730 --> 01:30:23,220
+SPEAKER: Can I use the INTERSECT and
+the UNION together between more than two
+
+1640
+01:30:23,220 --> 01:30:26,112
+tables, three tables, or four tables?
+
+1641
+01:30:26,112 --> 01:30:28,570
+CARTER ZENKE: Yeah, you could
+use intersect more than once,
+
+1642
+01:30:28,570 --> 01:30:30,870
+let's say, to intersect
+more than one set.
+
+1643
+01:30:30,870 --> 01:30:31,920
+You absolutely could.
+
+1644
+01:30:31,920 --> 01:30:36,000
+And here-- I don't have a
+good example planned for this.
+
+1645
+01:30:36,000 --> 01:30:39,570
+But you could have one query that
+does one thing-- give you some set.
+
+1646
+01:30:39,570 --> 01:30:41,100
+And you type INTERSECT after it.
+
+1647
+01:30:41,100 --> 01:30:43,147
+Then you get back the next query.
+
+1648
+01:30:43,147 --> 01:30:44,730
+And you find the intersection of that.
+
+1649
+01:30:44,730 --> 01:30:47,188
+You could then type INTERSECT
+again to get the intersection
+
+1650
+01:30:47,188 --> 01:30:48,360
+of all of these three sets.
+
+1651
+01:30:48,360 --> 01:30:51,210
+You can keep going,
+going, as you'd like to.
+
+1652
+01:30:51,210 --> 01:30:56,160
+The key thing here, though, is that
+in your INTERSECTs, or in your UNIONs,
+
+1653
+01:30:56,160 --> 01:31:00,060
+or in your EXCEPT, you always
+have to have the same number
+
+1654
+01:31:00,060 --> 01:31:02,710
+and the same type of columns.
+
+1655
+01:31:02,710 --> 01:31:07,980
+So if I was trying to combine, let's
+say, author names with book titles,
+
+1656
+01:31:07,980 --> 01:31:11,370
+I can't INTERSECT or UNION
+those quite well because they
+
+1657
+01:31:11,370 --> 01:31:13,023
+have different kind of meanings.
+
+1658
+01:31:13,023 --> 01:31:14,440
+They're different kinds of things.
+
+1659
+01:31:14,440 --> 01:31:17,957
+So if you're trying to JOIN multiple
+thing-- trying to JOIN multiple tables
+
+1660
+01:31:17,957 --> 01:31:20,040
+or INTERSECT multiple
+tables, make sure you always
+
+1661
+01:31:20,040 --> 01:31:24,060
+have those same column names
+and those same column types--
+
+1662
+01:31:24,060 --> 01:31:25,730
+the type of data that's stored inside.
+
+1663
+01:31:25,730 --> 01:31:29,310
+
+
+1664
+01:31:29,310 --> 01:31:31,080
+So we've seen sets now.
+
+1665
+01:31:31,080 --> 01:31:34,890
+And we're going to conclude by
+looking at this idea of groups.
+
+1666
+01:31:34,890 --> 01:31:38,008
+Well, groups will allow
+us to recreate some
+
+1667
+01:31:38,008 --> 01:31:40,050
+of what we tried to do a
+little bit of last week,
+
+1668
+01:31:40,050 --> 01:31:44,790
+trying to understand the
+average rating of some books.
+
+1669
+01:31:44,790 --> 01:31:47,100
+So let's take a look at groups now.
+
+1670
+01:31:47,100 --> 01:31:50,400
+Well, you could imagine that
+I have my ratings table.
+
+1671
+01:31:50,400 --> 01:31:54,060
+And in this ratings
+table, I have book_ids.
+
+1672
+01:31:54,060 --> 01:31:56,700
+And I also have ratings.
+
+1673
+01:31:56,700 --> 01:32:00,900
+Here, I see that the book-id
+of 1 has several ratings
+
+1674
+01:32:00,900 --> 01:32:02,820
+from people who gave the book a rating.
+
+1675
+01:32:02,820 --> 01:32:04,890
+It has 4, 3, and 4.
+
+1676
+01:32:04,890 --> 01:32:09,000
+And similarly, book-id with 2
+has two ratings from folks--
+
+1677
+01:32:09,000 --> 01:32:10,800
+2 and 3.
+
+1678
+01:32:10,800 --> 01:32:17,350
+Now, I want to find the average rating
+across these ratings for each book_id.
+
+1679
+01:32:17,350 --> 01:32:20,130
+So let me try that in my terminal.
+
+1680
+01:32:20,130 --> 01:32:22,380
+Come back over here
+and let me, first, try
+
+1681
+01:32:22,380 --> 01:32:26,400
+to find the average rating
+for each of these books.
+
+1682
+01:32:26,400 --> 01:32:27,420
+So I'll go back.
+
+1683
+01:32:27,420 --> 01:32:35,340
+And I'll say, why don't I SELECT average
+"rating" FROM my "ratings" table.
+
+1684
+01:32:35,340 --> 01:32:38,250
+And I think this should be good
+enough, so I'll hit semicolon.
+
+1685
+01:32:38,250 --> 01:32:42,930
+And I'll see, well, 3.83644.
+
+1686
+01:32:42,930 --> 01:32:45,930
+And this seems to be an average.
+
+1687
+01:32:45,930 --> 01:32:49,080
+But I wanted the average of each book.
+
+1688
+01:32:49,080 --> 01:32:52,590
+So what did I do wrong here?
+
+1689
+01:32:52,590 --> 01:32:54,840
+What am I actually seeing in this case?
+
+1690
+01:32:54,840 --> 01:32:57,670
+
+
+1691
+01:32:57,670 --> 01:33:01,523
+SPEAKER: Isn't it an average of
+all books in the entire table?
+
+1692
+01:33:01,523 --> 01:33:02,940
+CARTER ZENKE: Yeah, good instinct.
+
+1693
+01:33:02,940 --> 01:33:04,950
+So let me try to put
+back our table here,
+
+1694
+01:33:04,950 --> 01:33:07,050
+and we can see what's actually going on.
+
+1695
+01:33:07,050 --> 01:33:08,730
+I'll come back over here.
+
+1696
+01:33:08,730 --> 01:33:11,980
+And I will show us, again, this table.
+
+1697
+01:33:11,980 --> 01:33:14,850
+So we had a table of ratings.
+
+1698
+01:33:14,850 --> 01:33:19,650
+And we had the rating column that
+has individual ratings inside of it.
+
+1699
+01:33:19,650 --> 01:33:23,820
+When I say SELECT the average
+rating from this table, well,
+
+1700
+01:33:23,820 --> 01:33:24,760
+what am I getting?
+
+1701
+01:33:24,760 --> 01:33:31,510
+I'm getting the average of all of
+these ratings not grouped by book_id.
+
+1702
+01:33:31,510 --> 01:33:35,820
+So if I want to find the
+average rating for each book,
+
+1703
+01:33:35,820 --> 01:33:38,528
+I need to employ this idea of groups.
+
+1704
+01:33:38,528 --> 01:33:41,320
+And, I mean, wouldn't it be nice
+if I could do something like this?
+
+1705
+01:33:41,320 --> 01:33:44,340
+I could kind of highlight the
+rows that are part of each group,
+
+1706
+01:33:44,340 --> 01:33:46,380
+and then try to average those.
+
+1707
+01:33:46,380 --> 01:33:51,000
+I could say, take all the books with
+id 1 and all the books with id 2
+
+1708
+01:33:51,000 --> 01:33:53,560
+and just collapse their
+ratings, like this.
+
+1709
+01:33:53,560 --> 01:33:56,820
+And once you do that,
+find the average for me,
+
+1710
+01:33:56,820 --> 01:33:59,100
+and give me that back as a table.
+
+1711
+01:33:59,100 --> 01:34:00,240
+That would be kind of nice.
+
+1712
+01:34:00,240 --> 01:34:03,870
+And, luckily, we actually have
+the capacity to do that with SQL
+
+1713
+01:34:03,870 --> 01:34:06,510
+using this GROUP BY keyword.
+
+1714
+01:34:06,510 --> 01:34:08,670
+So we'll see this in action.
+
+1715
+01:34:08,670 --> 01:34:10,030
+I'll come back over here.
+
+1716
+01:34:10,030 --> 01:34:14,250
+And let's try to redo this
+query to find the right answer.
+
+1717
+01:34:14,250 --> 01:34:15,120
+I'll come back.
+
+1718
+01:34:15,120 --> 01:34:23,580
+And I'll say let's SELECT, in
+this case, the book_ids and also
+
+1719
+01:34:23,580 --> 01:34:25,530
+their average rating.
+
+1720
+01:34:25,530 --> 01:34:28,530
+I'll SELECT "book_id".
+that's one column I want.
+
+1721
+01:34:28,530 --> 01:34:35,580
+And I also want the average rating
+from this column, from this table.
+
+1722
+01:34:35,580 --> 01:34:40,180
+Now I'll say, let me title this,
+perhaps, AS "average rating".
+
+1723
+01:34:40,180 --> 01:34:43,890
+So I'll get the average rating and
+just title that column "average rating"
+
+1724
+01:34:43,890 --> 01:34:45,220
+exactly.
+
+1725
+01:34:45,220 --> 01:34:50,410
+I want to SELECT this
+FROM the "ratings" table.
+
+1726
+01:34:50,410 --> 01:34:53,920
+But now, I don't want
+to simply hit Enter.
+
+1727
+01:34:53,920 --> 01:34:55,700
+I'll get back the same
+thing I did before,
+
+1728
+01:34:55,700 --> 01:34:59,290
+which is the average of all the
+ratings in the ratings table.
+
+1729
+01:34:59,290 --> 01:35:02,140
+What I want is for these ratings--
+
+1730
+01:35:02,140 --> 01:35:04,660
+the average ratings-- to
+be grouped by the book_id.
+
+1731
+01:35:04,660 --> 01:35:11,140
+So I'll say GROUP BY
+"book_id"; hit Enter.
+
+1732
+01:35:11,140 --> 01:35:16,240
+And now I should be able to
+see the results I wanted.
+
+1733
+01:35:16,240 --> 01:35:20,680
+Let me scroll to the top and
+notice how using GROUP BY,
+
+1734
+01:35:20,680 --> 01:35:25,688
+I was able to take each
+book_id, collapse the rows--
+
+1735
+01:35:25,688 --> 01:35:27,730
+the ratings that were
+associated with this book--
+
+1736
+01:35:27,730 --> 01:35:30,580
+and find the average of that rating--
+
+1737
+01:35:30,580 --> 01:35:38,560
+3.77, 3.97, 3.04-- for each
+book, so kind of handy here.
+
+1738
+01:35:38,560 --> 01:35:41,830
+Let me try to improve this and
+show you one additional thing
+
+1739
+01:35:41,830 --> 01:35:43,910
+we could do as well.
+
+1740
+01:35:43,910 --> 01:35:44,770
+I'll come back.
+
+1741
+01:35:44,770 --> 01:35:48,910
+And why don't I try to
+replicate what we did
+
+1742
+01:35:48,910 --> 01:35:53,450
+last time, which was find the books
+that have a certain rating or higher.
+
+1743
+01:35:53,450 --> 01:35:54,500
+Let's try that.
+
+1744
+01:35:54,500 --> 01:36:00,430
+I'll say SELECT the "book_id".
+
+1745
+01:36:00,430 --> 01:36:03,730
+And let's get, now, the rounded rating--
+
+1746
+01:36:03,730 --> 01:36:05,260
+the rounded average rating.
+
+1747
+01:36:05,260 --> 01:36:09,640
+I'll ROUND the average
+"rating" to two decimal places.
+
+1748
+01:36:09,640 --> 01:36:15,280
+And I'll call this "average
+rating" as a column.
+
+1749
+01:36:15,280 --> 01:36:20,010
+I'm going to SELECT this
+FROM my "books" table--
+
+1750
+01:36:20,010 --> 01:36:21,480
+FROM my "ratings" table, sorry.
+
+1751
+01:36:21,480 --> 01:36:27,450
+And now I want to GROUP
+BY the "book_id" to find
+
+1752
+01:36:27,450 --> 01:36:31,350
+the average rating for each "book_id".
+
+1753
+01:36:31,350 --> 01:36:36,300
+Now, though, let's say I only want
+those books that are pretty well rated,
+
+1754
+01:36:36,300 --> 01:36:38,970
+greater than 4.0 out of 5.0 stars.
+
+1755
+01:36:38,970 --> 01:36:43,950
+To include a WHERE clause, I could
+try following up on this GROUP BY.
+
+1756
+01:36:43,950 --> 01:36:48,030
+And you might think, I could
+say, well, WHERE the average--
+
+1757
+01:36:48,030 --> 01:36:50,940
+WHERE "average rating"--
+that new column I created--
+
+1758
+01:36:50,940 --> 01:36:54,210
+is greater than or equal to 4.0.
+
+1759
+01:36:54,210 --> 01:36:58,800
+But I can't because these
+are now not individual rows.
+
+1760
+01:36:58,800 --> 01:37:00,120
+They are groups.
+
+1761
+01:37:00,120 --> 01:37:03,660
+SQL uses a different keyword
+for conditions on groups
+
+1762
+01:37:03,660 --> 01:37:05,670
+than for conditions on individual rows.
+
+1763
+01:37:05,670 --> 01:37:07,920
+And this keyword is called HAVING--
+
+1764
+01:37:07,920 --> 01:37:11,070
+H-A-V-I-N-G. Let me try that--
+
+1765
+01:37:11,070 --> 01:37:14,970
+H-A-V-I-N-G. I want to
+GROUP BY the "book_id"
+
+1766
+01:37:14,970 --> 01:37:20,550
+and only keep those that have an
+average rating of greater than 4.0.
+
+1767
+01:37:20,550 --> 01:37:23,040
+I will scroll over here,
+and I'll hit Enter.
+
+1768
+01:37:23,040 --> 01:37:26,400
+And now I should see
+a much smaller list.
+
+1769
+01:37:26,400 --> 01:37:29,130
+I see "book_id" 5 has a 4.06.
+
+1770
+01:37:29,130 --> 01:37:32,410
+10 has a 4.04, and so on.
+
+1771
+01:37:32,410 --> 01:37:34,710
+And now the next step is--
+you can imagine me, perhaps,
+
+1772
+01:37:34,710 --> 01:37:39,360
+joining these book_ids with another
+table that has titles inside of it,
+
+1773
+01:37:39,360 --> 01:37:44,910
+too, to find the average rating
+given some title as well.
+
+1774
+01:37:44,910 --> 01:37:49,490
+So GROUPs allow us to take these
+columns, collapse some rows,
+
+1775
+01:37:49,490 --> 01:37:54,390
+and find aggregate statistics
+across each of those GROUPs.
+
+1776
+01:37:54,390 --> 01:37:59,460
+Let me ask, then, what
+questions do we have on GROUPs?
+
+1777
+01:37:59,460 --> 01:38:04,080
+SPEAKER: What if I don't want to
+see the average rating of a book,
+
+1778
+01:38:04,080 --> 01:38:06,892
+but how many ratings does it have?
+
+1779
+01:38:06,892 --> 01:38:08,100
+CARTER ZENKE: Oh, a good one.
+
+1780
+01:38:08,100 --> 01:38:12,000
+So I want to know not the average
+rating, but the number of reviews,
+
+1781
+01:38:12,000 --> 01:38:14,820
+let's say, the number of ratings
+it was given in my table.
+
+1782
+01:38:14,820 --> 01:38:17,790
+Well, for that, I could just
+modify my query a little bit.
+
+1783
+01:38:17,790 --> 01:38:22,620
+I could change average to COUNT because
+COUNT counts up the number of rows
+
+1784
+01:38:22,620 --> 01:38:23,470
+that I have.
+
+1785
+01:38:23,470 --> 01:38:24,990
+So let me try that here.
+
+1786
+01:38:24,990 --> 01:38:27,600
+I'll come back to my laptop.
+
+1787
+01:38:27,600 --> 01:38:32,130
+And let me try this one
+I will SELECT "book_id",
+
+1788
+01:38:32,130 --> 01:38:37,298
+and I will also SELECT the
+COUNT of "book_id" in my-- no,
+
+1789
+01:38:37,298 --> 01:38:40,590
+I'll also select the COUNT of "ratings,"
+we're gonna say how many ratings there
+
+1790
+01:38:40,590 --> 01:38:42,360
+are-- inside my ratings table--
+
+1791
+01:38:42,360 --> 01:38:49,230
+COUNT("rating") FROM let's say
+the "ratings" table, like this.
+
+1792
+01:38:49,230 --> 01:38:51,600
+Now I want to GROUP this data--
+
+1793
+01:38:51,600 --> 01:38:54,030
+GROUP the counting by book_id.
+
+1794
+01:38:54,030 --> 01:38:56,550
+So I'll say Group By "book_id"--
+
+1795
+01:38:56,550 --> 01:38:59,940
+give me a count of the
+ratings for each book_id.
+
+1796
+01:38:59,940 --> 01:39:04,170
+And now, I could just
+hit semicolon and Enter.
+
+1797
+01:39:04,170 --> 01:39:08,970
+And now, I'll see how many
+ratings each book actually has.
+
+1798
+01:39:08,970 --> 01:39:10,410
+Let me go to the top here.
+
+1799
+01:39:10,410 --> 01:39:14,910
+And I'll see book id
+1 has 2,779 ratings.
+
+1800
+01:39:14,910 --> 01:39:19,240
+Book_id 2 has 176 ratings, and so on--
+
+1801
+01:39:19,240 --> 01:39:20,580
+a good question.
+
+1802
+01:39:20,580 --> 01:39:22,970
+Let's take one more too.
+
+1803
+01:39:22,970 --> 01:39:25,970
+SPEAKER: So considering these
+new having syntax, how could we
+
+1804
+01:39:25,970 --> 01:39:28,445
+couple that with the ORDER BY?
+
+1805
+01:39:28,445 --> 01:39:30,920
+CARTER ZENKE: Yeah, where
+does it fit in with ORDER BY?
+
+1806
+01:39:30,920 --> 01:39:33,795
+Like, let's say I want to sort this
+data, too, at the end of the day.
+
+1807
+01:39:33,795 --> 01:39:35,220
+Well, I could do that as well.
+
+1808
+01:39:35,220 --> 01:39:36,890
+Let me show you one example.
+
+1809
+01:39:36,890 --> 01:39:39,330
+I'll come back to my terminal.
+
+1810
+01:39:39,330 --> 01:39:41,940
+And I could try this.
+
+1811
+01:39:41,940 --> 01:39:45,170
+Let me come back to find
+the average ratings.
+
+1812
+01:39:45,170 --> 01:39:52,550
+So I'll say SELECT "book_id"
+and the rounded average rating
+
+1813
+01:39:52,550 --> 01:39:58,700
+to two decimal places, calling
+that column "average rating".
+
+1814
+01:39:58,700 --> 01:40:02,660
+And I'll SELECT this
+FROM the "ratings" table.
+
+1815
+01:40:02,660 --> 01:40:06,530
+Well, now, we want not just
+to find the average rating.
+
+1816
+01:40:06,530 --> 01:40:09,470
+We also want to SORT by that column too.
+
+1817
+01:40:09,470 --> 01:40:14,865
+And in fact, use HAVING to only find
+those books that have 4.0 or higher.
+
+1818
+01:40:14,865 --> 01:40:15,740
+Well, let's try this.
+
+1819
+01:40:15,740 --> 01:40:21,620
+I'll say FROM "ratings", and
+I'll still GROUP BY "book_id".
+
+1820
+01:40:21,620 --> 01:40:26,720
+Now, I'll say I only want to
+filter to those groups that have
+
+1821
+01:40:26,720 --> 01:40:31,370
+a "average rating" of greater than 4.0.
+
+1822
+01:40:31,370 --> 01:40:37,490
+And finally, after I've filtered out
+all of these rows, I want to order them.
+
+1823
+01:40:37,490 --> 01:40:38,450
+I want to sort them.
+
+1824
+01:40:38,450 --> 01:40:44,240
+So I'll order them by "average
+rating", this column I made up top.
+
+1825
+01:40:44,240 --> 01:40:47,270
+And I'll say order them
+in descending order.
+
+1826
+01:40:47,270 --> 01:40:49,820
+I want biggest to smallest.
+
+1827
+01:40:49,820 --> 01:40:55,270
+And fingers crossed-- I'll hit Enter,
+and we'll see our ratings sorted
+
+1828
+01:40:55,270 --> 01:40:56,950
+for us--
+
+1829
+01:40:56,950 --> 01:41:02,340
+so great question here to re-implement
+much of what we did last time.
+
+1830
+01:41:02,340 --> 01:41:06,000
+And now, indeed, we've kind
+of come full circle here.
+
+1831
+01:41:06,000 --> 01:41:09,720
+We've taken these ideas, and
+we've seen them in single tables,
+
+1832
+01:41:09,720 --> 01:41:11,280
+as we did last week.
+
+1833
+01:41:11,280 --> 01:41:15,280
+We-- this week, took our tables, and
+expanded them into multiple tables--
+
+1834
+01:41:15,280 --> 01:41:18,760
+different authors, different publishers,
+different ratings, and so on.
+
+1835
+01:41:18,760 --> 01:41:23,730
+And we learned how to query those
+tables using subqueries and using JOINs.
+
+1836
+01:41:23,730 --> 01:41:27,120
+What we'll see next time is
+putting you in the driver's seat,
+
+1837
+01:41:27,120 --> 01:41:31,030
+having you actually create your own
+tables, define your own relationships,
+
+1838
+01:41:31,030 --> 01:41:35,820
+and build a database to your own
+liking, so all that and more next time.
+
+1839
+01:41:35,820 --> 01:41:38,240
+We'll see you there.
+
+1840
+01:41:38,240 --> 01:41:39,000
