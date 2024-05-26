@@ -1,0 +1,407 @@
+<!DOCTYPE html><html lang="en-us"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="An introduction to databases using a language called SQL.">
+
+        <meta property="og:image" content="https://prod-discovery.edx-cdn.org/media/course/image/3e45c431-10df-423e-9f03-fb98b713cd4a-5158ac9c653a.small.png"><meta property="og:title" content="Meteorite Cleaning - CS50's Introduction to Databases with SQL">
+
+        <link href="../../../favicon.ico?1696748853" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min.js?1696748853"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min.js?1696748853"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min.css?1696748853" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min.js?1696748853"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js?1696748853"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link crossorigin="anonymous" href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min.js?1696748853"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/es5/tex-chtml.js?1696748853"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/intersection-observer/intersection-observer.js?1696748853"></script>
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min.js?1696748853"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../../assets/iframe-resizer/js/iframeResizer.min.js?1696748853"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min.js?1696748853"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid.min.js?1696748853"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/twemoji/dist/twemoji.min.js?1696748853"></script>
+
+        
+
+        <link href="../../../assets/page.css?1696748853" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50.js?1696748853"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Meteorite Cleaning - CS50's Introduction to Databases with SQL</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../../#how-to-take-this-course">a verified certificate or transfer credit and accreditation</a>?</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-databases-with-sql"><a href="../../..">CS50’s Introduction to Databases with SQL</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="small"><a href="https://carterzenke.me">Carter Zenke</a><br>
+<a href="mailto:carter@cs50.harvard.edu">carter@cs50.harvard.edu</a>
+<br>
+<a class="mr-1" href="https://github.com/carterzenke"><i aria-hidden="true" class="fab fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/carterzenke/"><i aria-hidden="true" class="fab fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a></p>
+
+<p class="small"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/x/2023/ready/"><i class="fa-solid fa-duck me-2"></i>Ready Player 50</a></li>
+  <li data-marker="*"><a href="../../../zoom/"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+</ul>
+
+<hr>
+
+<ol start="0">
+  <li><a href="../../../weeks/0/">Querying</a></li>
+  <li><a href="../../../weeks/1/">Relating</a></li>
+  <li><a href="../../../weeks/2/">Designing</a></li>
+  <li><a href="../../../weeks/3/">Writing</a></li>
+  <li><a href="../../../weeks/4/">Viewing</a></li>
+  <li><a href="../../../weeks/5/">Optimizing</a></li>
+  <li><a href="../../../weeks/6/">Scaling</a></li>
+</ol>
+
+<ul>
+  <li data-marker="*"><a href="../../../project/">Final Project</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../honesty/">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../../certificate/">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../../faqs/">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50sql">Gradebook</a></li>
+  <li data-marker="*"><a href="../../">Problem Sets</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/sql">edX</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/151">Harvard Extension School</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/151">Harvard Summer School</a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382v1MBjNOhPu9SiJ1fsD4C0">YouTube</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../communities/"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.bsky.social">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/cs50">Twitter</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="https://cs50.harvard.edu/x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<hr>
+
+<p><a href="../../../license/" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="meteorite-cleaning">Meteorite Cleaning</h1>
+
+<p class="w-50"><img src="cleaning_comic.png" alt="NASA astronauts cleaning a big meteorite, in the style of a science-fiction comic">
+<em>“NASA astronauts cleaning a big meteorite, in the style of a science-fiction comic”, generated by <a href="https://openai.com/dall-e-2">DALL·E 2</a></em></p>
+
+<h2 id="problem-to-solve">Problem to Solve</h2>
+
+<p>As a data engineer at <a href="https://www.nasa.gov/">NASA</a>, you often spend your time cleaning <a href="https://solarsystem.nasa.gov/asteroids-comets-and-meteors/meteors-and-meteorites/in-depth/">meteorites</a>—or at least the data they create.</p>
+
+<p>You’ve been given a CSV file of historical meteorite landings here on Earth, of which there are quite a few! Your job is to import the data into a SQLite database, cleaning it up along the way. After you’re done, the database will be used in analyses by some of your fellow engineers.</p>
+
+<h2 id="distribution-code">Distribution Code</h2>
+
+<p>For this problem, you’ll need to download <code class="language-plaintext highlighter-rouge">meteorites.csv</code>, along with an <code class="language-plaintext highlighter-rouge">import.sql</code> file in which you’ll write SQL statements to clean the CSV.</p>
+
+<details><summary>Download the distribution code</summary><p>Log into <a href="https://cs50.dev/">cs50.dev</a>, click on your terminal window, and execute <code class="language-plaintext highlighter-rouge">cd</code> by itself. You should find that your terminal window’s prompt resembles the below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$
+</code></pre></div></div>
+
+<p>Next execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://cdn.cs50.net/sql/2023/x/psets/3/meteorites.zip
+</code></pre></div></div>
+
+<p>in order to download a ZIP called <code class="language-plaintext highlighter-rouge">meteorites.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip meteorites.zip
+</code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">meteorites</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm meteorites.zip
+</code></pre></div></div>
+
+<p>and respond with “y” followed by Enter at the prompt to remove the ZIP file you downloaded.</p>
+
+<p>Now type</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd meteorites
+</code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., open) that directory. Your prompt should now resemble the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>meteorites/ $
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls
+</code></pre></div></div>
+
+<p>and see a CSV file named <code class="language-plaintext highlighter-rouge">meteorites.csv</code> alongside an <code class="language-plaintext highlighter-rouge">import.sql</code> file. If not, retrace your steps and see if you can determine where you went wrong!</p></details>
+
+<h2 id="specification">Specification</h2>
+
+<p>In <code class="language-plaintext highlighter-rouge">import.sql</code>, write a series of SQL (and SQLite) statements to import and clean the data from <code class="language-plaintext highlighter-rouge">meteorites.csv</code> into a table, <code class="language-plaintext highlighter-rouge">meteorites</code>, in a database called <code class="language-plaintext highlighter-rouge">meteorites.db</code>.</p>
+
+<p>Within <code class="language-plaintext highlighter-rouge">meteorites.db</code>, the <code class="language-plaintext highlighter-rouge">meteorites</code> table should have the following columns:</p>
+
+<details><summary>Columns in the <code>meteorites</code> table</summary><ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">id</code>, which represents the unique ID of the meteorite.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">name</code>, which represents the given name of the meteorite.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">class</code>, which is the classification of the meteorite, according to the <a href="https://en.wikipedia.org/wiki/Meteorite_classification">traditional classification scheme</a>.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">mass</code>, which is the weight of the meteorite, in grams.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">discovery</code>, which is either <strong>“Fell”</strong> or <strong>“Found”</strong>. “Fell” indicates the meteorite was seen falling to Earth, whereas “Found” indicates the meteorite was found only <em>after</em> landing on Earth.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">year</code>, which is the year in which the the meteorite was discovered.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">lat</code>, which is the latitude at which the meteorite landed.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">long</code>, which is the longitude at which the meteorite landed.</li>
+</ul></details>
+
+<p>Keep in mind that not all columns in the CSV should end up in the final table!</p>
+
+<p>To consider the data in the <code class="language-plaintext highlighter-rouge">meteorites</code> table clean, you should ensure…</p>
+
+<ol>
+  <li>Any empty values in <code class="language-plaintext highlighter-rouge">meteorites.csv</code> are represented by <code class="language-plaintext highlighter-rouge">NULL</code> in the <code class="language-plaintext highlighter-rouge">meteorites</code> table.
+    <ul>
+      <li data-marker="*">Keep in mind that the <code class="language-plaintext highlighter-rouge">mass</code>, <code class="language-plaintext highlighter-rouge">year</code>, <code class="language-plaintext highlighter-rouge">lat</code>, and <code class="language-plaintext highlighter-rouge">long</code> columns have empty values in the CSV.</li>
+    </ul>
+  </li>
+  <li>All columns with decimal values (e.g., 70.4777) should be rounded to the nearest hundredths place (e.g., 70.4777 becomes 70.48).
+    <ul>
+      <li data-marker="*">Keep in mind that the <code class="language-plaintext highlighter-rouge">mass</code>, <code class="language-plaintext highlighter-rouge">lat</code>, and <code class="language-plaintext highlighter-rouge">long</code> columns have decimal values.</li>
+    </ul>
+  </li>
+  <li>All meteorites with the <code class="language-plaintext highlighter-rouge">nametype</code> “Relict” are <em>not</em> included in the <code class="language-plaintext highlighter-rouge">meteorites</code> table.</li>
+  <li>The meteorites are sorted by <code class="language-plaintext highlighter-rouge">year</code>, oldest to newest, and then—if any two meteorites landed in the same year—by <code class="language-plaintext highlighter-rouge">name</code>, in alphabetical order.</li>
+  <li>You’ve updated the IDs of the meteorites from <code class="language-plaintext highlighter-rouge">meteorites.csv</code>, according to the order specified in #4.
+    <ul>
+      <li data-marker="*">The <code class="language-plaintext highlighter-rouge">id</code> of the meteorites should start at 1, beginning with the meteorite that landed in the oldest year and is the first in alphabetical order for that year.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="advice">Advice</h2>
+
+<p>It can feel overwhelming to know where to start when cleaning such a big data file! Let’s break the problem down into smaller pieces.</p>
+
+<details><summary>Begin by importing <code>meteorites.csv</code> into a temporary table</summary><p>Start by getting all of the data from <code class="language-plaintext highlighter-rouge">meteorites.csv</code> into a temporary table, one called <code class="language-plaintext highlighter-rouge">meteorites_temp</code>. A temporary table is a helpful placeholder: you can use it to clean your data until it’s in a form that’s suitable for your final <code class="language-plaintext highlighter-rouge">meteorites</code> table.</p>
+
+<p>Before you import a CSV into a SQLite database, it’s best to define the schema for the table into which that data will be imported. In <code class="language-plaintext highlighter-rouge">import.sql</code>, then, try the following:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="nv">"meteorites_temp"</span> <span class="p">(</span>
+    <span class="c1">-- TODO</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>We’ll leave the column names up to you.</p>
+
+<p>Next, recall that <code class="language-plaintext highlighter-rouge">.import</code> is a SQLite statement that can import a CSV into a table of your choice. After your <code class="language-plaintext highlighter-rouge">CREATE TABLE</code> statement, write a <code class="language-plaintext highlighter-rouge">.import</code> statement to import the data from <code class="language-plaintext highlighter-rouge">meteorites.csv</code> into the <code class="language-plaintext highlighter-rouge">meteorites_temp</code> table.</p>
+
+<p>Finally, per the <a href="#usage">Usage</a> section below, try creating <code class="language-plaintext highlighter-rouge">meteorites.db</code> by running the statements in <code class="language-plaintext highlighter-rouge">import.sql</code>.</p></details>
+
+<details><summary>Write SQL statements to clean the imported data</summary><p>With your data in a temporary table, continue writing SQL statements to clean the data. Consider how you might update the values of the <code class="language-plaintext highlighter-rouge">mass</code> column for instance:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">UPDATE</span> <span class="nv">"meteorites_temp"</span>
+<span class="k">SET</span> <span class="nv">"mass"</span> <span class="o">=</span> <span class="p">...</span>
+<span class="k">WHERE</span> <span class="p">...</span>
+</code></pre></div></div>
+
+<p>You might need to write a few such statements, one (or more) for each column you’re trying to clean.</p></details>
+
+<details><summary>Transfer the data from your temporary table into a <code>meteorites</code> table</summary><p>Recall that you can <code class="language-plaintext highlighter-rouge">INSERT</code> values into a new table by <code class="language-plaintext highlighter-rouge">SELECT</code>ing rows from another:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">table0</span> <span class="p">(</span><span class="n">column0</span><span class="p">,</span> <span class="n">column1</span><span class="p">)</span>
+<span class="k">SELECT</span> <span class="n">table1</span> <span class="p">(</span><span class="n">column0</span><span class="p">,</span> <span class="n">column1</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>When you do so, you can re-order your data using <code class="language-plaintext highlighter-rouge">ORDER BY</code>. And, so long as you’ve specified a primary key column in your new table, such a statement will auto-assign new IDs to the inserted rows if none is specified.</p></details>
+
+<h2 id="usage">Usage</h2>
+
+<p>Let’s introduce a few terminal commands that might come in handy while you’re working on cleaning this data set! Consider the following:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>import.sql | sqlite3 meteorites.db
+</code></pre></div></div>
+
+<p>The above command can be broken down into two parts:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">cat import.sql</code> outputs the data in <code class="language-plaintext highlighter-rouge">import.sql</code>. Try it by itself if you’re curious.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">sqlite3 meteorites.db</code> opens a file called <code class="language-plaintext highlighter-rouge">meteorites.db</code> with the <code class="language-plaintext highlighter-rouge">sqlite3</code> engine, as you’re already familiar with.</li>
+</ul>
+
+<p>When these commands are combined with a pipe, <code class="language-plaintext highlighter-rouge">|</code>, the data from <code class="language-plaintext highlighter-rouge">import.sql</code> is treated as a set of statements for <code class="language-plaintext highlighter-rouge">sqlite3</code> to run on <code class="language-plaintext highlighter-rouge">meteorites.db</code>. If <code class="language-plaintext highlighter-rouge">meteorites.db</code> doesn’t yet exist, it will be created and the statements in <code class="language-plaintext highlighter-rouge">import.sql</code> will be run on it.</p>
+
+<p>What if your <code class="language-plaintext highlighter-rouge">import.sql</code> isn’t perfect and you want to re-create the database? Consider deleting the current version of <code class="language-plaintext highlighter-rouge">meteorites.db</code> with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">rm </span>meteorites.db
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">rm</code> stands for remove. If prompted, type “y” followed by enter to confirm the deletion of <code class="language-plaintext highlighter-rouge">meteorites.db</code>. From there, you can re-run <code class="language-plaintext highlighter-rouge">cat import.sql | sqlite3 meteorites.db</code> to create <code class="language-plaintext highlighter-rouge">meteorites.db</code> from scratch.</p>
+
+<p>Looking to speed things up? You can use the up arrow to access previously typed commands in your terminal.</p>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<p>While <code class="language-plaintext highlighter-rouge">check50</code> is available for this problem, you’re encouraged to also test your code on your own. Try using the commands in <a href="#usage">Usage</a> to see your current progress towards a clean data set!</p>
+
+<h3 id="correctness">Correctness</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2023/sql/meteorites
+</code></pre></div></div>
+
+<h2 id="how-to-submit">How to Submit</h2>
+
+<p>In your terminal, execute the below to submit your work.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2023/sql/meteorites
+</code></pre></div></div>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>Meteorite CSV retrieved from NASA’s Open Data Portal, <a href="https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh">data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh</a>.</p>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../assets/page.js?1696748853"></script>
+
+    
+
+
+</body></html>

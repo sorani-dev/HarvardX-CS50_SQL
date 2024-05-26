@@ -1,0 +1,7 @@
+[
+  {
+    "stmt": "SELECT id, username, password\nFROM users\nWHERE username = 'admin';",
+    "header": ["id", "username", "password"],
+    "rows": [["1", "admin", "982c0381c279d139fd221fce974916e7"]]
+  }
+]

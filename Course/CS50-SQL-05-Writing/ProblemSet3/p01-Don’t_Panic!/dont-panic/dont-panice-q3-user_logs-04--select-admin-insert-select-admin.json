@@ -1,0 +1,57 @@
+[
+  {
+    "stmt": "SELECT id, type, old_username, new_username, old_password, new_password\nFROM user_logs\nWHERE new_username = 'admin';",
+    "header": [
+      "id",
+      "type",
+      "old_username",
+      "new_username",
+      "old_password",
+      "new_password"
+    ],
+    "rows": [
+      [
+        "1",
+        "insert",
+        "NULL",
+        "admin",
+        "NULL",
+        "e10adc3949ba59abbe56e057f20f883e"
+      ]
+    ]
+  },
+  {
+    "stmt": "INSERT INTO \"user_logs\" (\n        \"type\",\n        \"old_username\",\n        \"new_username\",\n        \"old_password\",\n        \"new_password\"\n    )\nVALUES (\n        'update',\n        NULL,\n        'admin',\n        (\n            SELECT users.password\n            FROM users\n            WHERE username = 'admin'\n        ),\n        (\n            SELECT users.password\n            FROM users\n            WHERE username = 'emily33'\n        )\n    );",
+    "header": [],
+    "rows": []
+  },
+  {
+    "stmt": "SELECT id, type, old_username, new_username, old_password, new_password\nFROM user_logs\nWHERE new_username = 'admin';",
+    "header": [
+      "id",
+      "type",
+      "old_username",
+      "new_username",
+      "old_password",
+      "new_password"
+    ],
+    "rows": [
+      [
+        "1",
+        "insert",
+        "NULL",
+        "admin",
+        "NULL",
+        "e10adc3949ba59abbe56e057f20f883e"
+      ],
+      [
+        "51",
+        "update",
+        "NULL",
+        "admin",
+        "982c0381c279d139fd221fce974916e7",
+        "44bf025d27eea66336e5c1133c3827f7"
+      ]
+    ]
+  }
+]
