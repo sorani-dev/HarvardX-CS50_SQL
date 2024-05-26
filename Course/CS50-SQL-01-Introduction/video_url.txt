@@ -1,0 +1,2 @@
+https://edx-video.net/b61af2c7-5143-47b3-9283-51aae79562f2.m3u8
+https://edx-video.net/b61af2c7-5143-47b3-9283-51aae79562f2/b61af2c7-5143-47b3-9283-51aae79562f2-hls1080p.m3u8

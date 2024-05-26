@@ -1,0 +1,120 @@
+0
+00:00:00,000 --> 00:00:16,642
+[MUSIC PLAYING]
+
+1
+00:00:16,642 --> 00:00:17,850
+DAVID J. MALAN: Hello, world.
+
+2
+00:00:17,850 --> 00:00:22,130
+This is CS50's Introduction to Databases with SQL, or Sequel.
+
+3
+00:00:22,130 --> 00:00:23,460
+My name is David Malan.
+
+4
+00:00:23,460 --> 00:00:25,210
+CARTER ZENKE: And my name is Carter Zenke.
+
+5
+00:00:25,210 --> 00:00:28,040
+DAVID J. MALAN: CS50 itself is an introduction to computer science.
+
+6
+00:00:28,040 --> 00:00:30,560
+And along the way you learn about SQL and more.
+
+7
+00:00:30,560 --> 00:00:33,840
+This course dives all the more deeply into SQL specifically.
+
+8
+00:00:33,840 --> 00:00:37,070
+And you can take it before, during, or after CS50 itself,
+
+9
+00:00:37,070 --> 00:00:41,060
+whether you're a computer scientist, data scientist, programmer, or simply
+
+10
+00:00:41,060 --> 00:00:43,130
+someone who's interested in databases.
+
+11
+00:00:43,130 --> 00:00:44,922
+CARTER ZENKE: Now we'll begin with software
+
+12
+00:00:44,922 --> 00:00:48,350
+called SQLite, which you can use to query a table of data,
+
+13
+00:00:48,350 --> 00:00:50,510
+maybe a table of books, for instance.
+
+14
+00:00:50,510 --> 00:00:54,410
+You will then graduate and work not just with one table but multiple,
+
+15
+00:00:54,410 --> 00:00:57,650
+and see how to define relationships among them.
+
+16
+00:00:57,650 --> 00:01:00,290
+Afterwards you'll figure out how to design your very
+
+17
+00:01:00,290 --> 00:01:04,819
+own database from scratch, learning about schemas and data types.
+
+18
+00:01:04,819 --> 00:01:08,120
+And then you'll see how to add data to that database,
+
+19
+00:01:08,120 --> 00:01:12,350
+how to insert, update, and delete some data altogether.
+
+20
+00:01:12,350 --> 00:01:15,200
+Soon after you'll see how to write alternate views
+
+21
+00:01:15,200 --> 00:01:19,430
+for your data, new ways of simplifying your data for yourself and for others.
+
+22
+00:01:19,430 --> 00:01:21,530
+And then, towards the end of the course, you
+
+23
+00:01:21,530 --> 00:01:25,520
+will see how to optimize your queries, how to reduce the time that they take,
+
+24
+00:01:25,520 --> 00:01:28,410
+although at the cost of some space.
+
+25
+00:01:28,410 --> 00:01:31,070
+And then finally, to cap it all off, you'll
+
+26
+00:01:31,070 --> 00:01:36,980
+learn other DBMSs, Database Management Systems, like MySQL and Postgres,
+
+27
+00:01:36,980 --> 00:01:41,120
+that you can use to do all of this and more at a much bigger scale.
+
+28
+00:01:41,120 --> 00:01:43,930
+Now this is CS50.
+
+29
+00:01:43,930 --> 00:01:46,000
+
+
