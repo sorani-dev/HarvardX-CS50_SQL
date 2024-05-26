@@ -1,0 +1,557 @@
+<!DOCTYPE html><html lang="en-us"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="An introduction to databases using a language called SQL.">
+
+        <meta property="og:image" content="https://prod-discovery.edx-cdn.org/media/course/image/3e45c431-10df-423e-9f03-fb98b713cd4a-5158ac9c653a.small.png"><meta property="og:title" content="Don’t Panic! - CS50's Introduction to Databases with SQL">
+
+        <link href="../../../../favicon.ico?1696810446" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../../assets/jquery/dist/jquery.min.js?1696810446"></script>
+        <script src="../../../../assets/bootstrap/dist/js/bootstrap.bundle.min.js?1696810446"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../../assets/bootstrap-table/dist/bootstrap-table.min.css?1696810446" rel="stylesheet">
+        <script src="../../../../assets/bootstrap-table/dist/bootstrap-table.min.js?1696810446"></script>
+        <script src="../../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js?1696810446"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link crossorigin="anonymous" href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../../assets/luxon/build/global/luxon.min.js?1696810446"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="../../../../assets/mathjax/es5/tex-chtml.js?1696810446"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../../assets/intersection-observer/intersection-observer.js?1696810446"></script>
+        <script src="../../../../assets/vanilla-lazyload/dist/lazyload.min.js?1696810446"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../../../assets/iframe-resizer/js/iframeResizer.min.js?1696810446"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../../assets/scratchblocks.min.js?1696810446"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../../assets/mermaid.min.js?1696810446"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../../assets/twemoji/dist/twemoji.min.js?1696810446"></script>
+
+        
+
+        <link href="../../../../assets/page.css?1696810446" rel="stylesheet">
+        <script src="../../../../assets/jekyll-theme-cs50.js?1696810446"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>Don’t Panic! - CS50's Introduction to Databases with SQL</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../../../#how-to-take-this-course">a verified certificate or transfer credit and accreditation</a>?</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-databases-with-sql"><a href="../../../..">CS50’s Introduction to Databases with SQL</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="small"><a href="https://carterzenke.me">Carter Zenke</a><br>
+<a href="mailto:carter@cs50.harvard.edu">carter@cs50.harvard.edu</a>
+<br>
+<a class="mr-1" href="https://github.com/carterzenke"><i aria-hidden="true" class="fab fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/carterzenke/"><i aria-hidden="true" class="fab fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a></p>
+
+<p class="small"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/x/2023/ready/"><i class="fa-solid fa-duck me-2"></i>Ready Player 50</a></li>
+  <li data-marker="*"><a href="../../../../zoom/"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+</ul>
+
+<hr>
+
+<ol start="0">
+  <li><a href="../../../../weeks/0/">Querying</a></li>
+  <li><a href="../../../../weeks/1/">Relating</a></li>
+  <li><a href="../../../../weeks/2/">Designing</a></li>
+  <li><a href="../../../../weeks/3/">Writing</a></li>
+  <li><a href="../../../../weeks/4/">Viewing</a></li>
+  <li><a href="../../../../weeks/5/">Optimizing</a></li>
+  <li><a href="../../../../weeks/6/">Scaling</a></li>
+</ol>
+
+<ul>
+  <li data-marker="*"><a href="../../../../project/">Final Project</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../honesty/">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../../../certificate/">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../../../faqs/">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50sql">Gradebook</a></li>
+  <li data-marker="*"><a href="../../../">Problem Sets</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/sql">edX</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/151">Harvard Extension School</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/151">Harvard Summer School</a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382v1MBjNOhPu9SiJ1fsD4C0">YouTube</a></li>
+</ul>
+
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../../communities/"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.bsky.social">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/cs50">Twitter</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="https://cs50.harvard.edu/x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<hr>
+
+<p><a href="../../../../license/" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="dont-panic">Don’t Panic!</h1>
+
+<p class="w-50"><img src="dont-panic.jpg" alt="An empty server room in an office at night, in the style of a detective noir"><br>
+<em>“An empty server room in an office at night, in the style of a detective noir,” generated by <a href="https://openai.com/dall-e-2">DALL·E 2</a></em></p>
+
+<h2 id="problem-to-solve">Problem to Solve</h2>
+
+<p>You’re a trained “pentester.” After your success in an <a href="../../../3/dont-panic/">earlier operation</a>, a new company has hired you to perform a <a href="https://en.wikipedia.org/wiki/Penetration_test">penetration test</a> and report the vulnerabilities in their data system. This time, you suspect you can do better by writing a program in Java that automates your hack.</p>
+
+<p>To succeed in this covert operation, you’ll need to…</p>
+
+<ul>
+  <li data-marker="*"><strong>Connect</strong>, via Java, to a SQLite database.</li>
+  <li data-marker="*"><strong>Alter</strong>, within your Java program, the administrator’s password.</li>
+</ul>
+
+<p>If you don’t have experience with Java, not to worry! This problem will walk you through each step along the way.</p>
+
+<h2 id="distribution-code">Distribution Code</h2>
+
+<p>For this problem, you’ll need access to a database, a Java file, and a set of SQL statements to reset the database in case your hack fails the first time (not to worry if it does!).</p>
+
+<details><summary>Download the distribution code</summary><p>Log into <a href="https://cs50.dev/">cs50.dev</a>, click on your terminal window, and execute <code class="language-plaintext highlighter-rouge">cd</code> by itself. You should find that your terminal window’s prompt resembles the below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$
+</code></pre></div></div>
+
+<p>Next execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://cdn.cs50.net/sql/2023/x/psets/6/dont-panic-java.zip
+</code></pre></div></div>
+
+<p>in order to download a ZIP called <code class="language-plaintext highlighter-rouge">dont-panic-java.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip dont-panic-java.zip
+</code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">dont-panic-java</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm dont-panic-java.zip
+</code></pre></div></div>
+
+<p>and respond with “y” followed by Enter at the prompt to remove the ZIP file you downloaded.</p>
+
+<p>Now type</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd dont-panic-java
+</code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., open) that directory. Your prompt should now resemble the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dont-panic-java/ $
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls
+</code></pre></div></div>
+
+<p>and see a database named <code class="language-plaintext highlighter-rouge">dont-panic.db</code> alongside a <code class="language-plaintext highlighter-rouge">Hack.java</code> file, a <code class="language-plaintext highlighter-rouge">reset.sql</code> file, and a <code class="language-plaintext highlighter-rouge">sqlite-jdbc-3.43.0.0.jar</code> file. If not, retrace your steps and see if you can determine where you went wrong!</p></details>
+
+<h2 id="specification">Specification</h2>
+
+<p>In <code class="language-plaintext highlighter-rouge">Hack.java</code>, write a Java program to achieve the following:</p>
+
+<ul>
+  <li data-marker="*"><strong>Connect</strong>, via Java, to a SQLite database.</li>
+  <li data-marker="*"><strong>Alter</strong>, within your Java program, the administrator’s password.</li>
+</ul>
+
+<p>When your program in <code class="language-plaintext highlighter-rouge">Hack.java</code> is run on a new instance of the database, it should produce the above results.</p>
+
+<p>Clock’s ticking!</p>
+
+<h2 id="walkthrough">Walkthrough</h2>
+
+<div class="alert" data-alert="info" role="alert"><p>If you’re new to Java (or to connecting Java with SQL!) this walkthrough will guide you through each of this problem’s steps.</p></div>
+
+<h3 id="java">Java</h3>
+
+<p>When you download the distribution code for this problem, you should notice a file named <code class="language-plaintext highlighter-rouge">Hack.java</code>. You can tell this program is a Java program because it ends with <code class="language-plaintext highlighter-rouge">.java</code>. The <code class="language-plaintext highlighter-rouge">.java</code> extension identifies files as Java files much like how the <code class="language-plaintext highlighter-rouge">.sql</code> extension identifies files as a set of SQL statements.</p>
+
+<p>At first, <code class="language-plaintext highlighter-rouge">Hack.java</code> should only include the following:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hack</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hacked!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>To run this Java program, ensure that—when you type <code class="language-plaintext highlighter-rouge">ls</code>—you see <code class="language-plaintext highlighter-rouge">Hack.java</code> among the files in your current directory. Then, execute the below in your terminal:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>javac Hack.java
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">javac</code> <em>compiles</em> the program in <code class="language-plaintext highlighter-rouge">Hack.java</code> to a file named <code class="language-plaintext highlighter-rouge">Hack.class</code>. To compile a program means to translate a program from one language to another—in this case, from Java source code (the code you wrote yourself!) to Java “bytecode” (the code understandable to the the <code class="language-plaintext highlighter-rouge">java</code> program on your computer). You should then see a new file named <code class="language-plaintext highlighter-rouge">Hack.class</code>. Execute the following to run <code class="language-plaintext highlighter-rouge">Hack.class</code>, the compiled program:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java Hack
+</code></pre></div></div>
+
+<p>If all’s gone well, you should see “Hacked!” printed to your terminal. Not quite a hack, but you’re on your way!</p>
+
+<h3 id="javas-sql-package">Java’s SQL Package</h3>
+
+<p>Imagine your Java program wants to talk to a SQLite database, a bit like how you might call up a friend. But—unlike when you call your friend—there’s a problem: your Java program and the SQLite database don’t speak the same language.</p>
+
+<p>For that reason, the process of connecting your Java program to a database is all about ensuring your Java program and SQLite have some intermediary that can translate statements between them. That’s where Java’s SQL <em>package</em> comes in! A package is a collection of code that someone else has written to solve a problem (and, importantly, which you can use in your own Java program!).</p>
+
+<p>Java’s standard SQL package provides you with a few tools to translate statements between your Java program and SQLite: <code class="language-plaintext highlighter-rouge">DriverManager</code>, <code class="language-plaintext highlighter-rouge">Connection</code>, and <code class="language-plaintext highlighter-rouge">Statement</code>. Each has a role to play in your program:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">DriverManager</code> begins a database connection. It sets up a particular <em>driver</em> (that is, an intermediary program) to translate statements between your Java program and your database.</li>
+  <li data-marker="*">A <code class="language-plaintext highlighter-rouge">Connection</code> is what is created by <code class="language-plaintext highlighter-rouge">DriverManager</code>. It represents a connection to a database and, as such, all SQL statements run through it.</li>
+  <li data-marker="*">A <code class="language-plaintext highlighter-rouge">Statement</code> is the messenger that relays SQL statements through the database connection.</li>
+</ul>
+
+<p>To include these tools in your program, add the following <code class="language-plaintext highlighter-rouge">import</code> statements:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.DriverManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.Statement</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hack</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hacked!"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Try recompiling your Java program, as with <code class="language-plaintext highlighter-rouge">javac Hack.java</code>, and running it, as with <code class="language-plaintext highlighter-rouge">java Hack</code>. Nothing much should change, but that’s actually a good sign!</p>
+
+<h3 id="connecting-to-a-database">Connecting to a Database</h3>
+
+<p>As mentioned before, you can use <code class="language-plaintext highlighter-rouge">DriverManager</code> to establish a connection to <code class="language-plaintext highlighter-rouge">dont-panic.db</code>. To do so, replace <code class="language-plaintext highlighter-rouge">System.out.println("Hacked!");</code> with the below:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Connection</span> <span class="n">sqliteConnection</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="s">"jdbc:sqlite:dont-panic.db"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>This line of Java code is composed of a few pieces:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">Connection sqliteConnection</code>, which initializes a <code class="language-plaintext highlighter-rouge">Connection</code> named <code class="language-plaintext highlighter-rouge">sqliteConnection</code>. Henceforth in your program, you can use <code class="language-plaintext highlighter-rouge">sqliteConnection</code> to reference the connection between your Java program and your database.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">DriverManager.getConnection(...)</code>, which establishes a connection the database given as input within the parentheses.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">jdbc:sqlite:dont-panic.db</code>, which is a URL (similar to a website URL!) that identifies the database to which to connect (<code class="language-plaintext highlighter-rouge">dont-panic.db</code>) and the SQL dialect to which to translate (<code class="language-plaintext highlighter-rouge">sqlite</code>, in this case, as opposed to <code class="language-plaintext highlighter-rouge">mysql</code> or <code class="language-plaintext highlighter-rouge">postgres</code>).</li>
+</ul>
+
+<p>Your program should now look as follows:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.DriverManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.Statement</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hack</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">Connection</span> <span class="n">sqliteConnection</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="s">"jdbc:sqlite:dont-panic.db"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>However, if you run <code class="language-plaintext highlighter-rouge">javac Hack.java</code> and <code class="language-plaintext highlighter-rouge">java Hack</code> to compile and run your updated program, you might encounter an error:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Exception in thread "main" java.sql.SQLException: No suitable driver found for jdbc:sqlite:dont-panic.db
+        at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:708)
+        at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:253)
+        at Hack.main(Hack.java:7)
+</code></pre></div></div>
+
+<p>You might notice in particular that there is “No suitable driver found for <code class="language-plaintext highlighter-rouge">jdbc:sqlite:dont-panic.db</code>.” In other words, Java is telling you it can’t find the program to translate between Java and SQLite!</p>
+
+<p>To fix this issue, you’ll need to add the Java SQLite driver to your project. Once you do, your Java program and the SQLite database can start talking to each other.</p>
+
+<p>Compile your program as usual with <code class="language-plaintext highlighter-rouge">javac Hack.java</code>. But instead of running <code class="language-plaintext highlighter-rouge">java Hack</code>, execute the following:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-cp</span> .:sqlite-jdbc-3.43.0.0.jar Hack
+</code></pre></div></div>
+
+<p>This command is composed of a few pieces:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">-cp</code>, which stands for “Class Path.” It’s a way of telling Java where to look for extra things your program needs, like the Java SQLite driver.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">.</code>, which means “look in the current directory.” That’s where Java finds your <code class="language-plaintext highlighter-rouge">Hack.class</code> file.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">:</code>, which is similar to saying “and also look over here.” It’s how you separate different places Java should search.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">sqlite-jdbc-3.43.0.0.jar</code>, which is the name of the file that contains the SQLite driver.</li>
+</ul>
+
+<p>Putting it all together, <code class="language-plaintext highlighter-rouge">java -cp .:sqlite-jdbc-3.43.0.0.jar Hack</code> tells Java to run the Hack class and, at the same time, use the current directory and the <code class="language-plaintext highlighter-rouge">sqlite-jdbc-3.43.0.0.jar</code> file to find any extra programs it might need.</p>
+
+<p>Try running your program now. You might not see anything happen and, if so, that’s a good sign!</p>
+
+<h3 id="executing-sql-statements-with-java">Executing SQL Statements with Java</h3>
+
+<p>Once you’ve created a connection to a database, you can start executing SQL statements. As mentioned above, you can use <code class="language-plaintext highlighter-rouge">Statement</code> to relay SQL statements through your newly created database connection: a <code class="language-plaintext highlighter-rouge">Statement</code> is like a messenger between your Java program and the database to which you’ve connected.</p>
+
+<p>Here’s how you can set up and execute an <code class="language-plaintext highlighter-rouge">UPDATE</code> statement:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.DriverManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.Statement</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hack</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">Connection</span> <span class="n">sqliteConnection</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="s">"jdbc:sqlite:dont-panic.db"</span><span class="o">);</span>
+
+        <span class="nc">Statement</span> <span class="n">sqliteStatement</span> <span class="o">=</span> <span class="n">sqliteConnection</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
+
+        <span class="n">sqliteStatement</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">(</span><span class="sh">"""
+            UPDATE "users"
+            SET "password" = 'hacked!'
+            WHERE "username" = 'admin';
+        """</span><span class="o">);</span>
+
+        <span class="n">sqliteConnection</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Notice that you first create a <code class="language-plaintext highlighter-rouge">Statement</code> named <code class="language-plaintext highlighter-rouge">sqliteStatement</code>. <code class="language-plaintext highlighter-rouge">sqliteStatement</code> is created by using a <em>method</em> of <code class="language-plaintext highlighter-rouge">sqliteConnection</code> called <code class="language-plaintext highlighter-rouge">createStatement</code>. A method is some piece of code that takes an input and produces some output: in this case, a <code class="language-plaintext highlighter-rouge">Statement</code>!</p>
+
+<p>Next, you can use <code class="language-plaintext highlighter-rouge">sqliteStatement</code>’s <code class="language-plaintext highlighter-rouge">executeUpdate</code> method, which takes as input any SQL query that writes to the database. <code class="language-plaintext highlighter-rouge">executeUpdate</code> relays the statement to the database and runs it. Once the update is complete, you can close the connection to the database, using <code class="language-plaintext highlighter-rouge">sqliteConnection</code>’s <code class="language-plaintext highlighter-rouge">close</code> method.</p>
+
+<p>After you re-compile and run your program, try opening <code class="language-plaintext highlighter-rouge">dont-panic.db</code> with <code class="language-plaintext highlighter-rouge">sqlite3</code>. When you view the administrator’s password, you should find it is now “hacked!”</p>
+
+<p>If at any point you’d like to reset <code class="language-plaintext highlighter-rouge">dont-panic.db</code> to its original state, recall that you can use <code class="language-plaintext highlighter-rouge">reset.sql</code>.</p>
+
+<h3 id="prepared-statements">Prepared Statements</h3>
+
+<p>Imagine you wanted a user to determine the new administrative password <em>as your Java program runs</em>.</p>
+
+<p>Recall from lecture that a prepared statement is a SQL query with placeholders for values that are inserted (“interpolated”) later. Since you don’t know what password your program’s user will choose, the best you can do is set a placeholder for the password and allow your program to interpolate the user-chosen password later. Using a prepared statement, then, can help!</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">java.sql</code> package supports using prepared statements. First, replace importing <code class="language-plaintext highlighter-rouge">java.sql.Statement</code> with importing <code class="language-plaintext highlighter-rouge">java.sql.PreparedStatement</code> and write your query with a <code class="language-plaintext highlighter-rouge">?</code> as a placeholder:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.DriverManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.PreparedStatement</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hack</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">Connection</span> <span class="n">sqliteConnection</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="s">"jdbc:sqlite:dont-panic.db"</span><span class="o">);</span>
+
+        <span class="nc">String</span> <span class="n">query</span> <span class="o">=</span> <span class="sh">"""
+            UPDATE "users"
+            SET "password" = ?
+            WHERE "username" = 'admin';
+        """</span><span class="o">;</span>
+
+        <span class="n">sqliteConnection</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Next, use the <code class="language-plaintext highlighter-rouge">prepareStatement</code> and <code class="language-plaintext highlighter-rouge">setString</code> methods to substitute some value for that placeholder.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.DriverManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.PreparedStatement</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hack</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">Connection</span> <span class="n">sqliteConnection</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="s">"jdbc:sqlite:dont-panic.db"</span><span class="o">);</span>
+
+        <span class="nc">String</span> <span class="n">query</span> <span class="o">=</span> <span class="sh">"""
+            UPDATE "users"
+            SET "password" = ?
+            WHERE "username" = 'admin';
+        """</span><span class="o">;</span>
+        <span class="nc">PreparedStatement</span> <span class="n">sqliteStatement</span> <span class="o">=</span> <span class="n">sqliteConnection</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
+        <span class="n">sqliteStatement</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"hacked!"</span><span class="o">);</span>
+
+        <span class="n">sqliteStatement</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+
+        <span class="n">sqliteConnection</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>And finally, consider what you could do to get user input. While we won’t dive into all the details of how to collect user input with Java, suffice to say that the following should work!</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.sql.Connection</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.DriverManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.PreparedStatement</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hack</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span> <span class="o">{</span>
+        <span class="nc">Scanner</span> <span class="n">scanner</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Enter the new password: "</span><span class="o">);</span>
+        <span class="nc">String</span> <span class="n">password</span> <span class="o">=</span> <span class="n">scanner</span><span class="o">.</span><span class="na">nextLine</span><span class="o">();</span>
+
+        <span class="nc">Connection</span> <span class="n">sqliteConnection</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="s">"jdbc:sqlite:dont-panic.db"</span><span class="o">);</span>
+
+        <span class="nc">String</span> <span class="n">query</span> <span class="o">=</span> <span class="sh">"""
+            UPDATE "users"
+            SET "password" = ?
+            WHERE "username" = 'admin';
+        """</span><span class="o">;</span>
+        <span class="nc">PreparedStatement</span> <span class="n">sqliteStatement</span> <span class="o">=</span> <span class="n">sqliteConnection</span><span class="o">.</span><span class="na">prepareStatement</span><span class="o">(</span><span class="n">query</span><span class="o">);</span>
+        <span class="n">sqliteStatement</span><span class="o">.</span><span class="na">setString</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">password</span><span class="o">);</span>
+
+        <span class="n">sqliteStatement</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">();</span>
+
+        <span class="n">sqliteConnection</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="n">scanner</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Now, try running your program and viewing the changes in <code class="language-plaintext highlighter-rouge">dont-panic.db</code>!</p>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<h3 id="correctness">Correctness</h3>
+
+<p>Execute the below to evaluate the correctness of your findings using <code class="language-plaintext highlighter-rouge">check50</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2023/sql/sentimental/dont-panic/java
+</code></pre></div></div>
+
+<h2 id="how-to-submit">How to Submit</h2>
+
+<p>In your terminal, execute the below to submit your work.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2023/sql/sentimental/dont-panic/java
+</code></pre></div></div>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../../assets/page.js?1696810446"></script>
+
+    
+
+
+</body></html>
