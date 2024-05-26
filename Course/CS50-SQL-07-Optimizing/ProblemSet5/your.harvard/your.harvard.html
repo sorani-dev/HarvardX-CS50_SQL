@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en-us" class="wf-ptsans-n4-active wf-ptsans-n7-active wf-active" data-lt-installed="true"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="An introduction to databases using a language called SQL.">
+
+        <meta property="og:image" content="https://prod-discovery.edx-cdn.org/media/course/image/3e45c431-10df-423e-9f03-fb98b713cd4a-5158ac9c653a.small.png"><meta property="og:title" content="your.harvard - CS50's Introduction to Databases with SQL">
+
+        <link href="https://cs50.harvard.edu/sql/2023/favicon.ico?1696810446" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="your.harvard_files/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="your.harvard_files/jquery.min.js"></script>
+        <script src="your.harvard_files/bootstrap.bundle.min.js"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="your.harvard_files/bootstrap-table.min.css" rel="stylesheet">
+        <script src="your.harvard_files/bootstrap-table.min.js"></script>
+        <script src="your.harvard_files/bootstrap-table-mobile.min.js"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link crossorigin="anonymous" href="your.harvard_files/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="your.harvard_files/luxon.min.js"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="your.harvard_files/tex-chtml.js"></script><style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="your.harvard_files/intersection-observer.js"></script>
+        <script src="your.harvard_files/lazyload.min.js"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="your.harvard_files/iframeResizer.min.js"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="your.harvard_files/scratchblocks.min.js"></script><style><![CDATA[.sb-label{font-family:Lucida Grande,Verdana,Arial,DejaVu Sans,sans-serif;font-weight:700;fill:#fff;font-size:10px;word-spacing:1px}.sb-obsolete{fill:#d42828}.sb-motion{fill:#4a6cd4}.sb-looks{fill:#8a55d7}.sb-sound{fill:#bb42c3}.sb-pen{fill:#0e9a6c}.sb-events{fill:#c88330}.sb-control{fill:#e1a91a}.sb-sensing{fill:#2ca5e2}.sb-operators{fill:#5cb712}.sb-variables{fill:#ee7d16}.sb-list{fill:#cc5b22}.sb-custom{fill:#632d99}.sb-custom-arg{fill:#5947b1}.sb-extension{fill:#4b4a60}.sb-grey{fill:#969696}.sb-bevel{filter:url(#bevelFilter)}.sb-input{filter:url(#inputBevelFilter)}.sb-input-number,.sb-input-number-dropdown,.sb-input-string{fill:#fff}.sb-literal-dropdown,.sb-literal-number,.sb-literal-number-dropdown,.sb-literal-string{font-weight:400;font-size:9px;word-spacing:0}.sb-literal-number,.sb-literal-number-dropdown,.sb-literal-string{fill:#000}.sb-darker{filter:url(#inputDarkFilter)}.sb-outline{stroke:#fff;stroke-opacity:.2;stroke-width:2;fill:none}.sb-comment,.sb-define-hat-cap{stroke:#632d99;stroke-width:1;fill:#8e2ec2}.sb-comment{fill:#ffffa5;stroke:#d0d1d2}.sb-comment-line{fill:#ffff80}.sb-comment-label{font-family:Helvetica,Arial,DejaVu Sans,sans-serif;font-weight:700;fill:#5c5d5f;word-spacing:0;font-size:12px}.sb-diff{fill:none;stroke:#000}.sb-diff-ins{stroke-width:2px}.sb-diff-del{stroke-width:3px}]]></style><style><![CDATA[.sb3-label{font:500 12pt Helvetica Neue,Helvetica,sans-serif;word-spacing:1pt}.sb3-literal-dropdown,.sb3-literal-number,.sb3-literal-number-dropdown,.sb3-literal-string{word-spacing:0}.sb3-comment{fill:#ffffa5;stroke:#d0d1d2;stroke-width:1}.sb3-comment-line{fill:#ffff80}.sb3-comment-label{font:400 12pt Helvetica Neue,Helvetica,sans-serif;fill:#000;word-spacing:0}.sb3-diff{fill:none;stroke:#000}.sb3-diff-ins{stroke-width:2px}.sb3-diff-del{stroke-width:3px}svg .sb3-motion{fill:#4c97ff;stroke:#3373cc}svg .sb3-motion-alt{fill:#4280d7}svg .sb3-motion-dark{fill:#3373cc}svg .sb3-looks{fill:#96f;stroke:#774dcb}svg .sb3-looks-alt{fill:#855cd6}svg .sb3-looks-dark{fill:#774dcb}svg .sb3-sound{fill:#cf63cf;stroke:#bd42bd}svg .sb3-sound-alt{fill:#c94fc9}svg .sb3-sound-dark{fill:#bd42bd}svg .sb3-control{fill:#ffab19;stroke:#cf8b17}svg .sb3-control-alt{fill:#ec9c13}svg .sb3-control-dark{fill:#cf8b17}svg .sb3-events{fill:#ffbf00;stroke:#c90}svg .sb3-events-alt{fill:#e6ac00}svg .sb3-events-dark{fill:#c90}svg .sb3-sensing{fill:#5cb1d6;stroke:#2e8eb8}svg .sb3-sensing-alt{fill:#47a8d1}svg .sb3-sensing-dark{fill:#2e8eb8}svg .sb3-operators{fill:#59c059;stroke:#389438}svg .sb3-operators-alt{fill:#46b946}svg .sb3-operators-dark{fill:#389438}svg .sb3-variables{fill:#ff8c1a;stroke:#db6e00}svg .sb3-variables-alt{fill:#ff8000}svg .sb3-variables-dark{fill:#db6e00}svg .sb3-list{fill:#ff661a;stroke:#e64d00}svg .sb3-list-alt{fill:#f50}svg .sb3-list-dark{fill:#e64d00}svg .sb3-custom{fill:#ff6680;stroke:#f35}svg .sb3-custom-alt{fill:#ff4d6a}svg .sb3-custom-dark{fill:#f35}svg .sb3-extension{fill:#0fbd8c;stroke:#0b8e69}svg .sb3-extension-alt{fill:#0da57a}svg .sb3-extension-dark{fill:#0b8e69}svg .sb3-obsolete{fill:#ed4242;stroke:#ca2b2b}svg .sb3-obsolete-alt{fill:#db3333}svg .sb3-obsolete-dark{fill:#ca2b2b}svg .sb3-grey{fill:#bfbfbf;stroke:#909090}svg .sb3-grey-alt{fill:#b2b2b2}svg .sb3-grey-dark{fill:#909090}svg .sb3-label{fill:#fff}svg .sb3-input-color{stroke:#fff}svg .sb3-input-number,svg .sb3-input-string{fill:#fff}svg .sb3-literal-number,svg .sb3-literal-string{fill:#575e75}svg.scratchblocks-style-scratch3-high-contrast .sb3-motion{fill:#80b5ff;stroke:#3373cc}svg.scratchblocks-style-scratch3-high-contrast .sb3-motion-alt{fill:#b3d2ff}svg.scratchblocks-style-scratch3-high-contrast .sb3-motion-dark{fill:#3373cc}svg.scratchblocks-style-scratch3-high-contrast .sb3-looks{fill:#ccb3ff;stroke:#774dcb}svg.scratchblocks-style-scratch3-high-contrast .sb3-looks-alt{fill:#dcf}svg.scratchblocks-style-scratch3-high-contrast .sb3-looks-dark{fill:#774dcb}svg.scratchblocks-style-scratch3-high-contrast .sb3-sound{fill:#e19de1;stroke:#bd42bd}svg.scratchblocks-style-scratch3-high-contrast .sb3-sound-alt{fill:#ffb3ff}svg.scratchblocks-style-scratch3-high-contrast .sb3-sound-dark{fill:#bd42bd}svg.scratchblocks-style-scratch3-high-contrast .sb3-control{fill:#ffbe4c;stroke:#cf8b17}svg.scratchblocks-style-scratch3-high-contrast .sb3-control-alt{fill:#ffda99}svg.scratchblocks-style-scratch3-high-contrast .sb3-control-dark{fill:#cf8b17}svg.scratchblocks-style-scratch3-high-contrast .sb3-events{fill:#ffd966;stroke:#c90}svg.scratchblocks-style-scratch3-high-contrast .sb3-events-alt{fill:#ffecb3}svg.scratchblocks-style-scratch3-high-contrast .sb3-events-dark{fill:#c90}svg.scratchblocks-style-scratch3-high-contrast .sb3-sensing{fill:#85c4e0;stroke:#2e8eb8}svg.scratchblocks-style-scratch3-high-contrast .sb3-sensing-alt{fill:#aed8ea}svg.scratchblocks-style-scratch3-high-contrast .sb3-sensing-dark{fill:#2e8eb8}svg.scratchblocks-style-scratch3-high-contrast .sb3-operators{fill:#7ece7e;stroke:#389438}svg.scratchblocks-style-scratch3-high-contrast .sb3-operators-alt{fill:#b5e3b5}svg.scratchblocks-style-scratch3-high-contrast .sb3-operators-dark{fill:#389438}svg.scratchblocks-style-scratch3-high-contrast .sb3-variables{fill:#ffa54c;stroke:#db6e00}svg.scratchblocks-style-scratch3-high-contrast .sb3-variables-alt{fill:#fc9}svg.scratchblocks-style-scratch3-high-contrast .sb3-variables-dark{fill:#db6e00}svg.scratchblocks-style-scratch3-high-contrast .sb3-list{fill:#f96;stroke:#e64d00}svg.scratchblocks-style-scratch3-high-contrast .sb3-list-alt{fill:#ffcab0}svg.scratchblocks-style-scratch3-high-contrast .sb3-list-dark{fill:#e64d00}svg.scratchblocks-style-scratch3-high-contrast .sb3-custom{fill:#f9a;stroke:#e64d00}svg.scratchblocks-style-scratch3-high-contrast .sb3-custom-alt{fill:#ffccd5}svg.scratchblocks-style-scratch3-high-contrast .sb3-custom-dark{fill:#e64d00}svg.scratchblocks-style-scratch3-high-contrast .sb3-extension{fill:#13ecaf;stroke:#0b8e69}svg.scratchblocks-style-scratch3-high-contrast .sb3-extension-alt{fill:#75f0cd}svg.scratchblocks-style-scratch3-high-contrast .sb3-extension-dark{fill:#0b8e69}svg.scratchblocks-style-scratch3-high-contrast .sb3-obsolete{fill:#fc6666;stroke:#d32121}svg.scratchblocks-style-scratch3-high-contrast .sb3-obsolete-alt{fill:#fcb0b0}svg.scratchblocks-style-scratch3-high-contrast .sb3-obsolete-dark{fill:#d32121}svg.scratchblocks-style-scratch3-high-contrast .sb3-grey{fill:#bfbfbf;stroke:#959595}svg.scratchblocks-style-scratch3-high-contrast .sb3-grey-alt{fill:#b2b2b2}svg.scratchblocks-style-scratch3-high-contrast .sb3-grey-dark{fill:#959595}svg.scratchblocks-style-scratch3-high-contrast .sb3-label{fill:#000}svg.scratchblocks-style-scratch3-high-contrast .sb3-input-color{stroke:#fff}svg.scratchblocks-style-scratch3-high-contrast .sb3-input-number,svg.scratchblocks-style-scratch3-high-contrast .sb3-input-string{fill:#fff}svg.scratchblocks-style-scratch3-high-contrast .sb3-literal-number,svg.scratchblocks-style-scratch3-high-contrast .sb3-literal-string{fill:#000}]]></style>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="your.harvard_files/mermaid.min.js"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="your.harvard_files/twemoji.min.js"></script>
+
+        
+
+        <link href="your.harvard_files/page.css" rel="stylesheet">
+        <link rel="stylesheet" href="your.harvard_files/css.css" media="all"><script src="your.harvard_files/jekyll-theme-cs50.js"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>your.harvard - CS50's Introduction to Databases with SQL</title>
+
+
+    <style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cs50.harvard.edu/sql/2023/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+
+    <body class="">
+
+        <div class="alert fixed-top mb-0 rounded-0 alert-success alert-dismissible" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="https://cs50.harvard.edu/sql/2023/#how-to-take-this-course" class="alert-link">a verified certificate or transfer credit and accreditation</a>?</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg" style="height: 591.467px; top: 57.5333px;">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-databases-with-sql"><a href="https://cs50.harvard.edu/sql/2023/">CS50’s Introduction to Databases with SQL</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="small"><a href="https://carterzenke.me/">Carter Zenke</a><br>
+<a href="mailto:carter@cs50.harvard.edu">carter@cs50.harvard.edu</a>
+<br>
+<a class="mr-1" href="https://github.com/carterzenke"><i aria-hidden="true" class="fab fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/carterzenke/"><i aria-hidden="true" class="fab fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a></p>
+
+<p class="small"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/x/2023/ready/"><i class="fa-solid fa-duck me-2"></i>Ready Player 50</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/sql/2023/zoom/"><i class="fa-solid fa-video me-2"></i>Zoom Meetings<span class="badge ms-2 p-1 text-bg-warning">new</span></a></li>
+</ul>
+
+<hr>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+</ul>
+
+<hr>
+
+<ol start="0">
+  <li><a href="https://cs50.harvard.edu/sql/2023/weeks/0/">Querying</a></li>
+  <li><a href="https://cs50.harvard.edu/sql/2023/weeks/1/">Relating</a></li>
+  <li><a href="https://cs50.harvard.edu/sql/2023/weeks/2/">Designing</a></li>
+  <li><a href="https://cs50.harvard.edu/sql/2023/weeks/3/">Writing</a></li>
+  <li><a href="https://cs50.harvard.edu/sql/2023/weeks/4/">Viewing</a></li>
+  <li><a href="https://cs50.harvard.edu/sql/2023/weeks/5/">Optimizing</a></li>
+  <li><a href="https://cs50.harvard.edu/sql/2023/weeks/6/">Scaling</a></li>
+</ol>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/sql/2023/project/">Final Project</a></li>
+</ul>
+
+<hr>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/sql/2023/honesty/">Academic Honesty</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/sql/2023/certificate/">CS50 Certificate</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/sql/2023/faqs/">FAQs</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.me/cs50sql">Gradebook</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/sql/2023/psets/">Problem Sets</a></li>
+</ul>
+
+<hr>
+
+<ul class="small fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.edx.org/sql">edX</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://web.dce.harvard.edu/extension/csci/e/151">Harvard Extension School</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://web.dce.harvard.edu/summer/csci/s/151">Harvard Summer School</a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382v1MBjNOhPu9SiJ1fsD4C0">YouTube</a></li>
+</ul>
+
+<hr>
+
+<ul class="small fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<hr>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/sql/2023/communities/"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.bsky.social/">Bluesky</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://twitter.com/cs50">Twitter</a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="your.harvard_files/shop.png" alt="Harvard Shop"></a></p>
+
+<hr>
+
+<p><a href="https://cs50.harvard.edu/sql/2023/license/" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg" style="margin-bottom: 420px; margin-top: 57.5333px;">
+
+                    <a data-id="" id="yourharvard" style="top: -57.5333px;"></a><h1><a data-id="" href="#yourharvard">your.harvard</a></h1>
+
+<p><img src="your.harvard_files/my.harvard.png" alt="The my.harvard logo"><br>
+<em>The my.harvard logo</em></p>
+
+<a data-id="" id="problem-to-solve" style="top: -57.5333px;"></a><h2><a data-id="" href="#problem-to-solve">Problem to Solve</a></h2>
+
+<p>If you’re not already familiar, Harvard has a course shopping tool called <a href="https://my.harvard.edu/">my.harvard</a>,
+ with which students explore (and ultimately register for!) classes. To 
+keep track of courses, students, and their registrations, my.harvard 
+presumably uses some kind of underlying database. And yet, if you’ve 
+ever used it, you’ll know that my.harvard isn’t especially… quick.</p>
+
+<p>Here’s your chance to make my.harvard just a little bit faster! In 
+this problem, take some Harvard course data and create indexes to speed 
+up typical queries on the database. Keep in mind that indexing every 
+column isn’t always the best solution: you’ll need to consider 
+trade-offs in terms of space and time, ultimately representing Harvard’s
+ courses and students in the most efficient way possible.</p>
+
+<a data-id="" id="demo" style="top: -57.5333px;"></a><h2><a data-id="" href="#demo">Demo</a></h2>
+
+<script async="" data-autoplay="1" data-cols="100" data-loop="1" data-rows="12" id="asciicast-RGJOJohkj1ar9uNE6qbgS95ky" src="your.harvard_files/RGJOJohkj1ar9uNE6qbgS95ky.js" data-player="[object HTMLDivElement]"></script><div id="asciicast-container-RGJOJohkj1ar9uNE6qbgS95ky" class="asciicast" style="display: block; float: none; overflow: hidden; padding: 0px; margin: 20px 0px;"><iframe src="your.harvard_files/iframe.htm" id="asciicast-iframe-RGJOJohkj1ar9uNE6qbgS95ky" name="asciicast-iframe-RGJOJohkj1ar9uNE6qbgS95ky" scrolling="no" allowfullscreen="true" style="overflow: hidden; margin: 0px; border: 0px; display: inline-block; width: 100%; float: none; visibility: visible; height: 385px;"></iframe></div>
+
+<a data-id="" id="distribution-code" style="top: -57.5333px;"></a><h2><a data-id="" href="#distribution-code">Distribution Code</a></h2>
+
+<p>For this problem, you’ll need to download <code class="language-plaintext highlighter-rouge">harvard.db</code> and an <code class="language-plaintext highlighter-rouge">indexes.sql</code> file in which you’ll write your SQL statements to create your indexes.</p>
+
+<details open=""><summary>Download the distribution code</summary><p>Log into <a href="https://cs50.dev/">cs50.dev</a>, click on your terminal window, and execute <code class="language-plaintext highlighter-rouge">cd</code> by itself. You should find that your terminal window’s prompt resembles the below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$
+</code></pre></div></div>
+
+<p>Next execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://cdn.cs50.net/sql/2023/x/psets/5/harvard.zip
+</code></pre></div></div>
+
+<p>in order to download a ZIP called <code class="language-plaintext highlighter-rouge">harvard.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip harvard.zip
+</code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">harvard</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm harvard.zip
+</code></pre></div></div>
+
+<p>and respond with “y” followed by Enter at the prompt to remove the ZIP file you downloaded.</p>
+
+<p>Now type</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd harvard
+</code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., open) that directory. Your prompt should now resemble the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>harvard/ $
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls
+</code></pre></div></div>
+
+<p>and see a database named <code class="language-plaintext highlighter-rouge">harvard.db</code> alongside a SQL file named <code class="language-plaintext highlighter-rouge">indexes.sql</code>. If not, retrace your steps and see if you can determine where you went wrong!</p></details>
+
+<a data-id="" id="schema" style="top: -57.5333px;"></a><h2><a data-id="" href="#schema">Schema</a></h2>
+
+<div class="mermaid" data-processed="true"><svg aria-roledescription="er" role="graphics-document document" viewBox="0 0 140 465" style="max-width: 140px;" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="100%" id="mermaid-1696850937179"><style>#mermaid-1696850937179{font-
+family:"trebuchet 
+ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}
+#mermaid-1696850937179 .error-icon{fill:#552222;}#mermaid-1696850937179 
+.error-text{fill:#552222;stroke:#552222;}#mermaid-1696850937179 
+.edge-thickness-normal{stroke-width:2px;}#mermaid-1696850937179 
+.edge-thickness-thick{stroke-width:3.5px;}#mermaid-1696850937179 
+.edge-pattern-solid{stroke-dasharray:0;}#mermaid-1696850937179 
+.edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1696850937179 
+.edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1696850937179 
+.marker{fill:#333333;stroke:#333333;}#mermaid-1696850937179 
+.marker.cross{stroke:#333333;}#mermaid-1696850937179 
+svg{font-family:"trebuchet 
+ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-1696850937179 
+.entityBox{fill:#ECECFF;stroke:#9370DB;}#mermaid-1696850937179 
+.attributeBoxOdd{fill:#ffffff;stroke:#9370DB;}#mermaid-1696850937179 
+.attributeBoxEven{fill:#f2f2f2;stroke:#9370DB;}#mermaid-1696850937179 
+.relationshipLabelBox{fill:hsl(80, 100%, 
+96.2745098039%);opacity:0.7;background-color:hsl(80, 100%, 
+96.2745098039%);}#mermaid-1696850937179 .relationshipLabelBox 
+rect{opacity:0.5;}#mermaid-1696850937179 
+.relationshipLine{stroke:#333333;}#mermaid-1696850937179 
+.entityTitleText{text-anchor:middle;font-size:18px;fill:#333;}
+#mermaid-1696850937179 
+#MD_PARENT_START{fill:#f5f5f5!important;stroke:#333333!important;stroke-
+width:1;}#mermaid-1696850937179 
+#MD_PARENT_END{fill:#f5f5f5!important;stroke:#333333!important;stroke-
+width:1;}#mermaid-1696850937179 :root{--mermaid-font-family:"trebuchet 
+ms",verdana,arial,sans-serif;}</style><g></g><defs><marker orient="auto" markerHeight="240" markerWidth="190" refY="7" refX="0" id="MD_PARENT_START"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="19" id="MD_PARENT_END"><path d="M 18,7 L9,13 L1,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="18" markerWidth="18" refY="9" refX="0" id="ONLY_ONE_START"><path d="M9,0 L9,18 M15,0 L15,18" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="18" markerWidth="18" refY="9" refX="18" id="ONLY_ONE_END"><path d="M3,0 L3,18 M9,0 L9,18" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="18" markerWidth="30" refY="9" refX="0" id="ZERO_OR_ONE_START"><circle r="6" cy="9" cx="21" fill="white" stroke="gray"></circle><path d="M9,0 L9,18" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="18" markerWidth="30" refY="9" refX="30" id="ZERO_OR_ONE_END"><circle r="6" cy="9" cx="9" fill="white" stroke="gray"></circle><path d="M21,0 L21,18" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="36" markerWidth="45" refY="18" refX="18" id="ONE_OR_MORE_START"><path d="M0,18 Q 18,0 36,18 Q 18,36 0,18 M42,9 L42,27" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="36" markerWidth="45" refY="18" refX="27" id="ONE_OR_MORE_END"><path d="M3,9 L3,27 M9,18 Q27,0 45,18 Q27,36 9,18" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="36" markerWidth="57" refY="18" refX="18" id="ZERO_OR_MORE_START"><circle r="6" cy="18" cx="48" fill="white" stroke="gray"></circle><path d="M0,18 Q18,0 36,18 Q18,36 0,18" fill="none" stroke="gray"></path></marker></defs><defs><marker orient="auto" markerHeight="36" markerWidth="57" refY="18" refX="39" id="ZERO_OR_MORE_END"><circle r="6" cy="18" cx="9" fill="white" stroke="gray"></circle><path d="M21,18 Q39,0 57,18 Q39,36 21,18" fill="none" stroke="gray"></path></marker></defs><path marker-start="url(#ZERO_OR_MORE_START)" marker-end="url(#ONE_OR_MORE_END)" style="stroke: gray; fill: none;" d="M70,95L70,103.33333333333333C70,111.66666666666667,70,128.33333333333334,70,145C70,161.66666666666666,70,178.33333333333334,70,186.66666666666666L70,195" class="er relationshipLine"></path><path marker-start="url(#ONE_OR_MORE_START)" marker-end="url(#ZERO_OR_MORE_END)" style="stroke: gray; fill: none;" d="M70,270L70,278.3333333333333C70,286.6666666666667,70,303.3333333333333,70,320C70,336.6666666666667,70,353.3333333333333,70,361.6666666666667L70,370" class="er relationshipLine"></path><g transform="translate(20,20 )" id="entity-Student-8f7f7a56-d9f8-57b5-bb12-4f40575e65f5"><rect height="75" width="100" y="0" x="0" class="er entityBox"></rect><text transform="translate(50,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-size: 12px;" y="0" x="0" id="text-entity-Student-8f7f7a56-d9f8-57b5-bb12-4f40575e65f5" class="er entityLabel">Student</text></g><g transform="translate(20,195 )" id="entity-Course-e6435c0c-5f73-5cd3-80c6-be59c059830f"><rect height="75" width="100" y="0" x="0" class="er entityBox"></rect><text transform="translate(50,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-size: 12px;" y="0" x="0" id="text-entity-Course-e6435c0c-5f73-5cd3-80c6-be59c059830f" class="er entityLabel">Course</text></g><g transform="translate(20,370 )" id="entity-Requirement-e44e3d44-a606-566a-9116-07a78c0ec0d6"><rect height="75" width="100" y="0" x="0" class="er entityBox"></rect><text transform="translate(50,37.5)" style="dominant-baseline: middle; text-anchor: middle; font-size: 12px;" y="0" x="0" id="text-entity-Requirement-e44e3d44-a606-566a-9116-07a78c0ec0d6" class="er entityLabel">Requirement</text></g><rect height="13.800000190734863" width="49.70000076293945" y="138.09999990463257" x="45.14999961853027" class="er relationshipLabelBox"></rect><text style="text-anchor: middle; dominant-baseline: middle; font-size: 12px;" y="145" x="70" id="rel1" class="er relationshipLabel">enrolls in</text><rect height="13.800000190734863" width="43.41666793823242" y="313.09999990463257" x="48.29166603088379" class="er relationshipLabelBox"></rect><text style="text-anchor: middle; dominant-baseline: middle; font-size: 12px;" y="320" x="70" id="rel2" class="er relationshipLabel">satisfies</text></svg></div>
+
+<p>Within <code class="language-plaintext highlighter-rouge">harvard.db</code>,
+ you’ll find five tables that implement the relationships described in 
+the ER diagram above. Click the drop-downs below to learn more about the
+ schema of each individual table.</p>
+
+<details open=""><summary><code>students</code> table</summary><p>The <code class="language-plaintext highlighter-rouge">students</code> table contains the following columns:</p>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">id</code>, which is the student’s ID.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">name</code>, which is the student’s name.</li>
+</ul></details>
+
+<details open=""><summary><code>courses</code> table</summary><p>The <code class="language-plaintext highlighter-rouge">courses</code> table contains the following columns:</p>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">id</code>, which is the courses’s ID.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">department</code>, which is the department in which the course is taught (e.g., “Computer Science”, “Economics”, “Philosophy”).</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">number</code>, which is the course number (e.g., 50, 12, 330).</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">semester</code>, which is the semester in which the class was taught (e.g., “Spring 2024”, “Fall 2023”).</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">title</code>, which is the title of the course (e.g., “Introduction to Computer Science”).</li>
+</ul></details>
+
+<details open=""><summary><code>enrollments</code> table</summary><p>The <code class="language-plaintext highlighter-rouge">enrollments</code> table contains the following columns:</p>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">id</code>, which is the ID to identify the enrollment.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">student_id</code>, which is the ID of the student enrolled.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">course_id</code>, which is the ID of the course in which the student is enrolled.</li>
+</ul></details>
+
+<details open=""><summary><code>requirements</code> table</summary><p>The <code class="language-plaintext highlighter-rouge">requirements</code> table contains the following columns:</p>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">id</code>, which is the ID of the requirement.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">name</code>, which is the name of the requirement.</li>
+</ul></details>
+
+<details open=""><summary><code>satisfies</code> table</summary><p>The <code class="language-plaintext highlighter-rouge">satisfies</code> table contains the following columns:</p>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">id</code>, which is the ID of the course-requirement pair.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">course_id</code>, which is the ID of a given course.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">requirement_id</code>, which is the ID of the requirement which the given course satisfies.</li>
+</ul></details>
+
+<a data-id="" id="specification" style="top: -57.5333px;"></a><h2><a data-id="" href="#specification">Specification</a></h2>
+
+<p>In <code class="language-plaintext highlighter-rouge">indexes.sql</code>, write a set of SQL statements that create indexes which will speed up typical queries on the <code class="language-plaintext highlighter-rouge">harvard.db</code>
+ database. The number of indexes you create, as well as the columns they
+ include, is entirely up to you. Be sure to balance speed with disk 
+space, only creating indexes you need.</p>
+
+<p>When engineers optimize a database, they often care about the typical
+ queries run on the database. Such queries highlight patterns with which
+ a database is accessed, thus revealing the best columns and tables on 
+which to create indexes. Click the spoiler tags below to see the set of 
+typical queries run on <code class="language-plaintext highlighter-rouge">harvard.db</code>.</p>
+
+<details open=""><summary>Typical <code>SELECT</code> queries on <code>harvard.db</code></summary><ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p>Find a student’s historical course enrollments, based on their ID:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"title"</span><span class="p">,</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"semester"</span> 
+<span class="k">FROM</span> <span class="nv">"enrollments"</span>
+<span class="k">JOIN</span> <span class="nv">"courses"</span> <span class="k">ON</span> <span class="nv">"enrollments"</span><span class="p">.</span><span class="nv">"course_id"</span> <span class="o">=</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"id"</span>
+<span class="k">JOIN</span> <span class="nv">"students"</span> <span class="k">ON</span> <span class="nv">"enrollments"</span><span class="p">.</span><span class="nv">"student_id"</span> <span class="o">=</span> <span class="nv">"students"</span><span class="p">.</span><span class="nv">"id"</span>
+<span class="k">WHERE</span> <span class="nv">"students"</span><span class="p">.</span><span class="nv">"id"</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p>Find all students who enrolled in Computer Science 50 in Fall 2023:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="nv">"id"</span><span class="p">,</span> <span class="nv">"name"</span>
+<span class="k">FROM</span> <span class="nv">"students"</span>
+<span class="k">WHERE</span> <span class="nv">"id"</span> <span class="k">IN</span> <span class="p">(</span>
+    <span class="k">SELECT</span> <span class="nv">"student_id"</span>
+    <span class="k">FROM</span> <span class="nv">"enrollments"</span>
+    <span class="k">WHERE</span> <span class="nv">"course_id"</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="k">SELECT</span> <span class="nv">"id"</span>
+        <span class="k">FROM</span> <span class="nv">"courses"</span>
+        <span class="k">WHERE</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"department"</span> <span class="o">=</span> <span class="s1">'Computer Science'</span>
+        <span class="k">AND</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"number"</span> <span class="o">=</span> <span class="mi">50</span>
+        <span class="k">AND</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"semester"</span> <span class="o">=</span> <span class="s1">'Fall 2023'</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p>Sort courses by most- to least-enrolled in Fall 2023:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"id"</span><span class="p">,</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"department"</span><span class="p">,</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"number"</span><span class="p">,</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"title"</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="nv">"enrollment"</span>
+<span class="k">FROM</span> <span class="nv">"courses"</span>
+<span class="k">JOIN</span> <span class="nv">"enrollments"</span> <span class="k">ON</span> <span class="nv">"enrollments"</span><span class="p">.</span><span class="nv">"course_id"</span> <span class="o">=</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"id"</span>
+<span class="k">WHERE</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"semester"</span> <span class="o">=</span> <span class="s1">'Fall 2023'</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"id"</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="nv">"enrollment"</span> <span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p>Find all computer science courses taught in Spring 2024:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"id"</span><span class="p">,</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"department"</span><span class="p">,</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"number"</span><span class="p">,</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"title"</span>
+<span class="k">FROM</span> <span class="nv">"courses"</span>
+<span class="k">WHERE</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"department"</span> <span class="o">=</span> <span class="s1">'Computer Science'</span>
+<span class="k">AND</span> <span class="nv">"courses"</span><span class="p">.</span><span class="nv">"semester"</span> <span class="o">=</span> <span class="s1">'Spring 2024'</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p>Find the requirement satisfied by “Advanced Databases” in Fall 2023:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="nv">"requirements"</span><span class="p">.</span><span class="nv">"name"</span>
+<span class="k">FROM</span> <span class="nv">"requirements"</span>
+<span class="k">WHERE</span> <span class="nv">"requirements"</span><span class="p">.</span><span class="nv">"id"</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="k">SELECT</span> <span class="nv">"requirement_id"</span>
+    <span class="k">FROM</span> <span class="nv">"satisfies"</span>
+    <span class="k">WHERE</span> <span class="nv">"course_id"</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="k">SELECT</span> <span class="nv">"id"</span>
+        <span class="k">FROM</span> <span class="nv">"courses"</span>
+        <span class="k">WHERE</span> <span class="nv">"title"</span> <span class="o">=</span> <span class="s1">'Advanced Databases'</span>
+        <span class="k">AND</span> <span class="nv">"semester"</span> <span class="o">=</span> <span class="s1">'Fall 2023'</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p>Find how many courses in each requirement a student has satisfied:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="nv">"requirements"</span><span class="p">.</span><span class="nv">"name"</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="nv">"courses"</span>
+<span class="k">FROM</span> <span class="nv">"requirements"</span>
+<span class="k">JOIN</span> <span class="nv">"satisfies"</span> <span class="k">ON</span> <span class="nv">"requirements"</span><span class="p">.</span><span class="nv">"id"</span> <span class="o">=</span> <span class="nv">"satisfies"</span><span class="p">.</span><span class="nv">"requirement_id"</span>
+<span class="k">WHERE</span> <span class="nv">"satisfies"</span><span class="p">.</span><span class="nv">"course_id"</span> <span class="k">IN</span> <span class="p">(</span>
+    <span class="k">SELECT</span> <span class="nv">"course_id"</span>
+    <span class="k">FROM</span> <span class="nv">"enrollments"</span>
+    <span class="k">WHERE</span> <span class="nv">"enrollments"</span><span class="p">.</span><span class="nv">"student_id"</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="p">)</span>
+<span class="k">GROUP</span> <span class="k">BY</span> <span class="nv">"requirements"</span><span class="p">.</span><span class="nv">"name"</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p>Search for a course by title and semester:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="nv">"department"</span><span class="p">,</span> <span class="nv">"number"</span><span class="p">,</span> <span class="nv">"title"</span>
+<span class="k">FROM</span> <span class="nv">"courses"</span>
+<span class="k">WHERE</span> <span class="nv">"title"</span> <span class="k">LIKE</span> <span class="nv">"History%"</span>
+<span class="k">AND</span> <span class="nv">"semester"</span> <span class="o">=</span> <span class="s1">'Fall 2023'</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+</ul></details>
+
+<details open=""><summary>Typical <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code> queries on <code>harvard.db</code></summary><ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p>Add a course:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="nv">"courses"</span> <span class="p">(</span><span class="nv">"department"</span><span class="p">,</span> <span class="nv">"number"</span><span class="p">,</span> <span class="nv">"semester"</span><span class="p">,</span> <span class="nv">"title"</span><span class="p">)</span>
+<span class="k">VALUES</span> <span class="p">(</span><span class="s1">'Computer Science'</span><span class="p">,</span> <span class="s1">'151'</span><span class="p">,</span> <span class="s1">'Fall 2023'</span><span class="p">,</span> <span class="s1">'Introduction to Databases with SQL'</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p>Register a student for a course:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="nv">"enrollments"</span> <span class="p">(</span><span class="nv">"student_id"</span><span class="p">,</span> <span class="nv">"course_id"</span><span class="p">)</span>
+<span class="k">VALUES</span> <span class="p">((</span>
+    <span class="k">SELECT</span> <span class="nv">"id"</span>
+    <span class="k">FROM</span> <span class="nv">"students"</span>
+    <span class="k">WHERE</span> <span class="nv">"name"</span> <span class="o">=</span> <span class="s1">'Carter'</span>
+<span class="p">),</span> <span class="p">(</span>
+    <span class="k">SELECT</span> <span class="nv">"id"</span>
+    <span class="k">FROM</span> <span class="nv">"courses"</span>
+    <span class="k">WHERE</span> <span class="nv">"title"</span> <span class="o">=</span> <span class="s1">'Introduction to Databases with SQL'</span>
+<span class="p">));</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p>Update the title of a course:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">UPDATE</span> <span class="nv">"courses"</span>
+<span class="k">SET</span> <span class="nv">"title"</span> <span class="o">=</span> <span class="s1">'Introduction to Shakespeare'</span>
+<span class="k">WHERE</span> <span class="nv">"title"</span> <span class="o">=</span> <span class="s1">'Shakespeare'</span>
+<span class="k">AND</span> <span class="nv">"number"</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="k">AND</span> <span class="nv">"department"</span> <span class="o">=</span> <span class="s1">'English'</span><span class="p">;</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p>Remove a course from the catalog:</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DELETE</span> <span class="k">FROM</span> <span class="nv">"courses"</span>
+<span class="k">WHERE</span> <span class="nv">"department"</span> <span class="o">=</span> <span class="s1">'Philosophy'</span>
+<span class="k">AND</span> <span class="nv">"number"</span> <span class="o">=</span> <span class="mi">178</span>
+<span class="k">AND</span> <span class="nv">"semester"</span> <span class="o">=</span> <span class="s1">'Spring 2024'</span>
+<span class="k">AND</span> <span class="nv">"title"</span> <span class="o">=</span> <span class="s1">'Philosophy of Mind'</span>
+</code></pre></div>    </div>
+  </li>
+</ul></details>
+
+<a data-id="" id="advice" style="top: -57.5333px;"></a><h2><a data-id="" href="#advice">Advice</a></h2>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>Type <code class="language-plaintext highlighter-rouge">.timer on</code> or <code class="language-plaintext highlighter-rouge">.timer off</code> to turn SQLite’s built-in query timer on or off, respectively.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>Recall that creating an index on a column can ensure that <code class="language-plaintext highlighter-rouge">SELECT</code> queries which search that column run faster. At the same time, an index requires additional space.</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>Recall
+ that an index organizes data in such a way as to facilitate the search 
+process. Yet, when new rows are added, updated, or deleted, the index 
+needs to be re-arranged—resulting in some <code class="language-plaintext highlighter-rouge">INSERT</code>, <code class="language-plaintext highlighter-rouge">UPDATE</code>, and <code class="language-plaintext highlighter-rouge">DELETE</code> queries actually taking longer when an index exists!</li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p>Recall that in SQLite you can execute</p>
+
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">EXPLAIN</span> <span class="n">QUERY</span> <span class="n">PLAN</span>
+<span class="p">...</span>
+</code></pre></div>    </div>
+
+    <p>where <code class="language-plaintext highlighter-rouge">...</code>
+ is a full SQL query. SQLite will reveal the process it intends to use 
+to execute the given query. You’ll know that your query is using an 
+index when <code class="language-plaintext highlighter-rouge">EXPLAIN QUERY PLAN</code>
+ lists steps that includes “USING INDEX” or “USING COVERING INDEX.” Keep
+ in mind that a query can involve multiple steps and, depending on which
+ indexes you’ve created, some of those steps may use an index while 
+others may not!</p>
+  </li>
+</ul>
+
+<a data-id="" id="usage" style="top: -57.5333px;"></a><h2><a data-id="" href="#usage">Usage</a></h2>
+
+<p>To test your indexes as you write them in <code class="language-plaintext highlighter-rouge">indexes.sql</code>, you can use</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.read indexes.sql
+</code></pre></div></div>
+
+<p>Keep in mind you can also use</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">DROP</span> <span class="k">INDEX</span> <span class="n">name</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>where <code class="language-plaintext highlighter-rouge">name</code> is the name of your index, to remove an index before creating it anew.</p>
+
+<p>You may want to use <code class="language-plaintext highlighter-rouge">VACUUM</code> to free up disk space after you delete an index!</p>
+
+<a data-id="" id="how-to-test" style="top: -57.5333px;"></a><h2><a data-id="" href="#how-to-test">How to Test</a></h2>
+
+<p>While <code class="language-plaintext highlighter-rouge">check50</code> is available for this problem, you’re encouraged to also test your code on your own.</p>
+
+<a data-id="" id="correctness" style="top: -57.5333px;"></a><h3><a data-id="" href="#correctness">Correctness</a></h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2023/sql/harvard
+</code></pre></div></div>
+
+<a data-id="" id="how-to-submit" style="top: -57.5333px;"></a><h2><a data-id="" href="#how-to-submit">How to Submit</a></h2>
+
+<p>In your terminal, execute the below to submit your work.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2023/sql/harvard
+</code></pre></div></div>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="your.harvard_files/page.js"></script>
+
+    
+
+
+</body></html>
