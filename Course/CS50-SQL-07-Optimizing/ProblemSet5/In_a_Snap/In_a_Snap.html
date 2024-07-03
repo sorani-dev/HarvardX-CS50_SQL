@@ -1,0 +1,567 @@
+<!DOCTYPE html><html lang="en-us"><head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="An introduction to databases using a language called SQL.">
+
+        <meta property="og:image" content="https://prod-discovery.edx-cdn.org/cdn-cgi/image/width=378,height=auto,quality=85,format=webp/media/course/image/3e45c431-10df-423e-9f03-fb98b713cd4a-2397c9098976.png"><meta property="og:title" content="In a Snap - CS50's Introduction to Databases with SQL">
+
+        <link href="../../../favicon.ico?1718631795" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="../../../assets/jquery/dist/jquery.min.js?1718631795"></script>
+        <script src="../../../assets/bootstrap/dist/js/bootstrap.bundle.min.js?1718631795"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="../../../assets/bootstrap-table/dist/bootstrap-table.min.css?1718631795" rel="stylesheet">
+        <script src="../../../assets/bootstrap-table/dist/bootstrap-table.min.js?1718631795"></script>
+        <script src="../../../assets/bootstrap-table/dist/extensions/mobile/bootstrap-table-mobile.min.js?1718631795"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link crossorigin="anonymous" href="https://kit.fontawesome.com/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="../../../assets/luxon/build/global/luxon.min.js?1718631795"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="../../../assets/mathjax/es5/tex-chtml.js?1718631795"></script>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="../../../assets/intersection-observer/intersection-observer.js?1718631795"></script>
+        <script src="../../../assets/vanilla-lazyload/dist/lazyload.min.js?1718631795"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="../../../assets/iframe-resizer/js/iframeResizer.min.js?1718631795"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="../../../assets/scratchblocks.min.js?1718631795"></script>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="../../../assets/mermaid.min.js?1718631795"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="../../../assets/twemoji/dist/twemoji.min.js?1718631795"></script>
+
+        
+
+        <link href="../../../assets/page.css?1718631795" rel="stylesheet">
+        <script src="../../../assets/jekyll-theme-cs50.js?1718631795"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "America/New_York"
+            };
+        </script>
+
+        <title>In a Snap - CS50's Introduction to Databases with SQL</title>
+
+
+    </head>
+
+    <body class="invisible">
+
+        <div class="alert fixed-top mb-0 rounded-0" data-alert="success dismissible" data-hash="0129a290f1b935ef2af9c47f24376fe8" id="alert" role="alert">
+            <button aria-label="Close" class="btn-close d-none" data-bs-dismiss="alert" type="button"></button><p>Interested in <a href="../../../#how-to-take-this-course">a verified certificate or transfer credit and accreditation</a>?</p></div>
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-databases-with-sql"><a href="../../..">CS50’s Introduction to Databases with SQL</a></h1>
+
+<p>OpenCourseWare</p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate">Donate<i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p class="small"><a href="https://carterzenke.me">Carter Zenke</a><br>
+<a href="mailto:carter@cs50.harvard.edu">carter@cs50.harvard.edu</a>
+<br>
+<a class="mr-1" href="https://github.com/carterzenke"><i aria-hidden="true" class="fab fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/carterzenke/"><i aria-hidden="true" class="fab fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a></p>
+
+<p class="small"><a href="https://cs.harvard.edu/malan/">David J. Malan</a>
+<br>
+<a href="mailto:malan@harvard.edu">malan@harvard.edu</a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only">Facebook</span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only">GitHub</span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only">Instagram</span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only">LinkedIn</span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only">Reddit</span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Threads"></i><span class="sr-only">Threads</span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Twitter"></i><span class="sr-only">Twitter</span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside > nav" data-bs-toggle="collapse">
+                        Menu
+                    </button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul>
+  <li data-marker="*"><a href="https://cs50.harvard.edu/x/2023/ready/"><i class="fa-solid fa-duck me-2"></i>Ready Player 50</a></li>
+  <li data-marker="*"><a href="../../../zoom/"><i class="fa-solid fa-video me-2"></i>Zoom Meetings</a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i>CS50.ai</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i>Ed Discussion</a> for Q&amp;A</li>
+  <li data-marker="*"><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i>Visual Studio Code</a></li>
+</ul>
+
+<!-- Highlights -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="../../../new/">What’s new for 2024?</a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="../../../weeks/0/">Querying</a></li>
+  <li><a href="../../../weeks/1/">Relating</a></li>
+  <li><a href="../../../weeks/2/">Designing</a></li>
+  <li><a href="../../../weeks/3/">Writing</a></li>
+  <li><a href="../../../weeks/4/">Viewing</a></li>
+  <li><a href="../../../weeks/5/">Optimizing</a></li>
+  <li><a href="../../../weeks/6/">Scaling</a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul>
+  <li data-marker="*"><a href="../../../project/">Final Project</a></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"></li>
+</ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../honesty/">Academic Honesty</a></li>
+  <li data-marker="*"><a href="../../../certificate/">CS50 Certificate</a></li>
+  <li data-marker="*"><a href="../../../faqs/">FAQs</a></li>
+  <li data-marker="*"><a href="https://cs50.me/cs50sql">Gradebook</a></li>
+  <li data-marker="*"><a href="../../../staff/">Staff</a></li>
+  <li data-marker="*"></li>
+</ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://apps.apple.com/us/app/cs50/id1631064453">Apple TV</a></li>
+  <li data-marker="*"><a href="https://cs50.edx.org/sql">edX</a></li>
+  <li data-marker="*"><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv">Google TV</a></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/extension/csci/e/151">Harvard Extension School</a></li>
+  <li data-marker="*"></li>
+  <li data-marker="*"><a href="https://web.dce.harvard.edu/summer/csci/s/151">Harvard Summer School</a></li>
+  <li data-marker="*"><a href="https://www.youtube.com/playlist?list=PLhQjrBD2T382v1MBjNOhPu9SiJ1fsD4C0">YouTube</a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small">
+  <li data-marker="*"><a href="https://cs50.statuspage.io/">Status Page</a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../communities/"><strong>Communities</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.bsky.social">Bluesky</a></li>
+  <li data-marker="*" class="small"><a href="https://www.clubhouse.com/club/cs50">Clubhouse</a></li>
+  <li data-marker="*" class="small"><a href="https://discord.gg/cs50">Discord</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/ed">Ed</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/groups/cs50/">Facebook Group</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.facebook.com/cs50/">Facebook Page</a></li>
+  <li data-marker="*" class="small"><a href="https://github.com/cs50">GitHub</a></li>
+  <li data-marker="*" class="small"><a href="https://gitter.im/cs50/x">Gitter</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://instagram.com/cs50">Instagram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/groups/7437240/">LinkedIn Group</a></li>
+  <li data-marker="*" class="small"><a href="https://www.linkedin.com/school/CS50/">LinkedIn Page</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.medium.com/">Medium</a></li>
+  <li data-marker="*" class="small"><a href="https://www.quora.com/topic/CS50">Quora</a></li>
+  <li data-marker="*" class="small"><a href="https://www.reddit.com/r/cs50/">Reddit</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://cs50.edx.org/slack">Slack</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://www.snapchat.com/add/cs50">Snapchat</a></li>
+  <li data-marker="*" class="small"><a href="https://soundcloud.com/cs50">SoundCloud</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.stackexchange.com/">Stack Exchange</a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark">Q&amp;A</span></li>
+  <li data-marker="*" class="small"><a href="https://t.me/cs50x">Telegram</a></li>
+  <li data-marker="*" class="small"><a href="https://www.tiktok.com/@cs50">TikTok</a></li>
+  <li data-marker="*" class="small"><a href="https://www.threads.net/@cs50">Threads</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/cs50">Twitter Account</a></li>
+  <li data-marker="*" class="small"><a href="https://twitter.com/i/communities/1722308663522594923">Twitter Community</a></li>
+  <li data-marker="*" class="small"><a href="http://www.youtube.com/subscription_center?add_user=cs50tv">YouTube</a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul>
+  <li data-marker="*"><a href="../../../courses/"><strong>Courses</strong></a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.harvard.edu/x">CS50x</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.harvard.edu/ai">CS50 AI</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.harvard.edu/business">CS50 Business</a></li>
+  <li data-marker="*" class="small"><a href="https://cs50.harvard.edu/cybersecurity">CS50 Cybersecurity</a></li>
+  <li data-marker="*" class="small"><a href="http://cs50.harvard.edu/law">CS50 for Lawyers</a></li>
+  <li data-marker="*" class="small"><a href="http://cs50.harvard.edu/games">CS50 Games</a></li>
+  <li data-marker="*" class="small"><a href="http://cs50.harvard.edu/python">CS50 Python</a></li>
+  <li data-marker="*" class="small"><a href="http://cs50.harvard.edu/r">CS50 R</a></li>
+  <li data-marker="*" class="small"><a href="http://cs50.harvard.edu/scratch">CS50 Scratch</a></li>
+  <li data-marker="*" class="small"><a href="http://cs50.harvard.edu/sql">CS50 SQL</a></li>
+  <li data-marker="*" class="small"><a href="http://cs50.harvard.edu/technology">CS50 Technology</a></li>
+  <li data-marker="*" class="small"><a href="http://cs50.harvard.edu/web">CS50 Web</a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="https://cs50.harvard.edu/x/2023/assets/shop.png" alt="Harvard Shop"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="../../../license/" class="small"><i class="fab fa-creative-commons me-1"></i>License</a></p>
+
+<p class="small">2024-06-17 09:43:19</p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg">
+
+                    <h1 id="in-a-snap">In a Snap</h1>
+
+<p class="w-50"><img src="snap.png" alt="Abstract oil painting of a digital picture being sent from a phone">
+<em>“Abstract oil painting of a digital picture being sent from a phone,” generated by <a href="https://openai.com/dall-e-2">DALL·E 2</a></em></p>
+
+<h2 id="problem-to-solve">Problem to Solve</h2>
+
+<p>After the printing press, the postal service, and the telegram came the messaging apps. Chances are you’ve used a messaging app <em>today</em>—whether <a href="https://messenger.com/">Facebook Messenger</a>, <a href="https://mymessage.apple.com/">iMessage</a>, <a href="https://instagram.com/">Instagram</a>, <a href="https://www.signal.org/">Signal</a> or <a href="https://snapchat.com/">Snapchat</a>, among many others. Whereas their early counterparts measured speed of communication in terms of weeks, days, or hours, messaging apps depend on a kind of speed that’s on the order of milliseconds: a message delayed is now a connection missed.</p>
+
+<p>In this problem, you’ll write SQL queries for a fictional app that allows users to send pictures which expire 30 seconds after the recipient views them (an idea popularized by <a href="https://snapchat.com/">Snapchat</a>!). The queries you’ll write will ultimately enable the app to implement its core features. Yet, given the app has several thousand users depending on instant communication, it’s especially important to write queries that are <em>fast</em>, not only <em>correct</em>. You’ll practice writing queries that take advantage of indexes, all in the service of letting users stay in touch in a snap.</p>
+
+<h2 id="demo">Demo</h2>
+
+<script async="" data-autoplay="1" data-cols="100" data-loop="1" data-rows="12" id="asciicast-weVPkWYWpKKIrTNCn4rkicHlH" src="https://asciinema.org/a/weVPkWYWpKKIrTNCn4rkicHlH.js"></script>
+
+<h2 id="distribution-code">Distribution Code</h2>
+
+<p>For this problem, you’ll need to download <code class="language-plaintext highlighter-rouge">snap.db</code> and a few <code class="language-plaintext highlighter-rouge">.sql</code> files in which you’ll write your SQL statements.</p>
+
+<details><summary>Download the distribution code</summary><p>Log into <a href="https://cs50.dev/">cs50.dev</a>, click on your terminal window, and execute <code class="language-plaintext highlighter-rouge">cd</code> by itself. You should find that your terminal window’s prompt resembles the below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$
+</code></pre></div></div>
+
+<p>Next execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://cdn.cs50.net/sql/2024/x/psets/5/snap.zip
+</code></pre></div></div>
+
+<p>in order to download a ZIP called <code class="language-plaintext highlighter-rouge">snap.zip</code> into your codespace.</p>
+
+<p>Then execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>unzip snap.zip
+</code></pre></div></div>
+
+<p>to create a folder called <code class="language-plaintext highlighter-rouge">snap</code>. You no longer need the ZIP file, so you can execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm snap.zip
+</code></pre></div></div>
+
+<p>and respond with “y” followed by Enter at the prompt to remove the ZIP file you downloaded.</p>
+
+<p>Now type</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd snap
+</code></pre></div></div>
+
+<p>followed by Enter to move yourself into (i.e., open) that directory. Your prompt should now resemble the below.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>snap/ $
+</code></pre></div></div>
+
+<p>If all was successful, you should execute</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls
+</code></pre></div></div>
+
+<p>and see a database named <code class="language-plaintext highlighter-rouge">snap.db</code> alongside a set of <code class="language-plaintext highlighter-rouge">.sql</code> files. If not, retrace your steps and see if you can determine where you went wrong!</p></details>
+
+<h2 id="schema">Schema</h2>
+
+<pre><code class="language-mermaid">erDiagram
+    User }o--o{ User : friends
+    User ||--o{ Message : sends
+    User ||--o{ Message : views
+</code></pre>
+
+<p>Within <code class="language-plaintext highlighter-rouge">snap.db</code>, you’ll find three tables that implement the relationships described in the ER diagram above. Click the drop-downs below to learn more about the schema of each individual table.</p>
+
+<details><summary><code>users</code> table</summary><p>The <code class="language-plaintext highlighter-rouge">users</code> table contains the following columns:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">id</code>, which is the user’s ID.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">username</code>, which is the user’s username.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">phone_number</code>, which is the user’s phone number.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">joined_date</code>, which is the date the user joined the app.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">last_login_date</code>, which is the date the user last logged in.</li>
+</ul></details>
+
+<details><summary><code>friends</code> table</summary><p>The <code class="language-plaintext highlighter-rouge">friends</code> table contains the following columns:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">user_id</code>, which is the ID of a given user.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">friend_id</code>, which is the ID of the user with whom the given user is friends.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">friendship_date</code>, which is the date the friendship began.</li>
+</ul>
+
+<p>For each row, the user in the <code class="language-plaintext highlighter-rouge">user_id</code> column counts the user in the <code class="language-plaintext highlighter-rouge">friend_id</code> column among their friends—but not necessarily vice versa. When two users both count each other among their friends, two rows are inserted:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>user_id</th>
+      <th>friend_id</th>
+      <th>friendship_date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td>2024-01-01</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+      <td>2024-01-01</td>
+    </tr>
+  </tbody>
+</table></details>
+
+<details><summary><code>messages</code> table</summary><p>The <code class="language-plaintext highlighter-rouge">messages</code> table contains the following columns:</p>
+
+<ul>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">id</code>, which is the ID of the message.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">from_user_id</code>, which is the ID of the user who sent the message.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">to_user_id</code>, which is the ID of the user to whom the message was sent.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">picture</code>, which is the filename of the picture that was sent in the message.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">sent_timestamp</code>, which is the timestamp at which the message was sent.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">viewed_timestamp</code>, which is the timestamp at which the message was viewed.</li>
+  <li data-marker="*"><code class="language-plaintext highlighter-rouge">expires_timestamp</code>, which is the timestamp at which the message expires.</li>
+</ul></details>
+
+<h2 id="specification">Specification</h2>
+
+<p>In each corresponding <code class="language-plaintext highlighter-rouge">.sql</code> file, write a SQL query to implement the features described below. Since speed is of the essence, you’ll need to also ensure your query uses the specified index. The best way to ensure a query is using an index to check the results of <code class="language-plaintext highlighter-rouge">EXPLAIN QUERY PLAN</code>.</p>
+
+<p>If feeling unsure how to interpret the output of <code class="language-plaintext highlighter-rouge">EXPLAIN QUERY PLAN</code>, see the <a href="#advice">Advice</a> section for some additional explanation!</p>
+
+<h4 id="1sql"><code class="language-plaintext highlighter-rouge">1.sql</code></h4>
+
+<p>The app’s user engagement team needs to identify active users. Find all usernames of users who have logged in since 2024-01-01. Ensure your query uses the <code class="language-plaintext highlighter-rouge">search_users_by_last_login</code> index, which is defined as follows:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">INDEX</span> <span class="nv">"search_users_by_last_login"</span>
+<span class="k">ON</span> <span class="nv">"users"</span><span class="p">(</span><span class="nv">"last_login_date"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="2sql"><code class="language-plaintext highlighter-rouge">2.sql</code></h4>
+
+<p>Users need to be prevented from re-opening a message that has expired. Find when the message with ID 151 expires. You may use the message’s ID directly in your query.</p>
+
+<p>Ensure your query uses the index automatically created on the primary key column of the <code class="language-plaintext highlighter-rouge">messages</code> table.</p>
+
+<h4 id="3sql"><code class="language-plaintext highlighter-rouge">3.sql</code></h4>
+
+<p>The app needs to rank a user’s “best friends,” similar to Snapchat’s <a href="https://help.snapchat.com/hc/en-us/articles/7012335460372">“Friend Emojis” feature</a>. Find the user IDs of the top 3 users to whom <code class="language-plaintext highlighter-rouge">creativewisdom377</code> sends messages most frequently. Order the user IDs by the number of messages <code class="language-plaintext highlighter-rouge">creativewisdom377</code> has sent to those users, most to least.</p>
+
+<p>Ensure your query uses the <code class="language-plaintext highlighter-rouge">search_messages_by_from_user_id</code> index, which is defined as follows:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">INDEX</span> <span class="nv">"search_messages_by_from_user_id"</span>
+<span class="k">ON</span> <span class="nv">"messages"</span><span class="p">(</span><span class="nv">"from_user_id"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="4sql"><code class="language-plaintext highlighter-rouge">4.sql</code></h4>
+
+<p>The app needs to send users a summary of their engagement. Find the username of the most popular user, defined as the user who has had the most messages sent to them. If two or more users have had the same number of messages sent to them, return the username that is first alphabetically.</p>
+
+<p>Ensure your query uses the <code class="language-plaintext highlighter-rouge">search_messages_by_to_user_id</code> index, which is defined as follows:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">INDEX</span> <span class="nv">"search_messages_by_to_user_id"</span>
+<span class="k">ON</span> <span class="nv">"messages"</span><span class="p">(</span><span class="nv">"to_user_id"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="5sql"><code class="language-plaintext highlighter-rouge">5.sql</code></h4>
+
+<p>For any two users, the app needs to quickly show a list of the friends they have in common. Given two usernames, <code class="language-plaintext highlighter-rouge">lovelytrust487</code> and <code class="language-plaintext highlighter-rouge">exceptionalinspiration482</code>, find the user IDs of their mutual friends. A mutual friend is a user that both <code class="language-plaintext highlighter-rouge">lovelytrust487</code> and <code class="language-plaintext highlighter-rouge">exceptionalinspiration482</code> count among their friends.</p>
+
+<p>Ensure your query uses the index automatically created on primary key columns of the <code class="language-plaintext highlighter-rouge">friends</code> table. This index is called <code class="language-plaintext highlighter-rouge">sqlite_autoindex_friends_1</code>.</p>
+
+<details><summary>Need a hint?</summary><p>Recall that, in SQL, you can use certain keywords to find the intersection of two groups. See <a href="../../../notes/1/#sets">Week 1’s notes</a> for a refresher.</p></details>
+
+<h2 id="advice">Advice</h2>
+
+<details><summary>Use <code>EXPLAIN QUERY PLAN</code> to show a query's steps</summary><p>To check the results of <code class="language-plaintext highlighter-rouge">EXPLAIN QUERY PLAN</code>, you need simply prepend <code class="language-plaintext highlighter-rouge">EXPLAIN QUERY PLAN</code> to your query:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">EXPLAIN</span> <span class="n">QUERY</span> <span class="n">PLAN</span>
+<span class="k">SELECT</span> <span class="nv">"username"</span>
+<span class="k">FROM</span> <span class="nv">"users"</span>
+<span class="k">WHERE</span> <span class="nv">"id"</span> <span class="o">=</span> <span class="mi">151</span><span class="p">;</span>
+</code></pre></div></div></details>
+
+<details><summary>Interpret the results of <code>EXPLAIN QUERY PLAN</code></summary><p>Recall from lecture that <code class="language-plaintext highlighter-rouge">EXPLAIN QUERY PLAN</code> displays the steps the SQLite database engine will take to execute a given SQL query. The output of <code class="language-plaintext highlighter-rouge">EXPLAIN QUERY PLAN</code> can indicate whether a query is utilizing an index.</p>
+
+<ul>
+  <li data-marker="*">If you see a step labeled as <code class="language-plaintext highlighter-rouge">USING INDEX</code>, it signifies that the query is leveraging an index in that step.</li>
+  <li data-marker="*">If you see a step labeled as <code class="language-plaintext highlighter-rouge">USING COVERING INDEX</code>, it indicates that the query is using a covering index in that step.
+    <ul>
+      <li data-marker="*">Recall that a covering index is a special type of index that includes all the columns needed for the query. This means the database can fulfill the query directly from the index without having to look up additional data in a table.</li>
+    </ul>
+  </li>
+  <li data-marker="*">When you see a step labeled as <code class="language-plaintext highlighter-rouge">USING INTEGER PRIMARY KEY</code>, it implies that the query is utilizing the index on the primary key column, which is provided automatically by SQLite when the primary key is of the <code class="language-plaintext highlighter-rouge">INTEGER</code> type affinity. It is an efficient way to access rows directly if the query conditions involve a table’s primary key.</li>
+</ul>
+
+<p>Below are some examples of the results of <code class="language-plaintext highlighter-rouge">EXPLAIN QUERY PLAN</code>, from queries that use an index in at least one step of their execution:</p>
+
+<h5 id="example-1">Example 1</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>QUERY PLAN
+`--SEARCH users USING INDEX search_users_by_last_login (last_login_date&gt;?)
+</code></pre></div></div>
+
+<p>Notice that this query can be executed in a single step, by searching the index <code class="language-plaintext highlighter-rouge">search_users_by_last_login</code>.</p>
+
+<h5 id="example-2">Example 2</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>QUERY PLAN
+|--SEARCH messages USING COVERING INDEX search_messages_by_to_user_id (to_user_id=?)
+`--SCALAR SUBQUERY 1
+   `--SEARCH users USING COVERING INDEX sqlite_autoindex_users_1 (username=?)
+</code></pre></div></div>
+
+<p>Notice that this query requires two steps:</p>
+
+<ol>
+  <li>The first searches the index <code class="language-plaintext highlighter-rouge">search_messages_by_to_user_id</code>.</li>
+  <li>The second resolves a subquery by searching the index <code class="language-plaintext highlighter-rouge">sqlite_autoindex_users_1</code>.</li>
+</ol>
+
+<h5 id="example-3">Example 3</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>QUERY PLAN
+|--SEARCH messages USING INDEX search_messages_by_from_user_id (from_user_id=?)
+|--SCALAR SUBQUERY 1
+|  `--SEARCH users USING COVERING INDEX sqlite_autoindex_users_1 (username=?)
+|--USE TEMP B-TREE FOR GROUP BY
+`--USE TEMP B-TREE FOR ORDER BY
+</code></pre></div></div>
+
+<p>Notice that this query involves several steps, and that it uses indexes to accomplish most:</p>
+
+<ol>
+  <li>The first step searches the index <code class="language-plaintext highlighter-rouge">search_messages_by_from_user_id</code>.</li>
+  <li>The second step searches the index <code class="language-plaintext highlighter-rouge">sqlite_autoindex_users_1</code>.</li>
+  <li>The final steps use temporary B-trees to group and order the results.</li>
+</ol>
+
+<h5 id="example-4">Example 4</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>QUERY PLAN
+|--SEARCH users USING INTEGER PRIMARY KEY (rowid=?)
+`--SCALAR SUBQUERY 1
+   |--SCAN messages USING COVERING INDEX search_messages_by_to_user_id
+   `--USE TEMP B-TREE FOR ORDER BY
+</code></pre></div></div>
+
+<p>Notice that this query involves several steps, and that it uses indexes to accomplish most:</p>
+
+<ol>
+  <li>The first step searches an automatic primary key index.</li>
+  <li>The second step scans rows using the index <code class="language-plaintext highlighter-rouge">search_messages_by_to_user_id</code>.</li>
+  <li>The final step uses a temporary B-tree to order the results.</li>
+</ol>
+
+<h5 id="example-5">Example 5</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>QUERY PLAN
+`--COMPOUND QUERY
+   |--LEFT-MOST SUBQUERY
+   |  |--SEARCH friends USING COVERING INDEX sqlite_autoindex_friends_1 (user_id=?)
+   |  `--SCALAR SUBQUERY 1
+   |     `--SEARCH users USING COVERING INDEX sqlite_autoindex_users_1 (username=?)
+   `--INTERSECT USING TEMP B-TREE
+      |--SEARCH friends USING COVERING INDEX sqlite_autoindex_friends_1 (user_id=?)
+      `--SCALAR SUBQUERY 3
+         `--SEARCH users USING COVERING INDEX sqlite_autoindex_users_1 (username=?)
+</code></pre></div></div>
+
+<p>Notice that this query involves many steps, and that it uses indexes to accomplish most. See in particular that the index <code class="language-plaintext highlighter-rouge">sqlite_autoindex_friends_1</code> is frequently accessed.</p></details>
+
+<h2 id="how-to-test">How to Test</h2>
+
+<p>While <code class="language-plaintext highlighter-rouge">check50</code> is available for this problem, you’re encouraged to also test your code on your own.</p>
+
+<h3 id="correctness">Correctness</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>check50 cs50/problems/2024/sql/snap
+</code></pre></div></div>
+
+<div class="alert" data-alert="info" role="alert"><p>For performance’s sake, <code class="language-plaintext highlighter-rouge">check50</code> uses a smaller database than you’ve downloaded. For that reason, users may not match one-to-one between the two databases. If your query runs correctly on the database you’ve downloaded, it will also run correctly on <code class="language-plaintext highlighter-rouge">check50</code>’s database!</p></div>
+
+<h2 id="how-to-submit">How to Submit</h2>
+
+<p>In your terminal, execute the below to submit your work.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>submit50 cs50/problems/2024/sql/snap
+</code></pre></div></div>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="../../../assets/page.js?1718631795"></script>
+
+    
+
+
+</body></html>

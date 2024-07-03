@@ -1,0 +1,5 @@
+QUERY PLAN
+`--SEARCH messages USING INTEGER PRIMARY KEY (rowid=?)
+|  expires_timestamp  |
+|---------------------|
+| 2021-10-04 13:20:12 |

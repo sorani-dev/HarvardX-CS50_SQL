@@ -1,0 +1,11 @@
+QUERY PLAN
+|--SEARCH messages USING INDEX search_messages_by_from_user_id (from_user_id=?)
+|--SCALAR SUBQUERY 1
+|  `--SEARCH users USING COVERING INDEX sqlite_autoindex_users_1 (username=?)
+|--USE TEMP B-TREE FOR GROUP BY
+`--USE TEMP B-TREE FOR ORDER BY
+| to_user_id |
+|------------|
+| 744        |
+| 4          |
+| 1104       |

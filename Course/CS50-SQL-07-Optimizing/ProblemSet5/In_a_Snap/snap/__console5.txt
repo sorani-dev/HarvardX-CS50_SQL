@@ -1,0 +1,15 @@
+QUERY PLAN
+`--COMPOUND QUERY
+   |--LEFT-MOST SUBQUERY
+   |  |--SEARCH friends USING COVERING INDEX sqlite_autoindex_friends_1 (user_id=?)
+   |  `--SCALAR SUBQUERY 1
+   |     `--SEARCH users USING COVERING INDEX sqlite_autoindex_users_1 (username=?)
+   `--INTERSECT USING TEMP B-TREE
+      |--SEARCH friends USING COVERING INDEX sqlite_autoindex_friends_1 (user_id=?)
+      `--SCALAR SUBQUERY 3
+         `--SEARCH users USING COVERING INDEX sqlite_autoindex_users_1 (username=?)
+| friend_id |
+|-----------|
+| 1603      |
+| 2142      |
+| 2438      |
